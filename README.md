@@ -38,7 +38,22 @@ Train on text-only data, you can specify your preferred LLM, path of training da
 ```bash
 ./train/ft_lora.sh
 ```
-# 
+
+Train on vision-langauge data, you can first specify the pre-trained checkpoint at:
+```bash
+./LAVIS/lavis/configs/models/blip2
+```
+then you can firstly specify the output models path at:
+```bash
+./LAVIS/lavis/projects/instructblip/caption_coco_vicuna7b_train.yaml
+```
+then
+```
+bash run_scripts/blip2/train/eval_instruct_caption_coco.sh
+```
+# Eval
+
+
 
 
 
