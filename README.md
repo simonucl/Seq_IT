@@ -4,6 +4,8 @@ This is the code to replicate the instruction tuning experiments in the paper [*
 
 Our implementation is based on the [Alpaca-LoRA](https://github.com/tloen/alpaca-lora) and [LAVIS](https://github.com/salesforce/LAVIS/tree/main) repository.
 
+![SIT](mainfigure_seq.jpg)
+
 ## Setup
 
 For text-only experiments 
