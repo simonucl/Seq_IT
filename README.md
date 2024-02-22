@@ -52,7 +52,10 @@ then
 bash run_scripts/blip2/train/eval_instruct_caption_coco.sh
 ```
 # Eval
-
+For text-only experiments, you can configure the path of lora adapters, the task name, training type, model name, and the path of output file in:
+```bash
+./eval/infer_eval.sh
+```
 
 
 

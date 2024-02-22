@@ -21,7 +21,7 @@ do
         python generate_eval.py \
           --lora_weights ${LORA} \
           --test_file ${TESTFILE} \
-          --task xquad \
+          --task ${TASK} \
           --save_file ../../data/testset/${MODEL_NAME}_${TRAIN_TYPE}_${TASK}_${TESTLANG}.jsonl
       fi
     done
