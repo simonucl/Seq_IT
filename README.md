@@ -33,6 +33,11 @@ cd LAVIS
 bash download_vqa.sh
 ```
 
+# Train
+Train on text-only data, you can specify your preferred LLM, path of training dataset, training type (baseline or repeat).
+```bash
+./train/ft_lora.sh
+```
 # 
 
 
