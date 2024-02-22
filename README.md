@@ -34,28 +34,16 @@ bash download_vqa.sh
 ```
 
 # Train
-Train on text-only data, you can specify your preferred LLM, path of training dataset, training type (baseline or repeat).
-```bash
-./train/ft_lora.sh
-```
+Train on text-only data, you can specify your preferred LLM, path of training dataset, training type (baseline or repeat) at `./train/ft_lora.sh`
 
-Train on vision-langauge data, you can first specify the pre-trained checkpoint at:
+Train on vision-langauge data, you can first specify the pre-trained checkpoint at `./LAVIS/lavis/configs/models/blip2`
+
+then you can firstly specify the output models path at `./LAVIS/lavis/projects/instructblip/caption_coco_vicuna7b_train.yaml`, then 
 ```bash
-./LAVIS/lavis/configs/models/blip2
-```
-then you can firstly specify the output models path at:
-```bash
-./LAVIS/lavis/projects/instructblip/caption_coco_vicuna7b_train.yaml
-```
-then
-```
 bash run_scripts/blip2/train/eval_instruct_caption_coco.sh
 ```
 # Eval
-For text-only experiments, you can configure the path of lora adapters, the task name, training type, model name, and the path of output file in:
-```bash
-./eval/infer_eval.sh
-```
+For text-only experiments, you can configure the path of lora adapters, the task name, training type, model name, and the path of output file in `./eval/infer_eval.sh`
 
 
 
