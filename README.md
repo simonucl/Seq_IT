@@ -4,7 +4,7 @@ This is the code to replicate the instruction tuning experiments in the paper [*
 
 Our implementation is based on the [Alpaca-LoRA](https://github.com/tloen/alpaca-lora) and [LAVIS](https://github.com/salesforce/LAVIS/tree/main) repository.
 
-# Setup
+## Setup
 
 For text-only experiments 
 ```bash
@@ -33,7 +33,7 @@ cd LAVIS
 bash download_vqa.sh
 ```
 
-# Train
+## Train
 Train on text-only data, you can specify your preferred LLM, path of training dataset, training type (baseline or repeat) at `./train/ft_lora.sh`
 
 Train on vision-langauge data, you can first specify the pre-trained checkpoint at `./LAVIS/lavis/configs/models/blip2`
@@ -42,10 +42,13 @@ then you can firstly specify the output models path at `./LAVIS/lavis/projects/i
 ```bash
 bash run_scripts/blip2/train/eval_instruct_caption_coco.sh
 ```
-# Eval
+## Eval
 For text-only experiments, you can configure the path of lora adapters, the task name, training type, model name, and the path of output file in `./eval/infer_eval.sh`
 
+## Citation
+Please consider citing us if you use our materials.
+```
 
-
+```
 
 
