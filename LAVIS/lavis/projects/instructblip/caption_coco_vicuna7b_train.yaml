@@ -70,7 +70,7 @@ run:
 
 
   seed: 42
-  output_dir: "output/instructblip/vqa_base_vicuna7b_val/"
+  output_dir: "../../output/instructblip/vqa_base_vicuna7b_val/"
 
 
   amp: True
