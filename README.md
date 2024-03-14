@@ -50,7 +50,14 @@ For text-only experiments, you can configure the path of lora adapters, the task
 ## Citation
 Please consider citing us if you use our materials.
 ```
-
+@misc{hu2024finetuning,
+      title={Fine-tuning Large Language Models with Sequential Instructions}, 
+      author={Hanxu Hu and Pinzhen Chen and Edoardo M. Ponti},
+      year={2024},
+      eprint={2403.07794},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
 ```
 
 
