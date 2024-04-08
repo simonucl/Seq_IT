@@ -6,7 +6,7 @@ from openai import OpenAI
 from tqdm import tqdm
 from template import *
 import argparse
-from token import API_KEYs
+from token_store import API_KEYs
 
 global false, null, true
 false = null = true = ''
@@ -73,11 +73,12 @@ if __name__ == '__main__':
         output_file = input_file.replace('.jsonl', '-gpt.jsonl')
     else:
         output_file = args.output_file
+    json_data = []
 
     if os.path.exists(output_file):
         with open(output_file, 'r', encoding='utf-8') as initial_file:
             for line in initial_file:
-                json_data = json.loads(line)
+                json_data.append(json.loads(line))
     else:
         with open(output_file, 'w', encoding='utf-8') as initial_file:
             json_data = []
@@ -87,6 +88,7 @@ if __name__ == '__main__':
         for line in file:
             input_data.append(json.loads(line))
 
+    # input_data = input_data[:2]
     for index in tqdm(range(len(json_data), len(input_data))):
         question_info = input_data[index]
         prompt = get_prompt(question_info)
@@ -98,7 +100,7 @@ if __name__ == '__main__':
             'completions': gpt_answer,
         })
 
-        with open(output_file, 'a', encoding='utf-8') as json_file:
-            for data in json_data:
-                json_file.write(json.dumps(data, ensure_ascii=False) + '\n')
-        print(f'↑ has been stored.')
+    with open(output_file, 'a', encoding='utf-8') as json_file:
+        for data in json_data:
+            json_file.write(json.dumps(data, ensure_ascii=False) + '\n')
+    print(f'↑ has been stored.')
