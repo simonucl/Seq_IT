@@ -47,9 +47,10 @@ def train(
     train_on_inputs: bool = True,  # if False, masks out inputs in loss
     add_eos_token: bool = False,
     group_by_length: bool = False,  # faster, but produces an odd training loss curve
-
     resume_from_checkpoint: str = None,  # either training checkpoint or final adapter
     prompt_template_name: str = "alpaca",  # The prompt template to use, will default to alpaca.
+    use_wandb: bool = False,
+    wandb_run_name: str = "alpaca-lora",
 ):
     print(resume_from_checkpoint)
     if int(os.environ.get("LOCAL_RANK", 0)) == 0:
@@ -73,6 +74,8 @@ def train(
             f"group_by_length: {group_by_length}\n"
             f"resume_from_checkpoint: {resume_from_checkpoint or False}\n"
             f"prompt template: {prompt_template_name}\n"
+            f"use_wandb: {use_wandb}\n"
+            f"wandb_run_name: {wandb_run_name}\n"
         )
     assert (
         base_model
@@ -250,8 +253,8 @@ def train(
             #load_best_model_at_end=True if val_set_size > 0 else False,
             ddp_find_unused_parameters=False if ddp else None,
             group_by_length=group_by_length,
-            #report_to="wandb" if use_wandb else None,
-            #run_name=wandb_run_name if use_wandb else None,
+            report_to="wandb" if use_wandb else None,
+            run_name=wandb_run_name if use_wandb else None,
         ),
         data_collator=transformers.DataCollatorForSeq2Seq(
             tokenizer, pad_to_multiple_of=8, return_tensors="pt", padding=True
