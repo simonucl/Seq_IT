@@ -115,7 +115,7 @@ def train(
             raise NotImplementedError
 
     if "qwen" in base_model.lower():
-        stokenizer.pad_token_id = 0
+        tokenizer.pad_token_id = 0
     tokenizer.pad_token_id = (
         0  # unk. we want this to be different from the eos token
     )
