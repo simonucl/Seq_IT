@@ -12,8 +12,6 @@ global false, null, true
 false = null = true = ''
 
 
-# openai.organization = 'org-2pMBKWAfO0ZLtQhJwhG6wEAf'
-
 def make_requests_GPT_turbo(prompt):
     print('Querying GPT-3.5-turbo...')
     client = OpenAI(
@@ -89,18 +87,20 @@ if __name__ == '__main__':
             input_data.append(json.loads(line))
 
     # input_data = input_data[:2]
-    for index in tqdm(range(len(json_data), len(input_data))):
-        question_info = input_data[index]
-        prompt = get_prompt(question_info)
-
-        gpt_answer = make_requests_GPT_turbo(prompt)
-        json_data.append({
-            'idx': index,
-            'prompt': prompt['prompt'],
-            'completions': gpt_answer,
-        })
-
     with open(output_file, 'a', encoding='utf-8') as json_file:
-        for data in json_data:
-            json_file.write(json.dumps(data, ensure_ascii=False) + '\n')
-    print(f'↑ has been stored.')
+        
+        for index in tqdm(range(len(json_data), len(input_data))):
+            question_info = input_data[index]
+            prompt = get_prompt(question_info)
+
+            gpt_answer = make_requests_GPT_turbo(prompt)
+            json_data.append({
+                'idx': index,
+                'prompt': prompt['prompt'],
+                'completions': gpt_answer,
+            })
+            json_file.write(json.dumps(json_data[-1], ensure_ascii=False) + '\n')
+            print(f'↑ has been stored.')
+    # with open(output_file, 'a', encoding='utf-8') as json_file:
+    #     for data in json_data:
+    #         json_file.write(json.dumps(data, ensure_ascii=False) + '\n')
