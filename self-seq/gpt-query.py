@@ -95,7 +95,8 @@ if __name__ == '__main__':
 
             gpt_answer = make_requests_GPT_turbo(prompt)
             json_data.append({
-                'idx': index,
+                'idx': question_info['idx'],
+                'input': question_info['input'],
                 'prompt': prompt['prompt'],
                 'completions': gpt_answer,
             })
