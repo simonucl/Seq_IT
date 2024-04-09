@@ -49,8 +49,10 @@ def train(
     group_by_length: bool = False,  # faster, but produces an odd training loss curve
     resume_from_checkpoint: str = None,  # either training checkpoint or final adapter
     prompt_template_name: str = "alpaca",  # The prompt template to use, will default to alpaca.
-    use_wandb: bool = False,
-    wandb_run_name: str = "alpaca-lora",
+    wandb_project: str = "",
+    wandb_run_name: str = "",
+    wandb_watch: str = "",  # options: false | gradients | all
+    wandb_log_model: str = "",  # options: false | true
 ):
     print(resume_from_checkpoint)
     if int(os.environ.get("LOCAL_RANK", 0)) == 0:
@@ -74,8 +76,10 @@ def train(
             f"group_by_length: {group_by_length}\n"
             f"resume_from_checkpoint: {resume_from_checkpoint or False}\n"
             f"prompt template: {prompt_template_name}\n"
-            f"use_wandb: {use_wandb}\n"
+            f"wandb_project: {wandb_project}\n"
             f"wandb_run_name: {wandb_run_name}\n"
+            f"wandb_watch: {wandb_watch}\n"
+            f"wandb_log_model: {wandb_log_model}\n"
         )
     assert (
         base_model
@@ -91,6 +95,18 @@ def train(
     if ddp:
         device_map = {"": int(os.environ.get("LOCAL_RANK") or 0)}
         gradient_accumulation_steps = gradient_accumulation_steps // world_size
+
+    # Check if parameter passed or if set within environ
+    use_wandb = len(wandb_project) > 0 or (
+        "WANDB_PROJECT" in os.environ and len(os.environ["WANDB_PROJECT"]) > 0
+    )
+    # Only overwrite environ if wandb param passed
+    if len(wandb_project) > 0:
+        os.environ["WANDB_PROJECT"] = wandb_project
+    if len(wandb_watch) > 0:
+        os.environ["WANDB_WATCH"] = wandb_watch
+    if len(wandb_log_model) > 0:
+        os.environ["WANDB_LOG_MODEL"] = wandb_log_model
 
     if "glm" in base_model or "t5" in base_model:
         model = AutoModelForSeq2SeqLM.from_pretrained(
