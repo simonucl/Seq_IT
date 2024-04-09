@@ -99,8 +99,8 @@ def train(
     else:
         model = AutoModelForCausalLM.from_pretrained(
             base_model,
-            load_in_8bit=False if "baichuan" in base_model else True,
-            torch_dtype=torch.float16,
+            torch_dtype=torch.bfloat16,
+            attn_implementation="flash_attention_2",
             device_map=device_map,
             trust_remote_code=True
         )
