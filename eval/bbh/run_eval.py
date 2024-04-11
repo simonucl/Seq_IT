@@ -57,7 +57,8 @@ def main(args):
                 else:
                     new_prompt_fields.append(prompt_field)
             task_prompt = "\n\n".join(new_prompt_fields)
-
+            all_prompts[task_name] = task_prompt
+            
             # if args.no_cot:
             #     prompt_fields = task_prompt.split("\n\n")
             #     new_prompt_fields = []
@@ -117,7 +118,7 @@ def main(args):
             else:
                 prompts = [task_prompt.strip() + "\n\n" + question_template.format(instruction=example["input"]) for example in task_examples]
                 print("Example prompt:", prompts[0])
-                
+
             # generate with vllm
             if args.use_vllm:
                 sampling_params = vllm.SamplingParams(
