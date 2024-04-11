@@ -12,6 +12,7 @@ wget -O data/downloads/math_data.tar https://people.eecs.berkeley.edu/~hendrycks
 mkdir -p data/downloads/math_data
 tar -xvf data/downloads/math_data.tar -C data/downloads/math_data
 mv data/downloads/math_data/MATH data/eval/math && rm -r data/downloads/math_data data/downloads/math_data.tar
+python3 eval/math/generate_few_shot.py
 
 # # Big-Bench-Hard dataset
 wget -O data/downloads/bbh_data.zip https://github.com/suzgunmirac/BIG-Bench-Hard/archive/refs/heads/main.zip
