@@ -31,26 +31,47 @@ def main(args):
             if args.max_num_examples_per_task:
                 all_tasks[task_name] = random.sample(all_tasks[task_name], args.max_num_examples_per_task)
 
+    with open(args.template_file, "r") as f:
+        template = json.load(f)
+
+    prompt_template = template["prompt_example"]
+    question_template = template["prompt_question"]
+
     all_prompts = {}
     cot_prompt_files = glob.glob(os.path.join(args.data_dir, "cot-prompts", "*.txt"))
     for cot_prompt_file in tqdm.tqdm(cot_prompt_files, desc="Loading prompts"):
         with open(cot_prompt_file, "r") as f:
             task_name = os.path.basename(cot_prompt_file).split(".")[0]
             task_prompt = "".join(f.readlines()[2:])
-            if args.no_cot:
-                prompt_fields = task_prompt.split("\n\n")
-                new_prompt_fields = []
-                for prompt_field in prompt_fields:
-                    if prompt_field.startswith("Q:"):
-                        assert "So the answer is" in prompt_field, f"`So the answer is` not found in prompt field of {task_name}.txt."
-                        assert "\nA:" in prompt_field, "`\nA:` not found in prompt field."
-                        answer = prompt_field.split("So the answer is")[-1].strip()
-                        question = prompt_field.split("\nA:")[0].strip()
-                        new_prompt_fields.append(question + "\nA: " + answer)
-                    else:
-                        new_prompt_fields.append(prompt_field)
-                task_prompt = "\n\n".join(new_prompt_fields)
-            all_prompts[task_name] = task_prompt
+
+            prompt_fields = task_prompt.split("\n\n")
+            new_prompt_fields = []
+            for prompt_field in prompt_fields:
+                if prompt_field.startswith("Q:"):
+                    assert "So the answer is" in prompt_field, f"`So the answer is` not found in prompt field of {task_name}.txt."
+                    assert "\nA:" in prompt_field, "`\nA:` not found in prompt field."
+                    # answer = prompt_field.split("So the answer is")[-1].strip()
+                    question, answer = prompt_field.split("\nA:")[0].strip(), prompt_field.split("\nA:")[1].strip()
+                    question = question.replace("Q:", "").strip()
+                    new_prompt_fields.append(prompt_template.format(instruction=question, response=answer))
+                else:
+                    new_prompt_fields.append(prompt_field)
+            task_prompt = "\n\n".join(new_prompt_fields)
+
+            # if args.no_cot:
+            #     prompt_fields = task_prompt.split("\n\n")
+            #     new_prompt_fields = []
+            #     for prompt_field in prompt_fields:
+            #         if prompt_field.startswith("Q:"):
+            #             assert "So the answer is" in prompt_field, f"`So the answer is` not found in prompt field of {task_name}.txt."
+            #             assert "\nA:" in prompt_field, "`\nA:` not found in prompt field."
+            #             answer = prompt_field.split("So the answer is")[-1].strip()
+            #             question = prompt_field.split("\nA:")[0].strip()
+            #             new_prompt_fields.append(question + "\nA: " + answer)
+            #         else:
+            #             new_prompt_fields.append(prompt_field)
+            #     task_prompt = "\n\n".join(new_prompt_fields)
+            # all_prompts[task_name] = task_prompt
 
     assert set(all_tasks.keys()) == set(all_prompts.keys()), "task names in task data and task prompts are not the same."
 
@@ -94,8 +115,9 @@ def main(args):
                     prompt += "A:" if prompt[-1] in ["\n", " "] else " A:"
                     prompts.append(prompt)
             else:
-                prompts = [task_prompt.strip() + "\n\nQ: " + example["input"] + "\nA:" for example in task_examples]
-
+                prompts = [task_prompt.strip() + "\n\n" + question_template.format(instruction=example["input"]) for example in task_examples]
+                print("Example prompt:", prompts[0])
+                
             # generate with vllm
             if args.use_vllm:
                 sampling_params = vllm.SamplingParams(
@@ -244,6 +266,12 @@ if __name__ == "__main__":
         type=str, 
         default="eval.templates.create_prompt_with_tulu_chat_format", 
         help="The function to use to create the chat format. This function will be dynamically imported. Please see examples in `eval/templates.py`."
+    )
+    parser.add_argument(
+        "--template_file", 
+        type=str, 
+        default="templates/eval_template.json",
+        help="The template file to use for generating prompts."
     )
     args = parser.parse_args()
 
