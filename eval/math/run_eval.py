@@ -111,7 +111,7 @@ def main(args):
                 sampling_params = vllm.SamplingParams(
                     temperature=0,
                     max_tokens=512,
-                    stop=["\n\n"] if not args.use_chat_format else None,  # we only use stop token for non-chat format (usually applied to vanilla pretrained language models). For chat format, we will rely on the model knows when to stop.
+                    # stop=["\n\n"] if not args.use_chat_format else None,  # we only use stop token for non-chat format (usually applied to vanilla pretrained language models). For chat format, we will rely on the model knows when to stop.
                 )
                 # We need to remap the outputs to the prompts because vllm might not return outputs for some prompts (e.g., if the prompt is too long)
                 generations = model.generate(prompts, sampling_params)
@@ -135,8 +135,8 @@ def main(args):
         predictions = []
         for example, output in zip(task_examples, outputs):
             print(f"Generated Output: {output}")
-            print(f'Target: {example["target"]}')
-            
+            # print(f'Target: {example["target"]}')
+
             example["raw_output"] = output
             
             # extract the first answer after `the answer is` and before the next period.
