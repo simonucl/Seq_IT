@@ -35,7 +35,7 @@ def main(args):
     tasks = os.listdir(os.path.join(args.data_dir, 'test'))
     for task in tqdm.tqdm(tasks, desc="Loading tasks"):
         task_data = []
-        task_files = glob.glob(os.path.join(args.data_dir, 'test', task, "*.jsonl"))
+        task_files = glob.glob(os.path.join(args.data_dir, 'test', task, "*.json"))
         for task_file in task_files:
             with open(task_file) as fin:
                 data = json.load(fin)
