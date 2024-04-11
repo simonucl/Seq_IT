@@ -135,6 +135,8 @@ def main(args):
         predictions = []
         for example, output in zip(task_examples, outputs):
             print(f"Generated Output: {output}")
+            print(f'Target: {example["target"]}')
+            
             example["raw_output"] = output
             
             # extract the first answer after `the answer is` and before the next period.
@@ -147,7 +149,7 @@ def main(args):
             predictions.append(example["prediction"])
         
         os.makedirs(os.path.join(args.save_dir, "predictions"), exist_ok=True)
-        
+
         with open(os.path.join(args.save_dir, "predictions", f"{task_name}.jsonl"), "w") as fout:
             for example in task_examples:
                 fout.write(json.dumps(example) + "\n")
