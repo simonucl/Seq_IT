@@ -105,7 +105,7 @@ def main(args):
                 raise NotImplementedError("Evaluation with chat format is not supported for models that are not vllm.")
             else:
                 prompts = [prompt_prefix.strip() + "\n\n" + prompt_question.format(instruction=example["problem"]) for example in task_examples]
-                print(prompts[0])
+                # print(prompts[0])
 
             if args.use_vllm:
                 sampling_params = vllm.SamplingParams(
@@ -134,6 +134,7 @@ def main(args):
 
         predictions = []
         for example, output in zip(task_examples, outputs):
+            print(f"Generated Output: {output}")
             example["raw_output"] = output
             
             # extract the first answer after `the answer is` and before the next period.
