@@ -104,7 +104,7 @@ def main(args):
             if args.use_chat_format:
                 raise NotImplementedError("Evaluation with chat format is not supported for models that are not vllm.")
             else:
-                prompts = [prompt_prefix.strip() + "\n\n" + prompt_question.format(instruction=example["problem"]) for example in task_data]
+                prompts = [prompt_prefix.strip() + "\n\n" + prompt_question.format(instruction=example["problem"]) for example in task_examples]
                 print(prompts[0])
 
             if args.use_vllm:
