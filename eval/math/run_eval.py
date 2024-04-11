@@ -69,6 +69,7 @@ def main(args):
                 instruction=example["question"],
                 response=example["short-answer"] if args.no_cot else example["cot-answer"]
             )
+            for example in data
         ]
         all_prompts[os.path.basename(cot_prompt_file).replace(".json", "")] = "\n\n".join(prompt)
 
