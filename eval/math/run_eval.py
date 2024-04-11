@@ -104,7 +104,7 @@ def main(args):
             if args.use_chat_format:
                 raise NotImplementedError("Evaluation with chat format is not supported for models that are not vllm.")
             else:
-                prompts = [prompt_prefix.strip() + "\n\n" + prompt_question.format(instruction=example["problem"]) for example in task_examples]
+                prompts = [prompt_prefix.strip() + "\n\n" + prompt_question.format(instruction=example["problem"]) + "\n\n" for example in task_examples]
                 # print(prompts[0])
 
             if args.use_vllm:
@@ -145,6 +145,8 @@ def main(args):
             else:
                 example["prediction"] = output.strip()
             predictions.append(example["prediction"])
+        
+        os.makedirs(os.path.join(args.save_dir, "predictions"), exist_ok=True)
         
         with open(os.path.join(args.save_dir, "predictions", f"{task_name}.jsonl"), "w") as fout:
             for example in task_examples:
