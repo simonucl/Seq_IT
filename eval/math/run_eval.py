@@ -66,7 +66,7 @@ def main(args):
                 data = random.sample(data, args.n_shot)
         prompt = [
             prompt_template.format(
-                instruction=example["question"],
+                instruction=example["problem"],
                 response=example["short-answer"] if args.no_cot else example["cot-answer"]
             )
             for example in data
