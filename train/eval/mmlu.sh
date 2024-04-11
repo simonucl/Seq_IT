@@ -39,21 +39,23 @@ export CUDA_VISIBLE_DEVICES=0,1
 #     --use_vllm
 
 # BBH
-python3 -m eval.bbh.run_eval \
-    --data_dir data/eval/bbh \
-    --save_dir results/bbh/${MODEL_NAME}-cot \
-    --model $CHECKPOINT_PATH \
-    --tokenizer $CHECKPOINT_PATH \
-    --max_num_examples_per_task 40 \
-    --use_vllm
+# python3 -m eval.bbh.run_eval \
+#     --data_dir data/eval/bbh \
+#     --save_dir results/bbh/${MODEL_NAME}-cot \
+#     --model $CHECKPOINT_PATH \
+#     --tokenizer $CHECKPOINT_PATH \
+#     --max_num_examples_per_task 40 \
+#     --use_vllm
 
 # MATH
-# python3 -m eval.math.run_eval \
-#     --data_dir data/eval/math \
-#     --save_dir results/math/${MODEL_NAME} \
-#     --model_name_or_path $CHECKPOINT_PATH \
-#     --tokenizer_name_or_path $CHECKPOINT_PATH \
-#     --eval_batch_size 4
+python3 -m eval.math.run_eval \
+    --data_dir data/eval/math \
+    --save_dir results/math/${MODEL_NAME}-3-shots-cot \
+    --model_name_or_path $CHECKPOINT_PATH \
+    --tokenizer_name_or_path $CHECKPOINT_PATH \
+    --eval_batch_size 4 \
+    --max_num_examples_per_task 20 \
+    --use_vllm
     
 # CodeEval
 # python3 -m eval.codex_humaneval.run_eval \
