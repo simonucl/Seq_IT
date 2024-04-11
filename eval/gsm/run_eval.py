@@ -43,23 +43,36 @@ def main(args):
     if not os.path.exists(args.save_dir):
         os.makedirs(args.save_dir, exist_ok=True)
 
+    with open(args.template_file) as fin:
+        template = json.load(fin)
+
+    prompt_template = template["prompt_example"] if args.no_cot else template["prompt_example_cot"]
+    prompt_question = template["prompt_question"] if args.no_cot else template["prompt_question_cot"]
     global GSM_EXAMPLARS
     if args.n_shot:
         if len(GSM_EXAMPLARS) > args.n_shot:
             GSM_EXAMPLARS = random.sample(GSM_EXAMPLARS, args.n_shot)
         demonstrations = []
         for example in GSM_EXAMPLARS:
-            if args.no_cot:
-                demonstrations.append(
-                    "Quesion: " + example["question"] + "\n" + "Answer: " + example["short_answer"]
+            demonstrations.append(
+                prompt_template.format(
+                    instruction=example["question"],
+                    response=example["short_answer"] if args.no_cot else example["cot_answer"]
                 )
-            else:
-                demonstrations.append(
-                    "Question: " + example["question"] + "\n" + "Answer: " + example["cot_answer"]
-                )
-        prompt_prefix = "Answer the following questions.\n\n" + "\n\n".join(demonstrations) + "\n\n"
-    else:
-        prompt_prefix = "Answer the following question.\n\n"
+            )
+        prompt_prefix = "\n\n".join(demonstrations) + "\n\n"
+        # for example in GSM_EXAMPLARS:
+        #     if args.no_cot:
+        #         demonstrations.append(
+        #             "Quesion: " + example["question"] + "\n" + "Answer: " + example["short_answer"]
+        #         )
+        #     else:
+        #         demonstrations.append(
+        #             "Question: " + example["question"] + "\n" + "Answer: " + example["cot_answer"]
+        #         )
+    #     prompt_prefix = "Answer the following questions.\n\n" + "\n\n".join(demonstrations) + "\n\n"
+    # else:
+    #     prompt_prefix = "Answer the following question.\n\n"
 
     if args.use_chat_format:
         prompts = []
@@ -70,7 +83,8 @@ def main(args):
             prompt += "Answer:" if prompt[-1] in ["\n", " "] else " Answer:"
             prompts.append(prompt)
     else:
-        prompts = [prompt_prefix + "Question: " + example["question"].strip() + "\nAnswer:" for example in test_data]
+        # prompts = [prompt_prefix + "Question: " + example["question"].strip() + "\nAnswer:" for example in test_data]
+        prompts = [prompt_prefix + prompt_question.format(instruction=example["question"]) for example in test_data]
 
     if args.model_name_or_path:
         print("Loading model and tokenizer...")
@@ -236,6 +250,12 @@ if __name__ == "__main__":
         type=str, 
         default="eval.templates.create_prompt_with_tulu_chat_format", 
         help="The function to use to create the chat format. This function will be dynamically imported. Please see examples in `eval/templates.py`."
+    )
+    parser.add_argument(
+        "--template_file", 
+        type=str, 
+        default="templates/eval_template.json",
+        help="The template file to use for generating prompts."
     )
     args = parser.parse_args()
 

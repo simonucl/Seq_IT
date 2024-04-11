@@ -1,0 +1,8 @@
+{
+    "description": "Template used for Evaluation.",
+    "prompt_example": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response:\n{response}",
+    "prompt_example_cot": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response:\nLet's think step by step. {response}",
+    "prompt_question": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response:\n",
+    "prompt_question_cot": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response:\nLet's think step by step. ",
+    "response_split": "### Response:"    
+}
