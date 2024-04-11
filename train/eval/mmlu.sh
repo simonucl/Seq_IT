@@ -26,6 +26,35 @@ python3 -m eval.mmlu.run_eval \
     --tokenizer_name_or_path $CHECKPOINT_PATH \
     --eval_batch_size 4 \
 
+export CUDA_VISIBLE_DEVICES=0,1
+
+# GSM8K 8 shot
+python -m eval.gsm.run_eval \
+    --data_dir data/eval/gsm/ \
+    --max_num_examples 200 \
+    --save_dir results/gsm/${MODEL_NAME}-cot-8shot \
+    --model $CHECKPOINT_PATH \
+    --tokenizer $CHECKPOINT_PATH \
+    --n_shot 8 \
+    --use_vllm
+
+# BBH
+python -m eval.bbh.run_eval \
+    --data_dir data/eval/bbh \
+    --save_dir results/bbh/${MODEL_NAME}-cot \
+    --model $CHECKPOINT_PATH \
+    --tokenizer $CHECKPOINT_PATH \
+    --max_num_examples_per_task 40 \
+    --use_vllm
+
+# MATH
+python3 -m eval.math.run_eval \
+    --data_dir data/eval/math \
+    --save_dir results/math/${MODEL_NAME} \
+    --model_name_or_path $CHECKPOINT_PATH \
+    --tokenizer_name_or_path $CHECKPOINT_PATH \
+    --eval_batch_size 4
+    
 # CodeEval
 python3 -m eval.codex_humaneval.run_eval \
     --data_file data/eval/codex_humaneval/HumanEval.jsonl.gz \
