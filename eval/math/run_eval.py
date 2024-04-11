@@ -95,7 +95,7 @@ def main(args):
         raise NotImplementedError("OpenAI API is not supported for math evaluation.")
 
     performance = {}
-    for task_name in tqdm.tqdm(all_tasks.keys, desc="Evaluating tasks"):
+    for task_name in tqdm.tqdm(all_tasks.keys(), desc="Evaluating tasks"):
         task_examples = all_tasks[task_name]
         if args.model_name_or_path:
             prompt_prefix = all_prompts[task_name]
@@ -105,7 +105,7 @@ def main(args):
             else:
                 prompts = [prompt_prefix.strip() + "\n\n" + prompt_question.format(instruction=example["problem"]) for example in task_data]
                 print(prompts[0])
-                
+
             if args.use_vllm:
                 sampling_params = vllm.SamplingParams(
                     temperature=0,
