@@ -160,7 +160,10 @@ def main(
             for line in f:
                 line = json.loads(line.strip())
                 #print(line)
-                data.append({"instruction": line["instruction"], "input": line["input"]})
+                data.append({
+                    "instruction": line["instruction"], 
+                    "input": line["input"] if "input" in line else None,
+                    })
         return data
 
 
