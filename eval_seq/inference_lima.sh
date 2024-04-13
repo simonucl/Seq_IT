@@ -12,4 +12,5 @@ python3 eval/generate_batch.py \
   --length 512 \
   --test_file ${TESTFILE} \
   --save_file ${FINAL_SAVE} \
-  --batch_size 8
+  --batch_size 32 \
+  --samples 100 \

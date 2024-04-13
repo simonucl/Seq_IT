@@ -46,6 +46,7 @@ def main(
     batch_size: int = 4,
     test_file: str = "",
     save_file: str = "",
+    samples: int = 500,
     prompt_template: str = "alpaca",  # The prompt template to use, will default to alpaca.
 ):
     print(1)
@@ -93,6 +94,9 @@ def main(
         else:
             raise NotImplementedError
 
+    tokenizer.padding_side = "left"
+    tokenizer.pad_token = tokenizer.eos_token
+    
     if device == "cuda":
         model = AutoModelForCausalLM.from_pretrained(
             base_model,
@@ -180,8 +184,6 @@ def main(
         for i in range(len(instruction)):
           prompt = prompter.generate_prompt(instruction[i], input[i])
           prompts.append(prompt)
-        #print("prompt", prompt)
-        tokenizer.pad_token = tokenizer.eos_token
         inputs = tokenizer(prompts, return_tensors="pt", padding=True,)
         input_ids = inputs["input_ids"].to(model.device)
         #input_ids = torch.tensor(input_ids)
@@ -216,28 +218,30 @@ def main(
     if test_file:
         test_lang = test_file.split(".jsonl")[0].split("_")[-1]
         data = read_data(test_file)
-        #print(data)
         write_data = []
         bs = batch_size
-        for i in tqdm(range(0, 500, bs)):
+        if not save_file:
+            save_file = "data/test-" + test_lang + "_decoded_by_" + lora_weights.split("/")[-1] + ".jsonl"
+        
+        if os.path.exists(save_file):
+            generated = 0
+            with open(save_file, "r") as f:
+                for line in f:
+                    generated += 1
+        start_idx = max(0, generated)
+        for i in tqdm(range(start_idx, samples, bs)):
             d = data[i:i+bs]
             instruction = [item["instruction"] for item in d]
             input = [item["input"] for item in d]
             print(1)
             response = evaluate(instruction, input)#.strip() #split(:)[-1]
             print(2)
-            j = 0
-            for item in d:
-                item['output']  = response[j]
+            for j in range(len(d)):
+                d[i]['output']  = response[j]
                 print(response[j])
-                j+=1
-            write_data += d
-        if not save_file:
-            save_file = "data/test-" + test_lang + "_decoded_by_" + lora_weights.split("/")[-1] + ".jsonl"
-        with open(save_file, "w", encoding='utf-8') as out_f:
-            for d in write_data:
-                out_f.write(json.dumps(d, ensure_ascii=False) + "\n")
-            print("Saved {}".format(save_file), flush=True)
+            with open(save_file, "a", encoding='utf-8') as out_f:
+                for d in write_data:
+                    out_f.write(json.dumps(d, ensure_ascii=False) + "\n")
     else:
         print("No test file provided, will test on a few pre-defined example questions.", flush=True)
         for instruction in [
