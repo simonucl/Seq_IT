@@ -78,11 +78,6 @@ def main(
         test_lang = test_file.split(".json")[0].split("_")[-1]
     if not save_file:
         save_file = "data/test-" + test_lang + "_decoded_by_" + lora_weights.split("/")[-1] + ".jsonl"
-    if os.path.isfile(save_file):
-        print("Test file's corresponding output exists, skipping now.", flush=True)
-        print("Test: {}, Lora: {}".format(test_file, lora_weights))
-        print("Save file: {}".format(save_file))
-        return
 
     prompter = Prompter(prompt_template)
 
@@ -220,8 +215,6 @@ def main(
         data = read_data(test_file)
         write_data = []
         bs = batch_size
-        if not save_file:
-            save_file = "data/test-" + test_lang + "_decoded_by_" + lora_weights.split("/")[-1] + ".jsonl"
         start_idx = 0
         if os.path.exists(save_file):
             with open(save_file, "r") as f:
