@@ -162,7 +162,7 @@ def main(
                 #print(line)
                 data.append({
                     "instruction": line["instruction"], 
-                    # "input": line["input"] if "input" in line else None,
+                    "input": line["input"] if "input" in line else None,
                     })
         return data
 
@@ -214,7 +214,7 @@ def main(
         return [prompter.get_response(out) for out in output]
 
     if test_file:
-        test_lang = test_file.split(".jsonl")[0].split("_")[-1]
+        # test_lang = test_file.split(".jsonl")[0].split("_")[-1]
         data = read_data(test_file)
         write_data = []
         bs = batch_size
@@ -227,9 +227,9 @@ def main(
         for i in tqdm(range(start_idx, samples, bs)):
             d = data[i:i+bs]
             instruction = [item["instruction"] for item in d]
-            # input = [item["input"] for item in d]
+            input = [item["input"] for item in d]
             print(1)
-            response = evaluate(instruction)#.strip() #split(:)[-1]
+            response = evaluate(instruction, input=input)
             print(2)
             for j in range(len(d)):
                 d[j]['output']  = response[j]
@@ -261,7 +261,4 @@ def main(
 
 
 if __name__ == "__main__":
-    try:
-        fire.Fire(main)
-    except Exception as e:
-        print(e)
+    fire.Fire(main)

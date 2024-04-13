@@ -6,10 +6,10 @@ export FINAL_SAVE=$2
 # multilingual
 
 MODEL=llama-7b
-TESTFILE=self-seq/data/lima_500.jsonl
+TESTFILE=self-seq/data/lima_500-replaced.jsonl
 python3 eval_seq/generate_batch.py \
   --base_model ${LORA_PATH} \
-  --length 512 \
+  --length 1024 \
   --test_file ${TESTFILE} \
   --save_file ${FINAL_SAVE} \
   --batch_size 32 \
