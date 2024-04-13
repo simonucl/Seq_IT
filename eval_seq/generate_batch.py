@@ -239,8 +239,8 @@ def main(
                 d[i]['output']  = response[j]
                 print(response[j])
             with open(save_file, "a", encoding='utf-8') as out_f:
-                for d in write_data:
-                    out_f.write(json.dumps(d, ensure_ascii=False) + "\n")
+                for p in d:
+                    out_f.write(json.dumps(p, ensure_ascii=False) + "\n")
     else:
         print("No test file provided, will test on a few pre-defined example questions.", flush=True)
         for instruction in [
