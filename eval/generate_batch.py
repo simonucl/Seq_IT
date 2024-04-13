@@ -10,7 +10,7 @@ from peft import PeftModel
 from transformers import GenerationConfig
 from transformers import AutoModelForCausalLM #, AutoModelForSeq2SeqLM
 from transformers import AutoTokenizer, LlamaTokenizer
-from utils.callbacks import Iteratorize, Stream
+# from utils.callbacks import Iteratorize, Stream
 from utils.prompter import Prompter
 
 lora_base_map = {"baichuan-13b":"baichuan-inc/Baichuan-13B-Base",

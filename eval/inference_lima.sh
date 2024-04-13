@@ -7,7 +7,7 @@ export FINAL_SAVE=$2
 
 MODEL=llama-7b
 TESTFILE=self-seq/data/lima_500.jsonl
-python generate_batch.py \
+python3 eval/generate_batch.py \
   --lora_weights ${LORA_PATH} \
   --length 512 \
   --test_file ${TESTFILE} \
