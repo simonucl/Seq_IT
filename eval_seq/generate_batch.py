@@ -148,15 +148,20 @@ def main(
 
     def read_data(filename):
         data = []
-        with open(filename) as f:
-            data = json.load(f)
-        '''
+        # with open(filename) as f:
+        #     data = json.load(f)
+        # '''
+        # with open(filename) as f:
+        #     for line in f:
+        #         line = json.loads(line.strip())
+        #         #print(line)
+        #         data.append({"instruction": line["instruction"], "input": line["input"]})
+        # '''
         with open(filename) as f:
             for line in f:
                 line = json.loads(line.strip())
                 #print(line)
                 data.append({"instruction": line["instruction"], "input": line["input"]})
-        '''
         return data
 
 
@@ -209,7 +214,7 @@ def main(
         return [prompter.get_response(out) for out in output]
 
     if test_file:
-        test_lang = test_file.split(".json")[0].split("_")[-1]
+        test_lang = test_file.split(".jsonl")[0].split("_")[-1]
         data = read_data(test_file)
         #print(data)
         write_data = []
