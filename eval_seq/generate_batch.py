@@ -229,7 +229,7 @@ def main(
             instruction = [item["instruction"] for item in d]
             input = [item["input"] for item in d]
             print(1)
-            response = evaluate(instruction, input=input)
+            response = evaluate(instruction, input=input, max_new_tokens=length)
             print(2)
             for j in range(len(d)):
                 d[j]['output']  = response[j]
