@@ -13,4 +13,4 @@ python3 eval_seq/generate_batch.py \
   --test_file ${TESTFILE} \
   --save_file ${FINAL_SAVE} \
   --batch_size 32 \
-  --samples 100 \
+  --samples 200 \
