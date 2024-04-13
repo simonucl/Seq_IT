@@ -162,7 +162,7 @@ def main(
                 #print(line)
                 data.append({
                     "instruction": line["instruction"], 
-                    "input": line["input"] if "input" in line else None,
+                    # "input": line["input"] if "input" in line else None,
                     })
         return data
 
@@ -227,9 +227,9 @@ def main(
         for i in tqdm(range(start_idx, samples, bs)):
             d = data[i:i+bs]
             instruction = [item["instruction"] for item in d]
-            input = [item["input"] for item in d]
+            # input = [item["input"] for item in d]
             print(1)
-            response = evaluate(instruction, input)#.strip() #split(:)[-1]
+            response = evaluate(instruction)#.strip() #split(:)[-1]
             print(2)
             for j in range(len(d)):
                 d[j]['output']  = response[j]
