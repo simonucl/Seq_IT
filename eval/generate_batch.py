@@ -40,9 +40,10 @@ lora_base_map = {"baichuan-13b":"baichuan-inc/Baichuan-13B-Base",
 
 def main(
     length: int = 100,
-    load_8bit: bool = True,
+    load_8bit: bool = False,
     base_model: str = "",
     lora_weights: str = "",
+    batch_size: int = 4,
     test_file: str = "",
     save_file: str = "",
     prompt_template: str = "alpaca",  # The prompt template to use, will default to alpaca.
@@ -204,37 +205,26 @@ def main(
         for n in range(len(s)): 
            out = tokenizer.decode(s[n], skip_special_tokens=True, clean_up_tokenization_spaces=True)
            output.append(out)
-           #print(out)
-        print('yes')
-        #print(output[0])
         return [prompter.get_response(out) for out in output]
 
-    # testing prompts
-    #print(1)
     if test_file:
         test_lang = test_file.split(".json")[0].split("_")[-1]
-        #print(test_lang)
-        #assert len(test_lang) == 2
-        #print("flag")
         data = read_data(test_file)
         #print(data)
         write_data = []
-        bs = 4
+        bs = batch_size
         for i in tqdm(range(0, 500, bs)):
             d = data[i:i+bs]
             instruction = [item["instruction"] for item in d]
             input = [item["input"] for item in d]
             print(1)
-            #print(evaluate(instruction, input))
             response = evaluate(instruction, input)#.strip() #split(:)[-1]
             print(2)
-            #print(response)
             j = 0
             for item in d:
                 item['output']  = response[j]
                 print(response[j])
                 j+=1
-            #print(response)
             write_data += d
         if not save_file:
             save_file = "data/test-" + test_lang + "_decoded_by_" + lora_weights.split("/")[-1] + ".jsonl"

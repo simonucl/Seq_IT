@@ -6,6 +6,10 @@ import json
 import random
 from token_store import HF_TOKEN
 
+def extract_conversations(p):
+    instruction, output = p['conversations'][0], p['conversations'][1]
+    return {'instruction': instruction, 'output': output, 'input': ''}
+
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
     args.add_argument('--data', type=str, default='yahma/alpaca-cleaned')
@@ -20,6 +24,9 @@ if __name__ == '__main__':
         idx = list(range(len(dataset)))
         dataset = dataset.add_column('idx', idx)
     dataset = dataset.shuffle()
+    if 'conversations' in dataset.column_names:
+        dataset = dataset.map(extract_conversations, remove_columns=['conversations'])
+        
     if args.sample:
         dataset = dataset.select(range(args.sample))
         dataset.to_json(f'data/{dataset_name}_{args.sample}.jsonl', orient='records', lines=True)

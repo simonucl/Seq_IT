@@ -48,7 +48,7 @@ def get_prompt(p):
     if 'conversations' in p: # cases for lima
         instruction, output = p['conversations'][0], p['conversations'][1]
         prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
-        return {'prompt': prompt, 'instruction': instruction, 'output': output}
+        return {'prompt': prompt, 'instruction': instruction, 'output': output, 'input': ''}
     else:
         # cases for alpaca
         if p['input'] != '':
@@ -63,7 +63,6 @@ if __name__ == '__main__':
     args.add_argument('--input_file', type=str, default='data/alpaca.jsonl')
     args.add_argument('--output_file', type=str, default=None)
     args.add_argument('--seed', type=int, default=42)
-
 
     args = args.parse_args()
     input_file = args.input_file
@@ -86,7 +85,6 @@ if __name__ == '__main__':
         for line in file:
             input_data.append(json.loads(line))
 
-    # input_data = input_data[:2]
     with open(output_file, 'a', encoding='utf-8') as json_file:
         
         for index in tqdm(range(len(json_data), len(input_data))):
@@ -96,12 +94,9 @@ if __name__ == '__main__':
             gpt_answer = make_requests_GPT_turbo(prompt)
             json_data.append({
                 'idx': question_info['idx'],
-                'input': question_info['input'],
+                'input': question_info['input'] if 'input' in question_info else '',
                 'prompt': prompt['prompt'],
                 'completions': gpt_answer,
             })
             json_file.write(json.dumps(json_data[-1], ensure_ascii=False) + '\n')
             print(f'↑ has been stored.')
-    # with open(output_file, 'a', encoding='utf-8') as json_file:
-    #     for data in json_data:
-    #         json_file.write(json.dumps(data, ensure_ascii=False) + '\n')
