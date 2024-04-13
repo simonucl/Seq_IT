@@ -96,7 +96,7 @@ def main(
 
     tokenizer.padding_side = "left"
     tokenizer.pad_token = tokenizer.eos_token
-    
+
     if device == "cuda":
         model = AutoModelForCausalLM.from_pretrained(
             base_model,
@@ -222,13 +222,12 @@ def main(
         bs = batch_size
         if not save_file:
             save_file = "data/test-" + test_lang + "_decoded_by_" + lora_weights.split("/")[-1] + ".jsonl"
-        
+        start_idx = 0
         if os.path.exists(save_file):
-            generated = 0
             with open(save_file, "r") as f:
                 for line in f:
-                    generated += 1
-        start_idx = max(0, generated)
+                    start_idx += 1
+
         for i in tqdm(range(start_idx, samples, bs)):
             d = data[i:i+bs]
             instruction = [item["instruction"] for item in d]
