@@ -4,7 +4,7 @@ from datasets import load_dataset
 import argparse
 import json
 import random
-from ..token import HF_TOKEN
+from token_store import HF_TOKEN
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
