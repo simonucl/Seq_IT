@@ -50,20 +50,20 @@ def main(
 ):
     print(1)
     print(test_file)
-    if lora_weights == "":
-        assert base_model
-        print("\n\n******WARNING: LoRA module is not specified. Loading only the base model for inference.******\n\n", flush=True)
-    if lora_weights != "" and lora_weights[-1] == "/":
-        lora_weights = lora_weights[:-1]
-        print(lora_weights)
-    if not base_model:
-        print("no base model")
-        for suffix in lora_base_map:
-            if lora_weights.endswith(suffix):
-                base_model = lora_base_map[suffix]
-                continue
-        print(base_model)
-        assert base_model
+    # if lora_weights == "":
+    #     assert base_model
+    #     print("\n\n******WARNING: LoRA module is not specified. Loading only the base model for inference.******\n\n", flush=True)
+    # if lora_weights != "" and lora_weights[-1] == "/":
+    #     lora_weights = lora_weights[:-1]
+    #     print(lora_weights)
+    # if not base_model:
+    #     print("no base model")
+    #     for suffix in lora_base_map:
+    #         if lora_weights.endswith(suffix):
+    #             base_model = lora_base_map[suffix]
+    #             continue
+    #     print(base_model)
+    #     assert base_model
     
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(device)
@@ -97,7 +97,8 @@ def main(
         model = AutoModelForCausalLM.from_pretrained(
             base_model,
             load_in_8bit=load_8bit,
-            torch_dtype=torch.float16,
+            torch_dtype=torch.bfloat16,
+            attn_implementation='flash_attention_2',
             trust_remote_code=True,
             device_map="auto",
             token='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',
@@ -139,7 +140,7 @@ def main(
     if not load_8bit:
         model.half()  # seems to fix bugs for some.
 
-    model.eval()
+    # model.eval()
     if torch.__version__ >= "2" and sys.platform != "win32":
         model = torch.compile(model)
     if device == "cuda":
