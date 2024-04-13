@@ -229,7 +229,7 @@ def main(
             response = evaluate(instruction, input)#.strip() #split(:)[-1]
             print(2)
             for j in range(len(d)):
-                d[i]['output']  = response[j]
+                d[j]['output']  = response[j]
                 print(response[j])
             with open(save_file, "a", encoding='utf-8') as out_f:
                 for p in d:
