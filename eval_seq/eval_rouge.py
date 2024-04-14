@@ -24,18 +24,19 @@ def main(args):
             obj = json.loads(line)
             preds.append(obj['output'])
     #extract 'output' from each item of json
-
+    if len(preds) != len(references):
+        references = references[:len(preds)]
     #labels = []
     '''
     for i in range(len(lines)):
         labels.append(lines[i]['input'])
     '''
     #compute the BLEU score
-    smoothie = SmoothingFunction().method4
-    score = 0
-    for i in trange(len(preds), desc='BLEU'):
-        score += sentence_bleu(references[i], preds[i], smoothing_function=smoothie)
-    print(f'BLEU: {score/len(preds)}')
+    # smoothie = SmoothingFunction().method4
+    # score = 0
+    # for i in trange(len(preds), desc='BLEU'):
+    #     score += sentence_bleu(references[i], preds[i], smoothing_function=smoothie)
+    # print(f'BLEU: {score/len(preds)}')
 
     from rouge import Rouge
     rouge = Rouge()
