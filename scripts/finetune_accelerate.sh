@@ -38,6 +38,6 @@ accelerate launch \
     --with_tracking \
     --do_eval \
     --eval_steps 100 \
-    --eval_file self-seq/data/lima_500.jsonl \
+    --eval_file self-seq/data/lima_500_no_source.jsonl \
     --report_to wandb \
     --logging_steps 5
