@@ -8,6 +8,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from argparse import ArgumentParser
+from tqdm import trange
 
 def main(args):
     references = []
@@ -32,19 +33,19 @@ def main(args):
     #compute the BLEU score
     smoothie = SmoothingFunction().method4
     score = 0
-    for i in range(len(preds)):
+    for i in trange(len(preds), desc='BLEU'):
         score += sentence_bleu(references[i], preds[i], smoothing_function=smoothie)
-    print(score/len(preds))
+    print(f'BLEU: {score/len(preds)}')
 
     from rouge import Rouge
     rouge = Rouge()
     score = 0
-    for i in range(len(preds)):
+    for i in trange(len(preds), desc='ROUGE'):
         score += rouge.get_scores(preds[i], references[i])[0]['rouge-l']['f']
-    print(score/len(preds))
+    print(f'ROUGE: {score/len(preds)}')
     from bert_score import score
     P, R, F1 = score(preds, references, lang="en", verbose=True)
-    print(F1.mean())
+    print(f'BERT_SCORE: {F1.mean()}')
 #print(score/len(preds))
     
 if __name__ == '__main__':
