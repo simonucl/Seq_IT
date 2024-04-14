@@ -337,13 +337,13 @@ def encode_alpaca_format(example, tokenizer, max_seq_length, prompter, add_bos=F
     Here we assume each example has 'instruction' and 'input' fields.
     We use the prompter to generate the prompt and tokenize it together with the input.
     '''
-    prompt = prompter.generate_prompt(example['instruction'], example['input'])
+    prompt = prompter.generate_prompt(example['instruction'], example['input'], example['output'])
     if add_bos:
         prompt = tokenizer.bos_token + prompt
     tokenized_example = tokenizer(prompt, return_tensors='pt', max_length=max_seq_length, truncation=True)
     input_ids = tokenized_example.input_ids
     labels = input_ids.clone()
-    tokenized_prompt = tokenizer(prompter.generate_prompt(example['instruction'], example['input'], example['output']), return_tensors='pt', max_length=max_seq_length, truncation=True)
+    tokenized_prompt = tokenizer(prompter.generate_prompt(example['instruction'], example['input']), return_tensors='pt', max_length=max_seq_length, truncation=True)
     # mask the prompt part for avoiding loss
     labels[:, :tokenized_prompt.input_ids.shape[1]] = -100
     attention_mask = torch.ones_like(input_ids)
@@ -951,7 +951,7 @@ def main():
                     },
                     step=completed_steps,
                 )
-                
+
         if args.checkpointing_steps == "epoch":
             output_dir = f"epoch_{epoch}"
             if args.output_dir is not None:
