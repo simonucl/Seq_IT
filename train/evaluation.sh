@@ -13,7 +13,7 @@ MODEL_NAME_OR_PATH=meta-llama/Llama-2-7b-hf
 # for MODEL in simonycl/sparseIT_Llama-2-7b-hf-stanford-alpaca
 # for MODEL in /mnt/data/sparseIT/output/sparseIT_Llama-2-7b-hf-stanford-alpaca-mask-by-cluster
 # for MODEL in /mnt/data/sparseIT/output/sparseIT_Llama-2-7b-hf-multi-task-data-no-mlp
-for MODEL in output/sparseIT_Llama-2-7b-hf-tulu-v2-subset-mask-by-cluster-row-0.1 #output/sparseIT_Llama-2-7b-hf-tulu-v2-mask-by-cluster-64-clusters-0-1-topk-closest
+for MODEL in output/sparseIT_Llama-2-7b-hf-tulu-v2-subset-mask-by-cluster-row-0.1
 do
 
     # split by '/' and select the last two elements and join them with '-'
@@ -21,15 +21,6 @@ do
 
     MODEL_NAME=$(basename "$MODEL")
 
-    # python3 finetune/merge_lora.py \
-    # --base_model_name_or_path $MODEL_NAME_OR_PATH \
-    # --lora_model_name_or_path $MODEL \
-    # --output_dir output/sparseIT_${MODEL_NAME}_lora/ \
-    # --tokenizer_name_or_path output/sparseIT_${MODEL_NAME}_lora/ \
-    # --save_tokenizer
-
-    # if not exist results/$MODEL_NAME, create it
-    # mkdir -p results/$MODEL_NAME
     mkdir -p eval_results/
     
     # Run evaluation on ARC, GSM8K, HellaSwag, TruthfulQA, and TrivialQA
