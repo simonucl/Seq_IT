@@ -8,6 +8,8 @@ EVAL_BATCH_SIZE_PER_GPU=4
 TOTAL_BATCH_SIZE=64
 MODEL_NAME_OR_PATH=meta-llama/Llama-2-7b-hf
 
+export PYTHONPATH="$PWD:$PYTHONPATH"
+
 # for MODEL in simonycl/sparseIT-Llama-2-7b-hf-multi-task simonycl/data_selection_Llama-2-7b-hf-multi_task-mask-mlp-by-dataset
 # for MODEL in simonycl/sparseIT-Llama-2-7b-hf-multi-task
 # for MODEL in simonycl/sparseIT_Llama-2-7b-hf-stanford-alpaca
