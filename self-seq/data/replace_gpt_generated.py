@@ -9,13 +9,17 @@ sys.path.append('..')
 from token_store import HF_TOKEN
 
 def extract_instruction_output(p):
-    completion = p['completions'].split('\n', 1)
-    if len(completion) != 2:
-        print(completion)
-        return None
-    instruction, output = completion[0], completion[1]
-    instruction = instruction.split('Instruction: ')[1]
-    output = output.lstrip('\n')
+    if 'completions' in p:
+        completion = p['completions'].split('\n', 1)
+        if len(completion) != 2:
+            print(completion)
+            return None
+        instruction, output = completion[0], completion[1]
+        instruction = instruction.split('Instruction: ')[1]
+        output = output.lstrip('\n')
+    else:
+        instruction = p['instruction']
+        output = p['output']
     return {'instruction': instruction, 'output': output, 'idx': p['idx']}
 
 def replace(p, instruction_output):
@@ -56,4 +60,4 @@ if __name__ == '__main__':
     print(f'Replaced {len(replace_instructions)} instructions')
 
     dataset = dataset.shuffle()
-    dataset.to_json(f'data/{dataset_name}_replaced.jsonl', orient='records', lines=True)
+    dataset.to_json(f'data/{dataset_name}_wizardlm_replaced.jsonl', orient='records', lines=True)

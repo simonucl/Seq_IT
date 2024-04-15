@@ -1,4 +1,4 @@
-export CUDA_VISIBLE_DEVICES=1
+export CUDA_VISIBLE_DEVICES=0
 CHECKPOINT_PATH=$1
 MODEL_NAME=$2
 
@@ -16,6 +16,25 @@ export IS_ALPACA_EVAL_2=False
 #     --eval_batch_size 4 \
 #     --use_chat_format \
 #     --chat_formatting_function eval.templates.create_prompt_with_tulu_chat_format
+
+# GSM8K 8 shot
+# python3 -m eval.gsm.run_eval \
+#     --data_dir data/eval/gsm/ \
+#     --max_num_examples 1000 \
+#     --save_dir results/gsm/${MODEL_NAME}-cot-8shot \
+#     --model $CHECKPOINT_PATH \
+#     --tokenizer $CHECKPOINT_PATH \
+#     --n_shot 8 \
+#     --use_vllm
+
+# BBH
+python3 -m eval.bbh.run_eval \
+    --data_dir data/eval/bbh \
+    --save_dir results/bbh/${MODEL_NAME}-cot \
+    --model $CHECKPOINT_PATH \
+    --tokenizer $CHECKPOINT_PATH \
+    --max_num_examples_per_task 40 \
+    --use_vllm
 
 # MMLU 5 shot
 python3 -m eval.mmlu.run_eval \
@@ -42,4 +61,5 @@ python3 -m eval.alpaca_farm.run_eval \
     --model_name_or_path $CHECKPOINT_PATH \
     --save_dir results/alpaca_farm/${MODEL_NAME} \
     --eval_batch_size 20 \
+    --max_new_tokens 1024 \
     --use_vllm
