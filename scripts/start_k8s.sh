@@ -20,7 +20,7 @@ pip uninstall -y xformers
 
 pip install xformers==0.0.23.post1 --index-url https://download.pytorch.org/whl/cu118
 
-pip uninstall antlr4-python3-runtime
+pip uninstall antlr4-python3-runtime -y
 
 pip install antlr4-python3-runtime==4.11
 
