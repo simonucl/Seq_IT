@@ -21,13 +21,21 @@ do
 
     MODEL_NAME=$(basename "$MODEL")
 
-    mkdir -p eval_results/
+    mkdir -p eval_results/$MODEL_NAME
     
-    # Run evaluation on ARC, GSM8K, HellaSwag, TruthfulQA, and TrivialQA
-    bash lm-evaluation-harness/eval_model.sh $MODEL sparseIT_$MODEL_NAME > eval_results/sparseIT_$MODEL_NAME-1.log
+    # Run evaluation on ARC, GSM8K, HellaSwag, TruthfulQA, and MATH
+    bash lm-evaluation-harness/eval_model.sh $MODEL self-seq-$MODEL_NAME > eval_results/$MODEL_NAME/self-seq-$MODEL_NAME.log
 
     # Evaluation script for MMLU, TydiQA and CodeX-HumanEval
-    bash scripts/eval/mmlu.sh $MODEL sparseIT_$MODEL_NAME > eval_results/sparseIT_$MODEL_NAME-mmlu.log
+    bash scripts/eval/eval_auto.sh $MODEL self-seq-$MODEL_NAME > eval_results/$MODEL_NAME/self-seq-$MODEL_NAME-mmlu.log
+
+    mkdir -p data/$MODEL_NAME
+
+    bash eval_seq/inference_lima.sh $MODEL data/$MODEL_NAME/self-seq-$MODEL_NAME.jsonl > eval_results/$MODEL_NAME/inference_lima-$MODEL_NAME.log
+
+    python3 eval_seq/eval_rouge.py \
+        --test_file data/$MODEL_NAME/self-seq-$MODEL_NAME.jsonl \
+        --ref_file self-seq/data/lima_500-replaced.jsonl > eval_results/$MODEL_NAME/rouge-$MODEL_NAME.log
 done
 
 # nohup bash scripts/evaluation_lora.sh > ./logs/evaluation_lora_Llama-2-7b-hf-sharegpt-KMenasRandomDeita-64-005-lora-epoch_4.log 2>&1 &
