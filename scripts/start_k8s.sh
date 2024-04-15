@@ -20,6 +20,14 @@ pip uninstall -y xformers
 
 pip install xformers==0.0.23.post1 --index-url https://download.pytorch.org/whl/cu118
 
+pip uninstall antlr4-python3-runtime
+
+pip install antlr4-python3-runtime==4.11
+
+pip install -U openai
+
+pip install rouge bert_score
+
 export HF_HOME=/mnt/data/.cache/huggingface
 export HF_TRANSFORMERS_CACHE=/mnt/data/.cache/transformers
 export HF_DATASETS_CACHE=/mnt/data/.cache/datasets
