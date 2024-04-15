@@ -13,7 +13,7 @@ MODEL_NAME_OR_PATH=meta-llama/Llama-2-7b-hf
 # for MODEL in simonycl/sparseIT_Llama-2-7b-hf-stanford-alpaca
 # for MODEL in /mnt/data/sparseIT/output/sparseIT_Llama-2-7b-hf-stanford-alpaca-mask-by-cluster
 # for MODEL in /mnt/data/sparseIT/output/sparseIT_Llama-2-7b-hf-multi-task-data-no-mlp
-for MODEL in output/sparseIT_Llama-2-7b-hf-tulu-v2-subset-mask-by-cluster-row-0.1
+for MODEL in output/self-seq-7B-baseline
 do
 
     # split by '/' and select the last two elements and join them with '-'
