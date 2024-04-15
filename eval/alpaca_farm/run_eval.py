@@ -8,6 +8,7 @@ import datasets
 import vllm
 from alpaca_eval import evaluate as alpaca_farm_evaluate
 from eval.utils import query_openai_chat_model, query_openai_model, generate_completions, dynamic_import_function, load_hf_lm, load_hf_tokenizer
+from eval.alpaca_farm.prompter import Prompter
 
 def main(args):
     random.seed(42)
@@ -17,92 +18,103 @@ def main(args):
     alpaca_eval_data = datasets.load_dataset("tatsu-lab/alpaca_eval", "alpaca_eval")["eval"]
     prompts = []
     chat_formatting_function = dynamic_import_function(args.chat_formatting_function) if args.use_chat_format else None
+    prompter = Prompter("alpaca")
     for example in alpaca_eval_data:
         prompt = example["instruction"]
+        prompt = prompter.generate_prompt(prompt)
+
         prompts.append(prompt)
 
-    if args.model_name_or_path is not None:
-        # we always load the tokenizer for vllm or hf models
-        tokenizer = load_hf_tokenizer(
-                model_name_or_path=args.model_name_or_path,
-                tokenizer_name_or_path=args.tokenizer_name_or_path,
-                use_fast_tokenizer=not args.use_slow_tokenizer,
-            )
-
-        if args.use_vllm:
-            model = vllm.LLM(
-                model=args.model_name_or_path,
-                tokenizer=args.tokenizer_name_or_path if args.tokenizer_name_or_path is not None else args.model_name_or_path,
-                tensor_parallel_size=torch.cuda.device_count(),
-            )
-            
-            sampling_params = vllm.SamplingParams(
-                temperature=0,  # greedy decoding
-                max_tokens=args.max_new_tokens,
-            )
-            # apply chat formatting
-            if args.use_chat_format:
-                formatted_prompts = []
-                for prompt in prompts:
-                    messages = [{"role": "user", "content": prompt}]
-                    formatted_prompt = chat_formatting_function(messages, tokenizer, add_bos=False)
-                    formatted_prompts.append(formatted_prompt)
-                prompts = formatted_prompts
-                    
-            outputs = model.generate(prompts, sampling_params)
-            outputs = [it.outputs[0].text for it in outputs]
-        else:
-            model = load_hf_lm(
-                model_name_or_path=args.model_name_or_path,
-                load_in_8bit=args.load_in_8bit,
-                device_map="balanced_low_0" if torch.cuda.device_count() > 1 else "auto",
-                gptq_model=args.gptq,
-            )
-            # modify tokenizer if required
-            from transformers import GPTNeoXForCausalLM, OPTForCausalLM
-            if isinstance(model, GPTNeoXForCausalLM) or isinstance(model, OPTForCausalLM):
-                tokenizer.model_max_length = model.config.max_position_embeddings
-                print("Set tokenizer.model_max_length to model.config.max_position_embeddings: {}".format(model.config.max_position_embeddings))
-
-            # apply chat formatting
-            if args.use_chat_format:
-                formatted_prompts = []
-                for prompt in prompts:
-                    messages = [{"role": "user", "content": prompt}]
-                    formatted_prompt = chat_formatting_function(messages, tokenizer, add_bos=False)
-                    formatted_prompts.append(formatted_prompt)
-                prompts = formatted_prompts
-            outputs = generate_completions(
-                model=model,
-                tokenizer=tokenizer,
-                prompts=prompts,
-                max_new_tokens=args.max_new_tokens,
-                do_sample=False,
-                temperature=0,
-                batch_size=args.eval_batch_size if args.eval_batch_size else 1,
-            )
-    else:
-        openai_query_cache_path = os.path.join(args.save_dir, "openai_query_cache.jsonl")
-        openai_func = query_openai_model if args.openai_engine == "text-davinci-003" else query_openai_chat_model
-        results = openai_func(
-            engine=args.openai_engine,
-            instances=[{"id": str(i), "prompt": prompt} for i, prompt in enumerate(prompts)],
-            batch_size=args.eval_batch_size if args.eval_batch_size else 10,
-            output_path=openai_query_cache_path,
-            max_tokens=args.max_new_tokens,
-            temperature=0,
-            reuse_existing_outputs=True,
-        )
-        outputs = [result["output"] for result in results]
-
     model_name = os.path.basename(os.path.normpath(args.model_name_or_path)) if args.model_name_or_path is not None else args.openai_engine
-    model_results = []
-    with open(os.path.join(args.save_dir, f"{model_name}-greedy-long-output.json"), "w") as fout:
-        for example, output in zip(alpaca_eval_data, outputs):
-            example["output"] = output
-            example["generator"] = f"{model_name}-greedy-long"
-            fout.write(json.dumps(example) + "\n")
-            model_results.append(example)
+
+    if os.path.exists(os.path.join(args.save_dir, f"{model_name}-greedy-long-output.json")):
+        print(f"Loading cached results from {args.save_dir}/{model_name}-greedy-long-output.json")
+
+        with open(os.path.join(args.save_dir, f"{model_name}-greedy-long-output.json"), "r") as fin:
+            model_results = [json.loads(line) for line in fin]
+            model_results = [{k: v.strip('\n') if isinstance(v, str) else v for k, v in example.items()} for example in model_results]
+    else:
+        if args.model_name_or_path is not None:
+            # we always load the tokenizer for vllm or hf models
+            tokenizer = load_hf_tokenizer(
+                    model_name_or_path=args.model_name_or_path,
+                    tokenizer_name_or_path=args.tokenizer_name_or_path,
+                    use_fast_tokenizer=not args.use_slow_tokenizer,
+                )
+
+            if args.use_vllm:
+                model = vllm.LLM(
+                    model=args.model_name_or_path,
+                    tokenizer=args.tokenizer_name_or_path if args.tokenizer_name_or_path is not None else args.model_name_or_path,
+                    tensor_parallel_size=torch.cuda.device_count(),
+                )
+                
+                sampling_params = vllm.SamplingParams(
+                    temperature=0,  # greedy decoding
+                    max_tokens=args.max_new_tokens,
+                )
+                # apply chat formatting
+                if args.use_chat_format:
+                    formatted_prompts = []
+                    for prompt in prompts:
+                        messages = [{"role": "user", "content": prompt}]
+                        formatted_prompt = chat_formatting_function(messages, tokenizer, add_bos=False)
+                        formatted_prompts.append(formatted_prompt)
+                    prompts = formatted_prompts
+                        
+                outputs = model.generate(prompts, sampling_params)
+                outputs = [it.outputs[0].text.strip('\n') for it in outputs]
+            else:
+                model = load_hf_lm(
+                    model_name_or_path=args.model_name_or_path,
+                    load_in_8bit=args.load_in_8bit,
+                    device_map="balanced_low_0" if torch.cuda.device_count() > 1 else "auto",
+                    gptq_model=args.gptq,
+                )
+                # modify tokenizer if required
+                from transformers import GPTNeoXForCausalLM, OPTForCausalLM
+                if isinstance(model, GPTNeoXForCausalLM) or isinstance(model, OPTForCausalLM):
+                    tokenizer.model_max_length = model.config.max_position_embeddings
+                    print("Set tokenizer.model_max_length to model.config.max_position_embeddings: {}".format(model.config.max_position_embeddings))
+
+                # apply chat formatting
+                if args.use_chat_format:
+                    formatted_prompts = []
+                    for prompt in prompts:
+                        messages = [{"role": "user", "content": prompt}]
+                        formatted_prompt = chat_formatting_function(messages, tokenizer, add_bos=False)
+                        formatted_prompts.append(formatted_prompt)
+                    prompts = formatted_prompts
+                outputs = generate_completions(
+                    model=model,
+                    tokenizer=tokenizer,
+                    prompts=prompts,
+                    max_new_tokens=args.max_new_tokens,
+                    do_sample=False,
+                    temperature=0,
+                    batch_size=args.eval_batch_size if args.eval_batch_size else 1,
+                )
+        else:
+            openai_query_cache_path = os.path.join(args.save_dir, "openai_query_cache.jsonl")
+            openai_func = query_openai_model if args.openai_engine == "text-davinci-003" else query_openai_chat_model
+            results = openai_func(
+                engine=args.openai_engine,
+                instances=[{"id": str(i), "prompt": prompt} for i, prompt in enumerate(prompts)],
+                batch_size=args.eval_batch_size if args.eval_batch_size else 10,
+                output_path=openai_query_cache_path,
+                max_tokens=args.max_new_tokens,
+                temperature=0,
+                reuse_existing_outputs=True,
+            )
+            outputs = [result["output"] for result in results]
+
+        model_results = []
+        with open(os.path.join(args.save_dir, f"{model_name}-greedy-long-output.json"), "w") as fout:
+            for example, output in zip(alpaca_eval_data, outputs):
+                example["output"] = output
+                example["generator"] = f"{model_name}-greedy-long"
+                fout.write(json.dumps(example) + "\n")
+                model_results.append(example)
 
     if args.reference_path is not None:
         df_leaderboard, annotations = alpaca_farm_evaluate(

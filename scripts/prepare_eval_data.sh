@@ -37,7 +37,7 @@ wget -P data/eval/codex_humaneval https://github.com/openai/human-eval/raw/maste
 
 
 # Alpaca Farm reference
-# wget -P data/eval/alpaca_farm https://huggingface.co/datasets/hamishivi/alpaca-farm-davinci-003-2048-token/resolve/main/davinci_003_outputs.json
+wget -P data/eval/alpaca_farm https://huggingface.co/datasets/hamishivi/alpaca-farm-davinci-003-2048-token/resolve/main/davinci_003_outputs.json
 
 
 # # TruthfulQA
