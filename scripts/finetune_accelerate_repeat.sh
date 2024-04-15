@@ -8,6 +8,7 @@ TRAIN_FILE=self-seq/data/alpaca-cleaned_repeat.jsonl
 MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/meta-llama/Llama-2-7b-hf
 GRADIENT_ACC_STEPS=$(($TOTAL_BATCH_SIZE/$NUM_GPUS/$BATCH_SIZE_PER_GPU))
 echo "Training llama model ${MODEL_SIZE} using $NUM_GPUS GPUs, $BATCH_SIZE_PER_GPU batch size per GPU, $GRADIENT_ACC_STEPS gradient accumulation steps"
+OUTPUT_NAME=$(basename $TRAIN_FILE .jsonl)
 
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
@@ -34,10 +35,12 @@ accelerate launch \
     --warmup_ratio 0.03 \
     --weight_decay 0. \
     --num_train_epochs 3 \
-    --output_dir output/self-seq-${MODEL_SIZE}-wizardlm/ \
+    --output_dir output/self-seq-${OUTPUT_NAME} \
     --with_tracking \
     --do_eval \
     --eval_steps 100 \
     --eval_file self-seq/data/lima_500_no_source.jsonl \
     --report_to wandb \
     --logging_steps 5
+
+bash scripts/evaluation.sh output/self-seq-${OUTPUT_NAME}
