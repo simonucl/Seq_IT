@@ -759,6 +759,10 @@ def main():
     if checkpointing_steps is not None and checkpointing_steps.isdigit():
         checkpointing_steps = int(checkpointing_steps)
 
+    eval_steps = args.eval_steps
+    if eval_steps is not None and eval_steps.isdigit():
+        eval_steps = int(eval_steps)
+
     # We need to initialize the trackers we use, and also store our configuration.
     # The trackers initializes automatically on the main process.
     if args.with_tracking:
@@ -914,7 +918,7 @@ def main():
                 if completed_steps >= args.max_train_steps:
                     break
 
-                if (args.do_eval) and (args.eval_steps == "epoch" and completed_steps % num_update_steps_per_epoch == 0):
+                if (args.do_eval) and (args.eval_steps != "epoch") and (completed_steps % eval_steps == 0):
                     eval_ppl = 0
                     for step, batch in enumerate(tqdm(eval_dataloader)):
                         with torch.no_grad():
