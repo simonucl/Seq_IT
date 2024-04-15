@@ -34,7 +34,7 @@ mkdir -p eval_results/$MODEL_NAME
 bash lm-evaluation-harness/eval_model.sh $MODEL self-seq-$MODEL_NAME > eval_results/$MODEL_NAME/self-seq-$MODEL_NAME.log
 
 # Evaluation script for MMLU, TydiQA and CodeX-HumanEval
-bash scripts/eval/eval_auto.sh $MODEL self-seq-$MODEL_NAME > eval_results/$MODEL_NAME/self-seq-$MODEL_NAME-alpaca-1.log
+bash scripts/eval/eval_auto.sh $MODEL self-seq-$MODEL_NAME > eval_results/$MODEL_NAME/self-seq-$MODEL_NAME-alpaca.log
 
 mkdir -p data/$MODEL_NAME
 
