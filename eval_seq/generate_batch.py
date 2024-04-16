@@ -12,6 +12,8 @@ from transformers import AutoModelForCausalLM #, AutoModelForSeq2SeqLM
 from transformers import AutoTokenizer, LlamaTokenizer
 # from utils.callbacks import Iteratorize, Stream
 from utils.prompter import Prompter
+from utils.generate import *
+import vllm
 
 lora_base_map = {"baichuan-13b":"baichuan-inc/Baichuan-13B-Base",
                  "baichuan-7b":"baichuan-inc/baichuan-7B",
@@ -48,6 +50,7 @@ def main(
     save_file: str = "",
     samples: int = 500,
     prompt_template: str = "alpaca",  # The prompt template to use, will default to alpaca.
+    use_vllm: bool = False,
 ):
     print(1)
     print(test_file)
@@ -68,11 +71,6 @@ def main(
     
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(device)
-    try:
-        if torch.backends.mps.is_available():
-            device = "mps"
-    except:  # noqa: E722
-        pass
 
     if test_file:
         test_lang = test_file.split(".json")[0].split("_")[-1]
@@ -81,18 +79,19 @@ def main(
 
     prompter = Prompter(prompt_template)
 
-    try:
+    if use_vllm:
+        model = vllm.LLM(
+            model=base_model,
+            tokenizer=base_model,
+            tokenizer_mode="slow",
+            tensor_parallel_size=torch.cuda.device_count(),
+        )
+    else:
         tokenizer = AutoTokenizer.from_pretrained(base_model, token='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', trust_remote_code=True)
-    except:
-        if "llama" in base_model.lower():
-            tokenizer = LlamaTokenizer.from_pretrained(base_model, trust_remote_code=True)
-        else:
-            raise NotImplementedError
 
-    tokenizer.padding_side = "left"
-    tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.padding_side = "left"
+        tokenizer.pad_token = tokenizer.eos_token
 
-    if device == "cuda":
         model = AutoModelForCausalLM.from_pretrained(
             base_model,
             load_in_8bit=load_8bit,
@@ -102,44 +101,10 @@ def main(
             device_map="auto",
             token='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',
         )
-        if lora_weights != "":
-            model = PeftModel.from_pretrained(
-                model,
-                lora_weights,
-                torch_dtype=torch.float16,
-            )
-    elif device == "mps":
-        model = AutoModelForCausalLM.from_pretrained(
-            base_model,
-            device_map={"": device},
-            torch_dtype=torch.float16,
-            trust_remote_code=True
-        )
-        if lora_weights != "":
-            model = PeftModel.from_pretrained(
-                model,
-                lora_weights,
-                device_map={"": device},
-                torch_dtype=torch.float16,
-            )
-    else: # CPU
-        model = AutoModelForCausalLM.from_pretrained(
-            base_model,
-            device_map={"": device},
-            low_cpu_mem_usage=True,
-            trust_remote_code=True
-        )
-        if lora_weights != "":
-            model = PeftModel.from_pretrained(
-                model,
-                lora_weights,
-                device_map={"": device},
-            )
 
     if not load_8bit:
         model.half()  # seems to fix bugs for some.
 
-    # model.eval()
     if torch.__version__ >= "2" and sys.platform != "win32":
         model = torch.compile(model)
     if device == "cuda":
@@ -163,6 +128,7 @@ def main(
                 data.append({
                     "instruction": line["instruction"], 
                     "input": line["input"] if "input" in line else None,
+                    "target": line["output"] if "output" in line else None,
                     })
         return data
 
@@ -180,38 +146,45 @@ def main(
     ):
         prompts = []
         for i in range(len(instruction)):
-          prompt = prompter.generate_prompt(instruction[i], input[i])
-          prompts.append(prompt)
-        inputs = tokenizer(prompts, return_tensors="pt", padding=True,)
-        input_ids = inputs["input_ids"].to(model.device)
-        #input_ids = torch.tensor(input_ids)
-        generation_config = GenerationConfig(
-            temperature=temperature,
-            top_p=top_p,
-            top_k=top_k,
-            num_beams=num_beams,
-            max_new_tokens=max_new_tokens,
-            no_repeat_ngram_size=no_repeat_ngram_size,
-            **kwargs,
-        )
-
-        with torch.no_grad():
-            generation_output = model.generate(
-                input_ids=input_ids,
-                generation_config=generation_config,
-                return_dict_in_generate=True,
-                output_scores=False,
-                pad_token_id=tokenizer.eos_token_id,
+            prompt = prompter.generate_prompt(instruction[i], input[i])
+            prompts.append(prompt)
+        
+        if use_vllm:
+            sampling_params = vllm.SamplingParams(
+                temperature=temperature,
+                top_p=top_p,
+                top_k=top_k,
+                max_tokens=max_new_tokens,
+                stop=["\n"],
             )
-        s = generation_output.sequences #[0]
-        print(s)
-        print(len(s))
-        #decode_batch
-        output = [] 
-        for n in range(len(s)): 
-           out = tokenizer.decode(s[n], skip_special_tokens=True, clean_up_tokenization_spaces=True)
-           output.append(out)
-        return [prompter.get_response(out) for out in output]
+            generations = model.generate(prompts, sampling_params)
+            prompt_to_output = {
+                g.prompt: g.outputs[0].text for g in generations
+            }
+            outputs = [prompt_to_output[p] if prompt in prompt_to_output else "" for p in prompts]
+
+        else:
+            new_line_token = tokenizer.encode("\n", add_special_tokens=False)[-1]
+            generation_config = GenerationConfig(
+                temperature=temperature,
+                top_p=top_p,
+                top_k=top_k,
+                num_beams=num_beams,
+                max_new_tokens=max_new_tokens,
+                no_repeat_ngram_size=no_repeat_ngram_size,
+                stop_id_sequences=[[new_line_token]]
+                **kwargs,
+            )
+            
+            outputs = generate_completions(
+                model=model,
+                tokenizer=tokenizer,
+                prompts=prompts,
+                batch_size=batch_size,
+                **generation_config,
+            )
+            
+        return [prompter.get_response(out) for out in outputs]
 
     if test_file:
         # test_lang = test_file.split(".jsonl")[0].split("_")[-1]
@@ -232,8 +205,9 @@ def main(
             response = evaluate(instruction, input=input, max_new_tokens=length)
             print(2)
             for j in range(len(d)):
-                d[j]['output']  = response[j]
+                d[j]['output'] = response[j]
                 print(response[j])
+
             with open(save_file, "a", encoding='utf-8') as out_f:
                 for p in d:
                     out_f.write(json.dumps(p, ensure_ascii=False) + "\n")

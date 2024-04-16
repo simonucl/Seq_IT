@@ -18,7 +18,8 @@ do
     --test_file ${TESTFILE} \
     --batch_size 128 \
     --save_file data/testset/${MODEL_NAME}_${TRAIN_TYPE}_${TASK}_${TESTLANG}.jsonl \
-    --load_8bit False
+    --load_8bit False \
+    --use_vllm True
 done
 
 TRAIN_TYPE=trans
@@ -31,5 +32,6 @@ do
     --test_file ${TESTFILE} \
     --batch_size 128 \
     --save_file data/testset/${MODEL_NAME}_${TRAIN_TYPE}_${TASK}_${TESTLANG}.jsonl \
-    --load_8bit False
+    --load_8bit False \
+    --use_vllm True
 done
