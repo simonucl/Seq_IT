@@ -155,7 +155,7 @@ def main(
                 top_p=top_p,
                 top_k=top_k,
                 max_tokens=max_new_tokens,
-                stop=["\n"],
+                # stop=["\n"],
             )
             generations = model.generate(prompts, sampling_params)
             prompt_to_output = {
@@ -164,7 +164,7 @@ def main(
             outputs = [prompt_to_output[p] if prompt in prompt_to_output else "" for p in prompts]
 
         else:
-            new_line_token = tokenizer.encode("\n", add_special_tokens=False)[-1]
+            # new_line_token = tokenizer.encode("\n", add_special_tokens=False)[-1]
             generation_config = GenerationConfig(
                 temperature=temperature,
                 top_p=top_p,
@@ -172,7 +172,7 @@ def main(
                 num_beams=num_beams,
                 max_new_tokens=max_new_tokens,
                 no_repeat_ngram_size=no_repeat_ngram_size,
-                stop_id_sequences=[[new_line_token]]
+                # stop_id_sequences=[[new_line_token]]
                 **kwargs,
             )
             
