@@ -51,20 +51,20 @@ def main(
 ):
     print(1)
     print(test_file)
-    if lora_weights == "":
-        assert base_model
-        print("\n\n******WARNING: LoRA module is not specified. Loading only the base model for inference.******\n\n", flush=True)
-    if lora_weights != "" and lora_weights[-1] == "/":
-        lora_weights = lora_weights[:-1]
-        print(lora_weights)
-    if not base_model:
-        print("no base model")
-        for suffix in lora_base_map:
-            if lora_weights.endswith(suffix):
-                base_model = lora_base_map[suffix]
-                continue
-        print(base_model)
-        assert base_model
+    # if lora_weights == "":
+    #     assert base_model
+    #     print("\n\n******WARNING: LoRA module is not specified. Loading only the base model for inference.******\n\n", flush=True)
+    # if lora_weights != "" and lora_weights[-1] == "/":
+    #     lora_weights = lora_weights[:-1]
+    #     print(lora_weights)
+    # if not base_model:
+    #     print("no base model")
+    #     for suffix in lora_base_map:
+    #         if lora_weights.endswith(suffix):
+    #             base_model = lora_base_map[suffix]
+    #             continue
+    #     print(base_model)
+    #     assert base_model
     
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(device)
