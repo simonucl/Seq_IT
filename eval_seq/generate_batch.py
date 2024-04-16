@@ -102,8 +102,6 @@ def main(
             token='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',
         )
 
-    if torch.__version__ >= "2" and sys.platform != "win32":
-        model = torch.compile(model)
     if device == "cuda":
         print("Using " + str(torch.cuda.device_count())  + " GPU devices", flush=True)
 
