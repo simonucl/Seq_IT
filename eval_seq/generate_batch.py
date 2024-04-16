@@ -5,7 +5,7 @@ import warnings
 import fire
 import torch
 import transformers
-from tqdm import tqdm
+from tqdm import tqdm, trange
 from peft import PeftModel
 from transformers import GenerationConfig
 from transformers import AutoModelForCausalLM #, AutoModelForSeq2SeqLM
@@ -48,7 +48,7 @@ def main(
     batch_size: int = 4,
     test_file: str = "",
     save_file: str = "",
-    samples: int = 500,
+    samples: int = None,
     prompt_template: str = "alpaca",  # The prompt template to use, will default to alpaca.
     use_vllm: bool = False,
 ):
@@ -190,27 +190,19 @@ def main(
         # test_lang = test_file.split(".jsonl")[0].split("_")[-1]
         data = read_data(test_file)
         write_data = []
-        bs = batch_size
-        start_idx = 0
-        if os.path.exists(save_file):
-            with open(save_file, "r") as f:
-                for line in f:
-                    start_idx += 1
 
-        for i in tqdm(range(start_idx, samples, bs)):
-            d = data[i:i+bs]
-            instruction = [item["instruction"] for item in d]
-            input = [item["input"] for item in d]
-            print(1)
-            response = evaluate(instruction, input=input, max_new_tokens=length)
-            print(2)
-            for j in range(len(d)):
-                d[j]['output'] = response[j]
-                print(response[j])
+        if samples is not None:
+            data = data[:samples]
 
-            with open(save_file, "a", encoding='utf-8') as out_f:
-                for p in d:
-                    out_f.write(json.dumps(p, ensure_ascii=False) + "\n")
+        instructions = [item["instruction"] for item in data]
+        inputs = [item["input"] for item in data]
+        responses = evaluate(instructions, input=inputs, max_new_tokens=length)
+        for i in range(len(data)):
+            data[i]["output"] = responses[i]
+
+        with open(save_file, "w", encoding='utf-8') as out_f:
+            for p in data:
+                out_f.write(json.dumps(p, ensure_ascii=False) + "\n")
     else:
         print("No test file provided, will test on a few pre-defined example questions.", flush=True)
         for instruction in [
