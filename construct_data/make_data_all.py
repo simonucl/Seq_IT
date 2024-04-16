@@ -81,9 +81,9 @@ if args.dataset == 'xquad' and args.typename == 'base':
    for i in range(len(dataset)):
        item = dataset[i]
        data = {}
-       data['instruction'] = "First translate the input into English, then answer the translated question based on the translated context. Your answer should be directly extracted from the passage, and it should be a single entity, name, or number, not a sentence."#"Answer the question in the input based on the given context"
-       data['input'] = 'Passage: ' + item['context'] + '\n' + 'Question: ' + item['question']    #input_en = 'context: ' + dataset_en[i]['context'] + '\n' + 'question: ' + dataset_en[i]['question']
-       data['output'] = item['answers']['text'][0]  #'Translation of input:' + input_en + '\n' + "result: "+ dataset_en[i]['answers']['text'][0]
+       data['instruction'] = "First, translate the input into English. Then, answer the translated question based on the translated context. Your answer should be directly extracted from the context, and it should be a single entity, name, or number, not a sentence."#"Answer the question in the input based on the given context"
+       data['input'] = 'Context: ' + item['context'] + '\n' + 'Question: ' + item['question']    #input_en = 'context: ' + dataset_en[i]['context'] + '\n' + 'question: ' + dataset_en[i]['question']
+       data['target'] = item['answers']['text'][0]  #'Translation of input:' + input_en + '\n' + "result: "+ dataset_en[i]['answers']['text'][0]
        data_list.append(data)
 
    with open('../data/test/xquad_base_{}.json'.format(args.target), 'w', encoding='utf-8') as file:
@@ -93,10 +93,10 @@ if args.dataset == 'xquad' and args.typename == 'trans':
    for i in range(len(dataset)):
        item = dataset[i]
        data = {}
-       data['instruction'] = "First translate the input into English, then answer the translated question based on the translated context. Your answer should be directly extracted from the context, and it should be a single entity, name, or number, not a sentence."
+       data['instruction'] = "First, translate the input into English. Then, answer the translated question based on the translated context. Your answer should be directly extracted from the context, and it should be a single entity, name, or number, not a sentence."
        data['input'] = 'Context: ' + item['context'] + '\n' + 'Question: ' + item['question']
       #  input_en = 'context: ' + dataset_en[i]['context'] + '\n' + 'question: ' + dataset_en[i]['question']
-       data['output'] =  dataset_en[i]['answers']['text'][0]  #'Translation of input:' + input_en + '\n' + "result: "+ dataset_en[i]['answers']['text'][0
+       data['target'] =  dataset_en[i]['answers']['text'][0]  #'Translation of input:' + input_en + '\n' + "result: "+ dataset_en[i]['answers']['text'][0
        data_list.append(data)
    with open('../data/test/xquad_trans_{}.json'.format(args.target), 'w', encoding='utf-8') as file:
         json.dump(data_list,file, ensure_ascii=False)
