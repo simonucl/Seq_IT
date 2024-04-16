@@ -45,7 +45,7 @@ def main(
     lora_weights: str = "",
     test_file: str = "",
     save_file: str = "",
-    task: str = "",
+    task: str = "xquad",
     typename: str = "",
     prompt_template: str = "alpaca",  # The prompt template to use, will default to alpaca.
 ):
@@ -258,20 +258,22 @@ def main(
                         r+=1
                         break
                 pred = pred[position + len(word):]
-                if answer in pred or pred in answer:
+                if (answer in pred) or (pred in answer):
                     ac+=1
             else:
-                for word in words:
-                    pos =  pred.find(prompt)
-                    if pos!= -1:
-                        r+=1
-                    pred = pred[pos + len(prompt):]
-                for key in extracted_choices.keys():
-                    if (extracted_choices[key] == pred) or (extracted_choices[key] in pred) or (pred in extracted_choices[key]):
-                        pred = key
-                pred = find_first_of_ABCD(pred)
-                if pred==answer:
-                    ac+=1
+                raise NotImplementedError
+            # else:
+            #     for word in words:
+            #         pos =  pred.find(prompt)
+            #         if pos!= -1:
+            #             r+=1
+            #         pred = pred[pos + len(prompt):]
+            #     for key in extracted_choices.keys():
+            #         if (extracted_choices[key] == pred) or (extracted_choices[key] in pred) or (pred in extracted_choices[key]):
+            #             pred = key
+            #     pred = find_first_of_ABCD(pred)
+            #     if pred==answer:
+            #         ac+=1
         print(ac/len(data))
         if not save_file:
             save_file = "data/test-" + test_lang + "_decoded_by_" + lora_weights.split("/")[-1] + ".jsonl"
@@ -303,7 +305,5 @@ def main(
 
 
 if __name__ == "__main__":
-    try:
-        fire.Fire(main)
-    except Exception as e:
-        print(e)
+    fire.Fire(main)
+

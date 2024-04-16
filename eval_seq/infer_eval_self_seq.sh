@@ -17,7 +17,8 @@ do
     --length 1024 \
     --test_file ${TESTFILE} \
     --batch_size 32 \
-    --save_file data/testset/${MODEL_NAME}_${TRAIN_TYPE}_${TASK}_${TESTLANG}.jsonl
+    --save_file data/testset/${MODEL_NAME}_${TRAIN_TYPE}_${TASK}_${TESTLANG}.jsonl \
+    --load_8bit False
 done
 
 TRAIN_TYPE=trans
@@ -29,5 +30,6 @@ do
     --length 1024 \
     --test_file ${TESTFILE} \
     --batch_size 32 \
-    --save_file data/testset/${MODEL_NAME}_${TRAIN_TYPE}_${TASK}_${TESTLANG}.jsonl
+    --save_file data/testset/${MODEL_NAME}_${TRAIN_TYPE}_${TASK}_${TESTLANG}.jsonl \
+    --load_8bit False
 done
