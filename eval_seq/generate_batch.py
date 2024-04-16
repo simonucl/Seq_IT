@@ -119,6 +119,8 @@ def main(
         with open(filename) as f:
             if filename.endswith(".json"):
                 data = json.load(f)
+                # rename the target key to output
+                data = [{"instruction": item["instruction"], "input": item["input"], "target": item["output"]} for item in data]
             elif filename.endswith(".jsonl"):
                 for line in f:
                     line = json.loads(line.strip())
