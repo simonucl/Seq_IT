@@ -2,7 +2,6 @@
 
 export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:32
 export MODEL_PATH=$1
-export FINAL_SAVE=$2
 
 mkdir -p data/testset
 

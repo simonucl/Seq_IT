@@ -65,7 +65,7 @@ def main(
     #             continue
     #     print(base_model)
     #     assert base_model
-    
+
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(device)
     try:
@@ -158,7 +158,7 @@ def main(
                 data.append({"instruction": line["instruction"], "input": line["input"]})
         '''
         return data
-    
+
 
     def extract_choices(input_text):
         question, choices_str = input_text.split("\nChoices:")
@@ -166,7 +166,7 @@ def main(
         #print(choices_list)
         choices_dict = {choice.split(":")[0].strip(): choice.split(":")[-1].strip() for choice in choices_list}
         return choices_dict
-    
+
     def find_first_of_ABCD(s):
 
         min_index = float('inf')
@@ -181,9 +181,9 @@ def main(
                found_char = char
 
 
-        return found_char if found_char is not None else "None of 'ABCD' found in the string." 
+        return found_char if found_char is not None else "None of 'ABCD' found in the string."
 
-    
+
     def evaluate(
         instruction,
         input=None,
@@ -225,7 +225,7 @@ def main(
     #print(1)
     r = 0
     ac = 0
-    if task=='xquad': 
+    if task=='xquad':
        words = ['result:', 'answer:', 'answer is', 'result is']
     else:
        words = ['Result:', 'Answer:', 'Correct choice:', 'correct choice:', 'answer is', 'choice is', 'Response:', 'response:', 'result is', 'response is']
@@ -249,30 +249,29 @@ def main(
             write_data.append(d)
             pred = response
             if task=='xquad':
-               answer = answer.lower()
-               pred = pred.lower()
-               word = ''
-               for word in words:
-                   position = pred.find(word)
-                   if position != -1:
-                      r+=1
-                      break
-               pred = pred[position + len(word):]
-               if answer in pred or pred in answer:
-                  ac+=1
+                answer = answer.lower()
+                pred = pred.lower()
+                word = ''
+                for word in words:
+                    position = pred.find(word)
+                    if position != -1:
+                        r+=1
+                        break
+                pred = pred[position + len(word):]
+                if answer in pred or pred in answer:
+                    ac+=1
             else:
-               for word in words:
-                   pos =  pred.find(prompt)
-                   if pos!= -1:
-                      r+=1
-                   pred = pred[pos + len(prompt):]
-               #pred = find_first_of_ABCD(pred)
-               for key in extracted_choices.keys():
-                   if (extracted_choices[key] == pred) or (extracted_choices[key] in pred) or (pred in extracted_choices[key]):
-                   pred = key
-               pred = find_first_of_ABCD(pred)
-               if pred==answer:
-                  ac+=1
+                for word in words:
+                    pos =  pred.find(prompt)
+                    if pos!= -1:
+                        r+=1
+                    pred = pred[pos + len(prompt):]
+                for key in extracted_choices.keys():
+                    if (extracted_choices[key] == pred) or (extracted_choices[key] in pred) or (pred in extracted_choices[key]):
+                        pred = key
+                pred = find_first_of_ABCD(pred)
+                if pred==answer:
+                    ac+=1
         print(ac/len(data))
         if not save_file:
             save_file = "data/test-" + test_lang + "_decoded_by_" + lora_weights.split("/")[-1] + ".jsonl"
