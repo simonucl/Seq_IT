@@ -137,10 +137,6 @@ def main(
                 device_map={"": device},
             )
 
-    if not load_8bit:
-        model.half()  # seems to fix bugs for some.
-
-    model.eval()
     if torch.__version__ >= "2" and sys.platform != "win32":
         model = torch.compile(model)
     if device == "cuda":
