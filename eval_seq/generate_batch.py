@@ -117,14 +117,19 @@ def main(
         #         data.append({"instruction": line["instruction"], "input": line["input"]})
         # '''
         with open(filename) as f:
-            for line in f:
-                line = json.loads(line.strip())
-                #print(line)
-                data.append({
-                    "instruction": line["instruction"], 
-                    "input": line["input"] if "input" in line else None,
-                    "target": line["output"] if "output" in line else None,
-                    })
+            if filename.endswith(".json"):
+                data = json.load(f)
+            elif filename.endswith(".jsonl"):
+                for line in f:
+                    line = json.loads(line.strip())
+                    #print(line)
+                    data.append({
+                        "instruction": line["instruction"], 
+                        "input": line["input"] if "input" in line else None,
+                        "target": line["output"] if "output" in line else None,
+                        })
+            else:
+                raise ValueError("File format not supported. Please provide a .json or .jsonl file.")
         return data
 
 
