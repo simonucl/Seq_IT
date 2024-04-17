@@ -10,7 +10,7 @@ mkdir -p ../data/alpaca
 python3 make_data_all.py --dataset xquad --target en --typename base
 
 for LANG in es de zh ru
-do 
+do
   python3 make_data_all.py --dataset xquad --target ${LANG} --typename base
 done
 

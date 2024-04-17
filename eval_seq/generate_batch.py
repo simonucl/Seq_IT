@@ -136,7 +136,7 @@ def main(
     def evaluate(
         instruction,
         input=None,
-        temperature=1,
+        temperature=0,
         top_p=1,
         top_k=50,
         num_beams=1, # perhaps can experiment with this
