@@ -16,13 +16,12 @@ echo MODEL_NAME: ${MODEL_NAME}
 
 mkdir -p eval_results/${MODEL_NAME}
 
-for TESTLANG in en de ru zh tr vi
-# for TESTLANG in en zh
+for TESTLANG in en es ar el hi th de ru zh tr vi
 do
   TESTFILE=data/xquad/fewshot/xquad_${TESTLANG}.jsonl
   python3 eval_seq/generate_batch.py \
     --base_model ${MODEL_PATH} \
-    --length 512 \
+    --length 1024 \
     --test_file ${TESTFILE} \
     --batch_size 64 \
     --save_file eval_results/${MODEL_NAME}/${MODEL_NAME}_${TRAIN_TYPE}_${TASK}_${TESTLANG}.jsonl \
