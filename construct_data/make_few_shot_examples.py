@@ -88,9 +88,35 @@ def main():
             data['target'] = dataset[i]['answers']['text'][0]
             data_list.append(data)
     elif args.typename == 'fewshot_en':
-        raise NotImplementedError
+        en_fewshot_path = os.path.join(FEW_SHOT_PATH, f'{args.dataset}_few_shot_en.jsonl')
+        with open(en_fewshot_path, 'r', encoding='utf-8') as file_en:
+            en_fewshots = []
+            for line in file_en:
+                en_fewshots.append(json.loads(line))
+        fewshots = get_fewshots(en_fewshots, en_fewshots)
+        for i in range(len(dataset)):
+            data = {}
+            data['instruction'] = fewshots + '\n\n' + INSTRUCTION
+            data['input'] = 'Context: ' + dataset[i]['context'] + '\n' + 'Question: ' + dataset[i]['question']
+            data['target'] = dataset[i]['answers']['text'][0]
+            data_list.append(data)
     elif args.typename == 'fewshot_multi':
-        raise NotImplementedError
+        multi_fewshot_path = os.path.join(FEW_SHOT_PATH, f'{args.dataset}_few_shot_multi.jsonl')
+        en_fewshot_path = os.path.join(FEW_SHOT_PATH, f'{args.dataset}_few_shot_en.jsonl')
+        with open(multi_fewshot_path, 'r', encoding='utf-8') as file_multi, open(en_fewshot_path, 'r', encoding='utf-8') as file_en:
+            multi_fewshots = []
+            en_fewshots = []
+            for line in file_multi:
+                multi_fewshots.append(json.loads(line))
+            for line in file_en:
+                en_fewshots.append(json.loads(line))
+        fewshots = get_fewshots(multi_fewshots, en_fewshots)
+        for i in range(len(dataset)):
+            data = {}
+            data['instruction'] = fewshots + '\n\n' + INSTRUCTION
+            data['input'] = 'Context: ' + dataset[i]['context'] + '\n' + 'Question: ' + dataset[i]['question']
+            data['target'] = dataset[i]['answers']['text'][0]
+            data_list.append(data)
     
     os.makedirs(f'data/{args.dataset}/{args.typename}', exist_ok=True)
     with open(f'data/{args.dataset}/{args.typename}/{args.dataset}_{args.target}.jsonl', 'w', encoding='utf-8') as file:
