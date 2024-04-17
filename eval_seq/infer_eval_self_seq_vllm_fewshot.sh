@@ -9,7 +9,9 @@ mkdir -p data/testset
 MODEL_NAME=llama-7b
 TASK=xquad
 TRAIN_TYPE=base
-MODEL_NAME=$(basename $MODEL_PATH) + "_fewshot"
+MODEL_NAME=$(basename $MODEL_PATH)
+MODEL_NAME=${MODEL_PATH}_fewshot
+
 mkdir -p eval_results/${MODEL_NAME}
 
 for TESTLANG in en de ru zh tr vi
