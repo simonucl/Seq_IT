@@ -5,7 +5,9 @@ NUM_GPUS=2
 BATCH_SIZE_PER_GPU=1
 TOTAL_BATCH_SIZE=128
 TRAIN_FILE=self-seq/data/alpaca-cleaned_replaced.jsonl
-MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/meta-llama/Llama-2-7b-hf
+MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/mistralai/Mistral-7B-v0.1
+MODEL_NAME=$(basename $MODEL_NAME_OR_PATH)
+
 GRADIENT_ACC_STEPS=$(($TOTAL_BATCH_SIZE/$NUM_GPUS/$BATCH_SIZE_PER_GPU))
 echo "Training llama model ${MODEL_SIZE} using $NUM_GPUS GPUs, $BATCH_SIZE_PER_GPU batch size per GPU, $GRADIENT_ACC_STEPS gradient accumulation steps"
 
@@ -34,7 +36,7 @@ accelerate launch \
     --warmup_ratio 0.03 \
     --weight_decay 0. \
     --num_train_epochs 3 \
-    --output_dir output/self-seq-${MODEL_SIZE}/ \
+    --output_dir output/self-seq-${MODEL_NAME}/ \
     --with_tracking \
     --do_eval \
     --eval_steps 100 \
