@@ -127,18 +127,18 @@ def main(args):
 
     metrics, lang_predictions = {}, {}
     for lang in LANGS:
-        test_data = test_data[lang]
+        examples = test_data[lang]
         if args.use_chat_format:
             prompts = []
             chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
-            for example in test_data:
+            for example in examples:
                 messages = [{"role": "user", "content": prompt_prefix + "Question: " + example["question"].strip()}]
                 prompt = chat_formatting_function(messages, add_bos=False)
                 prompt += "Answer:" if prompt[-1] in ["\n", " "] else " Answer:"
                 prompts.append(prompt)
         else:
             # prompts = [prompt_prefix + "Question: " + example["question"].strip() + "\nAnswer:" for example in test_data]
-            prompts = [prompt_prefix[lang] + prompt_question.format(instruction=INSTRUCTION_PREFIX[args.mode] + example["question"]) for example in test_data]
+            prompts = [prompt_prefix[lang] + prompt_question.format(instruction=INSTRUCTION_PREFIX[args.mode] + example["question"]) for example in examples]
 
         if args.use_vllm:
             # We need to remap the outputs to the prompts because vllm might not return outputs for some prompts (e.g., if the prompt is too long)
@@ -190,7 +190,7 @@ def main(args):
                 predictions.append(output)
     
         print("Calculating accuracy...")
-        targets = [str(example["answer_number"]) for example in test_data]
+        targets = [str(example["answer_number"]) for example in examples]
 
         em_score = exact_match.compute(predictions=predictions, references=targets, ignore_case=True, ignore_punctuation=True)["exact_match"]
         print(f"Exact match for {lang}: {em_score}")
@@ -200,7 +200,7 @@ def main(args):
             "answer": example["answer_number"],
             "model_output": output,
             "prediction": pred
-        } for example, output, pred in zip(test_data, outputs, predictions)]
+        } for example, output, pred in zip(examples, outputs, predictions)]
 
         lang_predictions[lang] = predictions
         metrics[lang] = {
