@@ -13,7 +13,8 @@ from eval.utils import (
     dynamic_import_function,
 )
 # from eval.gsm.examplars import EXAMPLARS as GSM_EXAMPLARS
-LANGS = ['en', 'es', 'fr', 'de', 'ru', 'zh', 'ja', 'th', 'sw', 'bn', 'te']
+# LANGS = ['en', 'es', 'fr', 'de', 'ru', 'zh', 'ja', 'th', 'sw', 'bn', 'te']
+LANGS=['en', 'fr', 'zh', 'ja']
 
 
 exact_match = evaluate.load("exact_match")
@@ -90,9 +91,7 @@ def main(args):
                     # response = en_examples[i]["answer"]
                 elif args.mode in ["trans-cot"]:
                     instruction = INSTRUCTION_PREFIX[args.mode] + example["question"]
-
-                    response = "Translation the question into English:\n" + en_examples[i]["question"] + "\n" + \
-                                 en_examples[i]["answer"].rsplit("The answer is", 1)[0].strip() + "\n" + "The Answer is: " + example["answer_number"]
+                    response = "Translation the question into English:\n" + en_examples[i]["question"] + "\n" + en_examples[i]["answer"].rsplit("The answer is", 1)[0].strip() + "\n" + "The Answer is: " + example["answer_number"]
                     
                 demonstrations.append(
                     prompt_template.format(
@@ -191,7 +190,7 @@ def main(args):
                 predictions.append(output)
     
         print("Calculating accuracy...")
-        targets = [example["answer_number"] for example in test_data]
+        targets = [str(example["answer_number"]) for example in test_data]
 
         em_score = exact_match.compute(predictions=predictions, references=targets, ignore_case=True, ignore_punctuation=True)["exact_match"]
         print(f"Exact match for {lang}: {em_score}")
