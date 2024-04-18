@@ -139,7 +139,7 @@ def main(args):
                 prompts.append(prompt)
         else:
             # prompts = [prompt_prefix + "Question: " + example["question"].strip() + "\nAnswer:" for example in test_data]
-            prompts = [prompt_prefix + prompt_question.format(instruction=INSTRUCTION_PREFIX[args.mode] + example["question"]) for example in test_data]
+            prompts = [prompt_prefix[lang] + prompt_question.format(instruction=INSTRUCTION_PREFIX[args.mode] + example["question"]) for example in test_data]
 
         if args.use_vllm:
             # We need to remap the outputs to the prompts because vllm might not return outputs for some prompts (e.g., if the prompt is too long)
