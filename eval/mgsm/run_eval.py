@@ -87,11 +87,11 @@ def main(args):
                 elif args.mode in ["cot-en"]:
                     instruction = INSTRUCTION_PREFIX[args.mode] + example["question"]
                     # split in The Answer is: <answer>
-                    response = en_examples[i]["answer"].rsplit("The answer is", 1)[0].strip() + "\n" + "The Answer is: " + example["answer_number"]
+                    response = en_examples[i]["answer"].rsplit("The answer is", 1)[0].strip() + "\n" + "The Answer is: " + str(example["answer_number"])
                     # response = en_examples[i]["answer"]
                 elif args.mode in ["trans-cot"]:
                     instruction = INSTRUCTION_PREFIX[args.mode] + example["question"]
-                    response = "Translation the question into English:\n" + en_examples[i]["question"] + "\n" + en_examples[i]["answer"].rsplit("The answer is", 1)[0].strip() + "\n" + "The Answer is: " + example["answer_number"]
+                    response = "Translation the question into English:\n" + en_examples[i]["question"] + "\n" + en_examples[i]["answer"].rsplit("The answer is", 1)[0].strip() + "\n" + "The Answer is: " + str(example["answer_number"])
                     
                 demonstrations.append(
                     prompt_template.format(
@@ -113,7 +113,7 @@ def main(args):
             sampling_params = vllm.SamplingParams(
                 temperature=0,
                 max_tokens=512,
-                # stop=["\n"] if not args.use_chat_format else None, # we only use stop token for non-chat format (usually applied to vanilla pretrained language models). For chat format, we will rely on the model knows when to stop.
+                stop=["\n\n"] if not args.use_chat_format else None, # we only use stop token for non-chat format (usually applied to vanilla pretrained language models). For chat format, we will rely on the model knows when to stop.
             )
         else:
             model, tokenizer = load_hf_lm_and_tokenizer(
