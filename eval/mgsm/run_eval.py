@@ -27,10 +27,10 @@ INSTRUCTION_PREFIX = {
 
 def main(args):
     if args.mode in ["cot", "cot-en", "trans-cot"]:
-        LANGS = ["es", "de", "ru", "th", "sw", "bn", "te"]
+        LANGS = ["en", "es", "de", "ru", "th", "sw", "bn", "te"]
     else:
         LANGS = ["en", "es", "fr", "de", "ru", "zh", "ja", "th", "sw", "bn", "te"]
-        
+
     random.seed(42)
     if args.mode in ["cot-en", "trans-cot"]:
         en_examples = []
