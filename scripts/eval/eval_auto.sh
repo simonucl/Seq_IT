@@ -27,6 +27,16 @@ export IS_ALPACA_EVAL_2=False
 #     --n_shot 8 \
 #     --use_vllm
 
+python3 -m eval.mgsm.run_eval \
+    --data_dir data/eval/mgsm/ \
+    --save_dir results/mgsm/${MODEL_NAME}-cot-8shot \
+    --model $CHECKPOINT_PATH \
+    --tokenizer $CHECKPOINT_PATH \
+    --n_shot 8 \
+    --mode no-cot \
+    --use_vllm
+
+
 # MGSM 8 shot
 python3 -m eval.mgsm.run_eval \
     --data_dir data/eval/mgsm/ \

@@ -13,8 +13,8 @@ from eval.utils import (
     dynamic_import_function,
 )
 # from eval.gsm.examplars import EXAMPLARS as GSM_EXAMPLARS
-# LANGS = ['en', 'es', 'fr', 'de', 'ru', 'zh', 'ja', 'th', 'sw', 'bn', 'te']
-LANGS=['en', 'fr', 'zh', 'ja']
+LANGS = ['en', 'es', 'fr', 'de', 'ru', 'zh', 'ja', 'th', 'sw', 'bn', 'te']
+# LANGS=['en', 'fr', 'zh', 'ja']
 
 
 exact_match = evaluate.load("exact_match")
@@ -26,6 +26,11 @@ INSTRUCTION_PREFIX = {
 }
 
 def main(args):
+    if args.mode in ["cot", "cot-en", "trans-cot"]:
+        LANGS = ["es", "de", "ru", "th", "sw", "bn", "te"]
+    else:
+        LANGS = ["en", "es", "fr", "de", "ru", "zh", "ja", "th", "sw", "bn", "te"]
+        
     random.seed(42)
     if args.mode in ["cot-en", "trans-cot"]:
         en_examples = []
