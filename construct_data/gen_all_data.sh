@@ -9,3 +9,5 @@ do
     python3 construct_data/make_few_shot_examples.py --dataset xquad --target ${LANG} --typename ${TYPE}
   done
 done
+
+# self-seq-7B-baseline self-seq-wizardlm
