@@ -74,6 +74,12 @@ def parse_args():
         default="alpaca",
         help="The name of the prompt template to use.",
     )
+    parser.add_argument(
+        '--sample_train',
+        type=int,
+        default=-1,
+        help='The number of training examples to sample. Useful for debugging.',
+    )
 
     # Evaluation arguments
     parser.add_argument(
@@ -676,6 +682,9 @@ def main():
     if args.do_eval:
         eval_dataset = lm_datasets["eval"]
 
+    if args.sample_train > 0:
+        train_dataset = train_dataset.select(range(args.sample_train))
+        
     # Log a few random samples from the training set:
     for index in random.sample(range(len(train_dataset)), 3):
         logger.info(f"Sample {index} of the training set: {train_dataset[index]}.")
