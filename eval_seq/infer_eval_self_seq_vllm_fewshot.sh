@@ -9,10 +9,10 @@ mkdir -p data/testset
 MODEL_NAME=llama-7b
 TASK=xquad
 TRAIN_TYPE=base
-PROMPT_TYPES=(fewshot fewshot_en fewshot_multi)
-for PROMPT_TYPE in ${PROMPT_TYPES[@]}
+PROMPT_TYPES=(fewshot fewshot_en)
+for MODEL_PATH in meta-llama/Meta-Llama-3-8B /mnt/nfs/public/hf/models/meta-llama/Llama-2-7b-hf
 do
-  for MODEL_PATH in llama-7b
+  for PROMPT_TYPE in ${PROMPT_TYPES[@]}
   do
     MODEL_NAME=$(basename $MODEL_PATH)
     MODEL_NAME=${MODEL_NAME}_${PROMPT_TYPE}
@@ -35,3 +35,5 @@ do
     done
   done
 done
+
+# self-seq-7B-1-3-new self-seq-alpaca-cleaned_wizardlm_replaced

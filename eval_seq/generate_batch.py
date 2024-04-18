@@ -122,12 +122,12 @@ def main(
             elif filename.endswith(".jsonl"):
                 for line in f:
                     line = json.loads(line.strip())
-                    #print(line)
-                    data.append({
-                        "instruction": line["instruction"], 
-                        "input": line["input"] if "input" in line else None,
-                        "target": line["output"] if "output" in line else None,
-                        })
+                    data.append(line)
+                    # data.append({
+                    #     "instruction": line["instruction"], 
+                    #     "input": line["input"] if "input" in line else None,
+                    #     "target": line["target"] if "target" in line else None,
+                    #     })
             else:
                 raise ValueError("File format not supported. Please provide a .json or .jsonl file.")
         return data
@@ -136,6 +136,7 @@ def main(
     def evaluate(
         instruction,
         input=None,
+        label=None,
         temperature=0,
         top_p=1,
         top_k=50,
@@ -146,7 +147,11 @@ def main(
     ):
         prompts = []
         for i in range(len(instruction)):
-            prompt = prompter.generate_prompt(instruction[i], input[i])
+            if label is not None:
+                prompt = prompter.generate_prompt(instruction[i], input[i], label[i])
+            else:
+                prompt = prompter.generate_prompt(instruction[i], input[i])
+            
             prompts.append(prompt)
         
         if use_vllm:
@@ -196,7 +201,13 @@ def main(
 
         instructions = [item["instruction"] for item in data]
         inputs = [item["input"] for item in data]
-        responses = evaluate(instructions, input=inputs, max_new_tokens=length)
+        labels = None
+        if "translated_input" in data[0]:
+            labels = [item["translated_input"] for item in data]
+        responses = evaluate(instructions, 
+                             input=inputs, 
+                             label=labels,
+                             max_new_tokens=length)
         for i in range(len(data)):
             data[i]["output"] = responses[i]
 

@@ -28,6 +28,7 @@ def main(args):
     r = 0
     # ac_en = 0
     ac_tar = 0
+    ac_with_follow = 0
     rouge_scores = []
     output_file = os.path.join(args.test_file.rsplit('/', 1)[0], 'metric.json')
     target_lang = args.test_file.replace('.jsonl', '').rsplit('_', 1)[1]
@@ -48,25 +49,18 @@ def main(args):
                 break
         if position == -1:
             missing_words_line.append(i)
-        pred = pred_output[position+len(word):].strip()
-        if "\n\n" in pred:
-            pred = pred[:pred.find("\n\n")]
-        # if (target_answer in pred) or (pred in target_answer):
-            # ac_en += 1
-        if (target_lan_answer in pred) or (pred in target_lan_answer):
-            ac_tar += 1
-
-        # if (len(preds[i]['output']) == 0) or (len(references[i]['input']) == 0):
-        #     rouge_scores.append(0)
-        # else:
-        #     rouge_scores.append(
-        #         rouge.get_scores(preds[i]['output'], references[i]['input'])[0]['rouge-l']['f']
-        #     )
+            if (target_lan_answer in pred_output):
+                ac_tar += 1
+            continue
+        else:
+            pred = pred_output[position+len(word):].strip()
+            if (target_lan_answer in pred):
+                ac_with_follow += 1
+                ac_tar += 1
     
-    metric['r'] = r
-    # metric['ac_en'] = ac_en / len(preds)
-    metric['ac_tar'] = ac_tar / len(preds)
-    # metric['rouge'] = np.mean(rouge_scores)
+    metric['Follow'] = r / len(preds)
+    metric['ac'] = ac_tar / len(preds)
+    metric['ac_with_follow'] = ac_with_follow / len(preds)
 
     output_file = os.path.join(args.test_file.rsplit('/', 1)[0], 'metric.json')
     output_missing_line = os.path.join(args.test_file.rsplit('/', 1)[0], 'missing_words_line.json')
