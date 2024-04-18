@@ -45,8 +45,8 @@ def main(args):
             for line in fin:
                 test_data[lang].append(json.loads(line))
         # some numbers are in the `x,xxx` format, and we want to remove the comma
-        for i in range(len(test_data[lang])):
-            test_data[lang][i]["answer"] = re.sub(r"(\d),(\d)", r"\1\2", test_data[lang][i]["answer"])
+        # for i in range(len(test_data[lang])):
+            # test_data[lang][i]["answer"] = re.sub(r"(\d),(\d)", r"\1\2", test_data[lang][i]["answer"])
 
         if args.max_num_examples and len(test_data[lang]) > args.max_num_examples:
             test_data[lang] = random.sample(test_data[lang], args.max_num_examples)
@@ -264,6 +264,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--mode", 
         type=str,
+        default="cot",
         choices=["no-cot", "cot", "cot-en", "trans-cot"]
     )
     parser.add_argument(
