@@ -4,7 +4,7 @@ MODEL_SIZE=7B
 NUM_GPUS=2
 BATCH_SIZE_PER_GPU=1
 TOTAL_BATCH_SIZE=128
-TRAIN_FILE=self-seq/data/alpaca-cleaned_replaced.jsonl
+TRAIN_FILE=self-seq/data/wizardlm.jsonl
 MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/mistralai/Mistral-7B-Instruct-v0.2
 MODEL_NAME=$(basename $MODEL_NAME_OR_PATH)
 
