@@ -214,7 +214,7 @@ def main(args):
 
         with open(os.path.join(args.save_dir, f"predictions_{lang}.jsonl"), "w") as fout:
             for prediction in predictions:
-                fout.write(json.dumps(prediction) + "\n") 
+                fout.write(json.dumps(prediction, ensure_ascii=False) + "\n")
     
     with open(os.path.join(args.save_dir, "metrics.json"), "w") as fout:
         json.dump(metrics, fout, indent=2)
