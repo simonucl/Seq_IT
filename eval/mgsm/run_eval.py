@@ -71,8 +71,8 @@ def main(args):
     #     prompt_template = template["prompt_example_cot"]
     #     prompt_question = template["prompt_question_cot"]
 
+    prompt_prefix = {}
     if args.n_shot:
-        prompt_prefix = {}
         for lang in LANGS:
             demonstrations = []
             GSM_EXAMPLARS = examples[lang]
@@ -105,7 +105,9 @@ def main(args):
                     )
                 )
             prompt_prefix[lang] = "\n\n".join(demonstrations) + "\n\n"
-
+    else:
+        prompt_prefix = {lang: "" for lang in LANGS}
+        
     if args.model_name_or_path:
         print("Loading model and tokenizer...")
         if args.use_vllm:
