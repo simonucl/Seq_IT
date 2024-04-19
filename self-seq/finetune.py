@@ -370,13 +370,13 @@ def encode_mistral_format(example, tokenizer, max_seq_length, add_bos=True):
         {'role': 'user', 'content': instruction},
         {'role': 'assistant', 'content': output}
     ]
-    encoded_messages = tokenizer.apply_chat_template(messages, return_tensors='pt', tokenized=True, max_length=max_seq_length)
-    encoded_instruction = tokenizer.apply_chat_template([{'role': 'user', 'content': instruction}], return_tensors='pt', tokenized=True, max_length=max_seq_length)
+    encoded_messages = tokenizer.apply_chat_template(messages, return_tensors='pt', tokenize=True, max_length=max_seq_length)
+    encoded_instruction = tokenizer.apply_chat_template([{'role': 'user', 'content': instruction}], return_tensors='pt', tokenize=True, max_length=max_seq_length)
 
-    input_ids = encoded_messages.input_ids
+    input_ids = encoded_messages
     labels = input_ids.clone()
     # mask the prompt part for avoiding loss
-    labels[:, :encoded_instruction.input_ids.shape[1]] = -100
+    labels[:, :encoded_instruction.shape[1]] = -100
     attention_mask = torch.ones_like(input_ids)
     return {
         'input_ids': input_ids.flatten(),
