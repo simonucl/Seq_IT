@@ -359,6 +359,31 @@ def encode_alpaca_format(example, tokenizer, max_seq_length, prompter, add_bos=F
         'attention_mask': attention_mask.flatten(),
     }
 
+def encode_mistral_format(example, tokenizer, max_seq_length, add_bos=True):
+    '''
+    Here we assume each example has 'instruction' and 'input' fields.
+    We use the prompter to generate the prompt and tokenize it together with the input.
+    '''
+    instruction = example['instruction'] + f"Input: {example['input']}"
+    output = example['output']
+    messages = [
+        {'role': 'user', 'content': instruction},
+        {'role': 'assistant', 'content': output}
+    ]
+    encoded_messages = tokenizer.apply_chat_template(messages, return_tensors='pt', tokenized=True, max_length=max_seq_length)
+    encoded_instruction = tokenizer.apply_chat_template([{'role': 'user', 'content': instruction}], return_tensors='pt', tokenized=True, max_length=max_seq_length)
+
+    input_ids = encoded_messages.input_ids
+    labels = input_ids.clone()
+    # mask the prompt part for avoiding loss
+    labels[:, :encoded_instruction.input_ids.shape[1]] = -100
+    attention_mask = torch.ones_like(input_ids)
+    return {
+        'input_ids': input_ids.flatten(),
+        'labels': labels.flatten(),
+        'attention_mask': attention_mask.flatten(),
+    }
+
 def encode_with_messages_format(example, tokenizer, max_seq_length, add_bos=False):
     '''
     Here we assume each example has a 'messages' field Each message is a dict with 'role' and 'content' fields.
@@ -637,7 +662,8 @@ def main():
     elif args.gradient_checkpointing:
         model.gradient_checkpointing_enable()
 
-    prompter = Prompter(template_name=args.prompt_template)
+    if args.prompt_template == "alpaca":
+        prompter = Prompter(template_name=args.prompt_template)
 
     # Preprocessing the datasets.
     if "prompt" in raw_datasets["train"].column_names and "completion" in raw_datasets["train"].column_names:
@@ -655,13 +681,21 @@ def main():
             add_bos=args.add_bos,
         )
     elif "instruction" in raw_datasets["train"].column_names and "input" in raw_datasets["train"].column_names:
-        encode_function = partial(
-            encode_alpaca_format,
-            tokenizer=tokenizer,
-            max_seq_length=args.max_seq_length,
-            prompter=prompter,
-            add_bos=args.add_bos,
-        )
+        if "mistral" in args.prompt_template:
+            encode_function = partial(
+                encode_mistral_format,
+                tokenizer=tokenizer,
+                max_seq_length=args.max_seq_length,
+                add_bos=args.add_bos,
+            )
+        else:
+            encode_function = partial(
+                encode_alpaca_format,
+                tokenizer=tokenizer,
+                max_seq_length=args.max_seq_length,
+                prompter=prompter,
+                add_bos=args.add_bos,
+            )
     else:
         raise ValueError("You need to have either 'prompt'&'completion' or 'messages' in your column names.")
     

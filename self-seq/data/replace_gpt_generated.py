@@ -15,7 +15,10 @@ def extract_instruction_output(p):
             print(completion)
             return None
         instruction, output = completion[0], completion[1]
-        instruction = instruction.split('Instruction: ')[1]
+        if 'Instruction: ' in instruction:
+            instruction = instruction.split('Instruction: ')[1]
+        else:
+            print(f'Missing instruction: {instruction}')
         output = output.lstrip('\n')
     else:
         instruction = p['instruction']
@@ -52,6 +55,7 @@ if __name__ == '__main__':
 
     replace_instructions = {
         p['idx']: extract_instruction_output(p) for p in replace_data
+        # p['idx']: p for p in replace_data
     }
 
     # remove None values
@@ -59,5 +63,5 @@ if __name__ == '__main__':
     replaced_data = dataset.map(lambda p: replace(p, replace_instructions))
     print(f'Replaced {len(replace_instructions)} instructions')
 
-    dataset = dataset.shuffle()
-    dataset.to_json(f'data/{dataset_name}_wizardlm_replaced.jsonl', orient='records', lines=True)
+    replaced_data = replaced_data.shuffle()
+    replaced_data.to_json(f'data/{dataset_name}_replaced.jsonl', orient='records', lines=True)
