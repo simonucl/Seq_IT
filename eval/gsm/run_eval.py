@@ -14,6 +14,7 @@ from eval.utils import (
 )
 from eval.gsm.examplars import EXAMPLARS as GSM_EXAMPLARS
 from functools import partial
+from transformers import AutoTokenizer
 
 exact_match = evaluate.load("exact_match")
 
@@ -77,6 +78,7 @@ def main(args):
     if args.use_chat_format:
         prompts = []
         if args.chat_formatting_function == "mistral":
+            tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
             chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
         else:
             chat_formatting_function = dynamic_import_function(args.chat_formatting_function)

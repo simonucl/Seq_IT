@@ -10,6 +10,7 @@ import time
 from eval.mmlu.categories import subcategories, categories
 from eval.utils import get_next_word_predictions, load_hf_lm_and_tokenizer, query_openai_chat_model, dynamic_import_function
 from functools import partial
+from transformers import AutoTokenizer
 
 choices = ["A", "B", "C", "D"]
 
@@ -57,6 +58,7 @@ def eval_hf_model(args, subject, model, tokenizer, dev_df, test_df, batch_size=1
         if args.use_chat_format:
             messages = [{"role": "user", "content": prompt}]
             if args.chat_formatting_function == "mistral":
+                tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
                 chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
             else:
                 chat_formatting_function = dynamic_import_function(args.chat_formatting_function)

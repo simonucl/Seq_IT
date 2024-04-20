@@ -13,7 +13,7 @@ from eval.utils import (
 from eval.codex_humaneval.data import write_jsonl, read_problems
 from eval.codex_humaneval.evaluation import evaluate_functional_correctness
 from functools import partial
-
+from transformers import AutoTokenizer
 
 def main(args):
     random.seed(42)
@@ -29,6 +29,7 @@ def main(args):
     if args.use_chat_format:
         prompts = []
         if args.chat_formatting_function == "mistral":
+            tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
             chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
         else:
             chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
