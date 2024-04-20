@@ -14,7 +14,7 @@ from eval.utils import (
     query_openai_chat_model,
     dynamic_import_function,
 )
-
+from functools import partial
 
 exact_match = evaluate.load("exact_match")
 
@@ -108,11 +108,16 @@ def main(args):
             # prepare prompts    
             if args.use_chat_format:
                 prompts = []
-                chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
+                if args.chat_formatting_function == "mistral":
+                    chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
+                else:
+                    chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
+                    chat_formatting_function = partial(chat_formatting_function, add_bos=False)
+                # chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
                 for example in task_examples:
                     prompt = task_prompt.strip() + "\n\nQ: " + example["input"]
                     messages = [{"role": "user", "content": prompt}]
-                    prompt = chat_formatting_function(messages, add_bos=False)
+                    prompt = chat_formatting_function(messages)
                     prompt += "A:" if prompt[-1] in ["\n", " "] else " A:"
                     prompts.append(prompt)
             else:

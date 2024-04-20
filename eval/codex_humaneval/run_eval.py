@@ -12,6 +12,7 @@ from eval.utils import (
 )
 from eval.codex_humaneval.data import write_jsonl, read_problems
 from eval.codex_humaneval.evaluation import evaluate_functional_correctness
+from functools import partial
 
 
 def main(args):
@@ -27,10 +28,14 @@ def main(args):
 
     if args.use_chat_format:
         prompts = []
-        chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
+        if args.chat_formatting_function == "mistral":
+            chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
+        else:
+            chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
+            chat_formatting_function = partial(chat_formatting_function, add_bos=False)
         for example in test_data:
             messages = [{"role": "user", "content": "Complete the following python function.\n\n\n" + example["prompt"]}]
-            prompt = chat_formatting_function(messages, add_bos=False)
+            prompt = chat_formatting_function(messages)
             if prompt[-1] in ["\n", " "]:
                 prompt += "Here is the completed function:\n\n\n" + example["prompt"]
             else:

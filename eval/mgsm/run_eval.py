@@ -13,8 +13,8 @@ from eval.utils import (
     dynamic_import_function,
 )
 # from eval.gsm.examplars import EXAMPLARS as GSM_EXAMPLARS
-LANGS = ['en', 'es', 'fr', 'de', 'ru', 'zh', 'ja', 'th', 'sw', 'bn', 'te']
-# LANGS=['en', 'fr', 'zh', 'ja']
+# LANGS = ['en', 'es', 'fr', 'de', 'ru', 'zh', 'ja', 'th', 'sw', 'bn', 'te']
+LANGS=['en', 'fr', 'zh', 'ja']
 
 
 exact_match = evaluate.load("exact_match")
@@ -107,7 +107,7 @@ def main(args):
             prompt_prefix[lang] = "\n\n".join(demonstrations) + "\n\n"
     else:
         prompt_prefix = {lang: "" for lang in LANGS}
-        
+
     if args.model_name_or_path:
         print("Loading model and tokenizer...")
         if args.use_vllm:

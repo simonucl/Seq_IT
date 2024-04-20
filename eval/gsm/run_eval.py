@@ -13,7 +13,7 @@ from eval.utils import (
     dynamic_import_function,
 )
 from eval.gsm.examplars import EXAMPLARS as GSM_EXAMPLARS
-
+from functools import partial
 
 exact_match = evaluate.load("exact_match")
 
@@ -76,10 +76,14 @@ def main(args):
 
     if args.use_chat_format:
         prompts = []
-        chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
+        if args.chat_formatting_function == "mistral":
+            chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
+        else:
+            chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
+            chat_formatting_function = partial(chat_formatting_function, add_bos=False)
         for example in test_data:
             messages = [{"role": "user", "content": prompt_prefix + "Question: " + example["question"].strip()}]
-            prompt = chat_formatting_function(messages, add_bos=False)
+            prompt = chat_formatting_function(messages)
             prompt += "Answer:" if prompt[-1] in ["\n", " "] else " Answer:"
             prompts.append(prompt)
     else:

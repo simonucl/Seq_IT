@@ -1,5 +1,5 @@
 
-def create_prompt_with_tulu_chat_format(messages, bos="<s>", eos="</s>", add_bos=True):
+def create_prompt_with_tulu_chat_format(messages, bos="<s>", eos="</s>", add_bos=False):
     formatted_text = ""
     for message in messages:
         if message["role"] == "system":
@@ -17,7 +17,7 @@ def create_prompt_with_tulu_chat_format(messages, bos="<s>", eos="</s>", add_bos
     return formatted_text
 
 
-def create_prompt_with_llama2_chat_format(messages, bos="<s>", eos="</s>", add_bos=True):
+def create_prompt_with_llama2_chat_format(messages, bos="<s>", eos="</s>", add_bos=False):
     '''
     This function is adapted from the official llama2 chat completion script: 
     https://github.com/facebookresearch/llama/blob/7565eb6fee2175b2d4fe2cfb45067a61b35d7f5e/llama/generation.py#L274
@@ -45,4 +45,8 @@ def create_prompt_with_llama2_chat_format(messages, bos="<s>", eos="</s>", add_b
     # The llama2 chat template by default has a bos token at the start of each user message.
     # The next line removes the bos token if add_bos is False.
     formatted_text = formatted_text[len(bos):] if not add_bos else formatted_text
+    return formatted_text
+
+def create_prompt_with_mistral_instruct_format(messages, bos="<s>", eos="</s>", add_bos=True):
+    
     return formatted_text
