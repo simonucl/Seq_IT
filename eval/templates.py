@@ -46,7 +46,3 @@ def create_prompt_with_llama2_chat_format(messages, bos="<s>", eos="</s>", add_b
     # The next line removes the bos token if add_bos is False.
     formatted_text = formatted_text[len(bos):] if not add_bos else formatted_text
     return formatted_text
-
-def create_prompt_with_mistral_instruct_format(messages, bos="<s>", eos="</s>", add_bos=True):
-    
-    return formatted_text

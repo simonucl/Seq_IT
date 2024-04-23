@@ -9,6 +9,8 @@ import vllm
 from alpaca_eval import evaluate as alpaca_farm_evaluate
 from eval.utils import query_openai_chat_model, query_openai_model, generate_completions, dynamic_import_function, load_hf_lm, load_hf_tokenizer
 from eval.alpaca_farm.prompter import Prompter
+from transformers import AutoTokenizer
+from functools import partial
 
 def main(args):
     random.seed(42)
@@ -56,9 +58,14 @@ def main(args):
                 # apply chat formatting
                 if args.use_chat_format:
                     formatted_prompts = []
+                    if args.chat_formatting_function == "mistral":
+                        tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
+                        chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
+                    else:
+                        chat_formatting_function = partial(chat_formatting_function, add_bos=False)
                     for prompt in prompts:
                         messages = [{"role": "user", "content": prompt}]
-                        formatted_prompt = chat_formatting_function(messages, tokenizer, add_bos=False)
+                        formatted_prompt = chat_formatting_function(messages)
                         formatted_prompts.append(formatted_prompt)
                     prompts = formatted_prompts
                         
@@ -82,7 +89,7 @@ def main(args):
                     formatted_prompts = []
                     for prompt in prompts:
                         messages = [{"role": "user", "content": prompt}]
-                        formatted_prompt = chat_formatting_function(messages, tokenizer, add_bos=False)
+                        formatted_prompt = chat_formatting_function(messages)
                         formatted_prompts.append(formatted_prompt)
                     prompts = formatted_prompts
                 outputs = generate_completions(
