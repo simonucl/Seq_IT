@@ -19,7 +19,7 @@ def main(args):
     logging.info("loading data and model...")
     alpaca_eval_data = datasets.load_dataset("tatsu-lab/alpaca_eval", "alpaca_eval")["eval"]
     prompts = []
-    chat_formatting_function = dynamic_import_function(args.chat_formatting_function) if args.use_chat_format else None
+    # chat_formatting_function = dynamic_import_function(args.chat_formatting_function) if args.use_chat_format else None
     prompter = Prompter("alpaca")
     for example in alpaca_eval_data:
         prompt = example["instruction"]
