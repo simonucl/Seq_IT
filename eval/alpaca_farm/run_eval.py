@@ -40,7 +40,7 @@ def main(args):
             return
         
     prompts = prompts[:args.sample] if args.sample > 0 else prompts
-    
+
     if args.model_name_or_path is not None:
         # we always load the tokenizer for vllm or hf models
         tokenizer = load_hf_tokenizer(
@@ -102,6 +102,7 @@ def main(args):
                 tokenizer=tokenizer,
                 prompts=prompts,
                 max_new_tokens=args.max_new_tokens,
+                stop_id_sequences='\n\n',
                 do_sample=False,
                 temperature=0,
                 batch_size=args.eval_batch_size if args.eval_batch_size else 1,
