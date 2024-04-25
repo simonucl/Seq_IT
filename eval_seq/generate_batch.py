@@ -80,6 +80,7 @@ def main(
     prompter = Prompter(prompt_template)
 
     if use_vllm:
+        tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
         model = vllm.LLM(
             model=base_model,
             tokenizer=base_model,
@@ -143,15 +144,19 @@ def main(
         num_beams=1, # perhaps can experiment with this
         max_new_tokens=256,
         no_repeat_ngram_size=6,
+        is_chat=False,
         **kwargs,
     ):
         prompts = []
         for i in range(len(instruction)):
+            generate_prompt_func = prompter.generate_chat_prompt if is_chat else prompter.generate_prompt
             if label is not None:
-                prompt = prompter.generate_prompt(instruction[i], input[i], label[i])
+                prompt = generate_prompt_func(instruction[i], input[i], label[i])
             else:
-                prompt = prompter.generate_prompt(instruction[i], input[i])
-            
+                prompt = generate_prompt_func(instruction[i], input[i])
+            if is_chat:
+                prompt = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
+                
             prompts.append(prompt)
         
         if use_vllm:
