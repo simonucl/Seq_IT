@@ -51,6 +51,7 @@ def main(
     samples: int = None,
     prompt_template: str = "alpaca",  # The prompt template to use, will default to alpaca.
     use_vllm: bool = False,
+    is_chat: bool = False,
 ):
     print(1)
     print(test_file)
@@ -144,7 +145,6 @@ def main(
         num_beams=1, # perhaps can experiment with this
         max_new_tokens=256,
         no_repeat_ngram_size=6,
-        is_chat=False,
         **kwargs,
     ):
         prompts = []
@@ -156,7 +156,7 @@ def main(
                 prompt = generate_prompt_func(instruction[i], input[i])
             if is_chat:
                 prompt = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
-                
+
             prompts.append(prompt)
         
         if use_vllm:
