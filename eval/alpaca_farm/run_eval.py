@@ -100,6 +100,7 @@ def main(args):
                     do_sample=False,
                     temperature=0,
                     batch_size=args.eval_batch_size if args.eval_batch_size else 1,
+                    use_cache=True
                 )
         else:
             openai_query_cache_path = os.path.join(args.save_dir, "openai_query_cache.jsonl")

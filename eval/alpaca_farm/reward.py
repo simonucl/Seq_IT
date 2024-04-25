@@ -3,6 +3,7 @@ import torch
 import pandas as pd
 import random
 import os
+import json
 
 pipe_kwargs = {
         "return_all_scores": True,
@@ -56,10 +57,11 @@ def main(args):
         metrics = {}
         if os.path.exists(metric_file):
             with open(metric_file, 'r') as f:
-                metrics = f.read()
-        metrics[os.path.basename(args.ref_file)] = winrate
+                # metrics = f.read()
+                metrics = json.load(f)
+        metrics[args.ref_file.split('/')[-2]] = winrate
         with open(metric_file, 'w') as f:
-            f.write(metrics)
+            json.dump(metrics, f)
         
 if __name__ == "__main__":
     import argparse

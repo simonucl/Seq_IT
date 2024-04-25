@@ -9,7 +9,8 @@ mkdir -p data/testset
 MODEL_NAME=llama-7b
 TASK=csqa
 
-for MODEL_PATH in /mnt/nfs/public/hf/models/meta-llama/Llama-2-70b-chat-hf /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B-Instruct /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-70B-Instruct /mnt/nfs/public/hf/models/mistralai/Mistral-7B-Instruct-v0.2 
+# for MODEL_PATH in /mnt/nfs/public/hf/models/meta-llama/Llama-2-70b-chat-hf /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B-Instruct /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-70B-Instruct /mnt/nfs/public/hf/models/mistralai/Mistral-7B-Instruct-v0.2 
+for MODEL_PATH in /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-70B-Instruct
 do
   MODEL_NAME=$(basename $MODEL_PATH)
   # MODEL_NAME=${MODEL_NAME}_${PROMPT_TYPE}

@@ -8,7 +8,8 @@ mkdir -p data/testset
 # multilingual
 MODEL_NAME=llama-7b
 TASK=csqa
-for MODEL_PATH in /mnt/nfs/public/hf/models/meta-llama/Llama-2-7b-hf /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B simonycl/self-seq-Llama-2-7b-hf-new simonycl/self-seq-7b-baseline simonycl/self-seq-combined-Llama-2-7b-epoch-1 /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-70B /mnt/nfs/public/hf/models/meta-llama/Llama-2-70b-hf
+# for MODEL_PATH in /mnt/nfs/public/hf/models/meta-llama/Llama-2-7b-hf /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B simonycl/self-seq-Llama-2-7b-hf-new simonycl/self-seq-7b-baseline simonycl/self-seq-combined-Llama-2-7b-epoch-1 /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-70B /mnt/nfs/public/hf/models/meta-llama/Llama-2-70b-hf
+for MODEL_PATH in /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-70B
 do
   MODEL_NAME=$(basename $MODEL_PATH)
   # MODEL_NAME=${MODEL_NAME}_${PROMPT_TYPE}

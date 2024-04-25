@@ -87,6 +87,7 @@ def main(
             tokenizer=base_model,
             tokenizer_mode="slow",
             tensor_parallel_size=torch.cuda.device_count(),
+            gpu_memory_utilization=0.97
         )
     else:
         tokenizer = AutoTokenizer.from_pretrained(base_model, token='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', trust_remote_code=True)
