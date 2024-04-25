@@ -14,6 +14,5 @@ do
                 --test_file eval_results/${FILE}_${TYPE}/${FILE}_${TYPE}_base_xquad_${LANG}.jsonl \
                 --ref_file data/xquad/${TYPE}/xquad_en.jsonl
         done
-
     done
 done

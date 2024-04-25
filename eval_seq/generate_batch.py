@@ -51,6 +51,7 @@ def main(
     samples: int = None,
     prompt_template: str = "alpaca",  # The prompt template to use, will default to alpaca.
     use_vllm: bool = False,
+    is_chat: bool = False,
 ):
     print(1)
     print(test_file)
@@ -80,6 +81,7 @@ def main(
     prompter = Prompter(prompt_template)
 
     if use_vllm:
+        tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
         model = vllm.LLM(
             model=base_model,
             tokenizer=base_model,
@@ -147,11 +149,14 @@ def main(
     ):
         prompts = []
         for i in range(len(instruction)):
+            generate_prompt_func = prompter.generate_chat_prompt if is_chat else prompter.generate_prompt
             if label is not None:
-                prompt = prompter.generate_prompt(instruction[i], input[i], label[i])
+                prompt = generate_prompt_func(instruction[i], input[i], label[i])
             else:
-                prompt = prompter.generate_prompt(instruction[i], input[i])
-            
+                prompt = generate_prompt_func(instruction[i], input[i])
+            if is_chat:
+                prompt = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
+
             prompts.append(prompt)
         
         if use_vllm:
@@ -160,7 +165,7 @@ def main(
                 top_p=top_p,
                 top_k=top_k,
                 max_tokens=max_new_tokens,
-                stop=["\n\n"],
+                # stop=["\n\n"],
             )
             generations = model.generate(prompts, sampling_params)
             prompt_to_output = {
@@ -189,7 +194,11 @@ def main(
                 **generation_config,
             )
             
-        return [prompter.get_response(out) for out in outputs]
+        return [
+            {'output': prompter.get_response(out),
+             'prompt': prompt}
+               for out, prompt in zip(outputs, prompts)
+        ]
 
     if test_file:
         # test_lang = test_file.split(".jsonl")[0].split("_")[-1]
@@ -209,7 +218,8 @@ def main(
                              label=labels,
                              max_new_tokens=length)
         for i in range(len(data)):
-            data[i]["output"] = responses[i]
+            data[i]["output"] = responses[i]['output']
+            data[i]["prompt"] = responses[i]['prompt']
 
         with open(save_file, "w", encoding='utf-8') as out_f:
             for p in data:

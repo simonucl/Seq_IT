@@ -4,7 +4,7 @@ A dedicated helper to manage templates and prompt building.
 
 import json
 import os.path as osp
-from typing import Union
+from typing import Union, List, Dict
 
 
 class Prompter(object):
@@ -47,6 +47,21 @@ class Prompter(object):
             print(res)
         return res
 
+    def generate_chat_prompt(
+        self,
+        instruction: str,
+        input: Union[None, str] = None,
+        label: Union[None, str] = None,
+    ) -> List[Dict[str, str]]:
+        if input:
+            res = f'{instruction}\n\n### Input:\n{input}'
+        else:
+            res = f'{instruction}'
+        res = [{'role': 'user', 'content': res}]
+        if label:
+            res.append({'role': 'assistant', 'content': label})
+        return res
+    
     def get_response(self, output: str) -> str:
         split = output.split(self.template["response_split"])
         if len(split) < 2:
