@@ -69,7 +69,7 @@ if args.dataset == 'commonsense_qa' and args.typename == 'repeat':
       item = dataset[i]
       data = {}
       # data['instruction'] = "First paraphrase the input, then select the correct choice to answer the question in the input"
-      data['instruction'] = "Please repeat the input and then Select the correct choice to answer the question in the input."
+      data['instruction'] = "Please repeat the input, then select the correct choice to answer the question in the input."
       if len(item['choices']['label']) == 4:
          data['input'] = 'Question: ' + item['question'] + '\n' + 'Choices: ' + item['choices']['label'][0] + ':'+ item['choices']['text'][0] + ', ' + item['choices']['label'][1] + ':'+ item['choices']['text'][1] + ', ' + item['choices']['label'][2] + ':'+ item['choices']['text'][2] + ', ' + item['choices']['label'][3] + ':'+ item['choices']['text'][3]
       if len(item['choices']['label']) == 5:

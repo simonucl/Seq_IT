@@ -189,7 +189,11 @@ def main(
                 **generation_config,
             )
             
-        return [prompter.get_response(out) for out in outputs]
+        return [
+            {'output': prompter.get_response(out),
+             'prompt': prompt}
+               for out, prompt in zip(outputs, prompts)
+        ]
 
     if test_file:
         # test_lang = test_file.split(".jsonl")[0].split("_")[-1]
@@ -209,7 +213,8 @@ def main(
                              label=labels,
                              max_new_tokens=length)
         for i in range(len(data)):
-            data[i]["output"] = responses[i]
+            data[i]["output"] = responses[i]['output']
+            data[i]["prompt"] = responses[i]['prompt']
 
         with open(save_file, "w", encoding='utf-8') as out_f:
             for p in data:

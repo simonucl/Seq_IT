@@ -20,7 +20,7 @@ do
   TESTFILE=data/test/commonsense_qa_repeat.json
   python3 eval_seq/generate_batch.py \
     --base_model ${MODEL_PATH} \
-    --length 128 \
+    --length 256 \
     --test_file ${TESTFILE} \
     --batch_size 64 \
     --samples 100 \
