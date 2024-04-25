@@ -8,7 +8,8 @@ mkdir -p data/testset
 # multilingual
 MODEL_NAME=llama-7b
 TASK=csqa
-for MODEL_PATH in /mnt/nfs/public/hf/models/meta-llama/Llama-2-7b-hf /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B simonycl/self-seq-Llama-2-7b-hf-new simonycl/self-seq-7b-baseline simonycl/self-seq-combined-Llama-2-7b-epoch-1 /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-70B /mnt/nfs/public/hf/models/meta-llama/Llama-2-70b-hf
+
+for MODEL_PATH in /mnt/nfs/public/hf/models/meta-llama/Llama-2-70b-chat-hf /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B-Instruct /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-70B-Instruct /mnt/nfs/public/hf/models/mistralai/Mistral-7B-Instruct-v0.2 
 do
   MODEL_NAME=$(basename $MODEL_PATH)
   # MODEL_NAME=${MODEL_NAME}_${PROMPT_TYPE}
@@ -26,7 +27,8 @@ do
     --samples 50 \
     --save_file eval_results/csqa_repeat/${MODEL_NAME}.json \
     --load_8bit False \
-    --use_vllm True
+    --use_vllm True \
+    --is_chat True
 done
 
 # self-seq-7B-1-3-new self-seq-alpaca-cleaned_wizardlm_replaced
