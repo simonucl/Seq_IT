@@ -24,7 +24,9 @@ if args.dataset=='alpaca':
      dataset = json.load(file)
 elif 'xquad' == args.dataset :
    dataset = load_dataset('xquad', 'xquad'+'.'+args.target )['validation']
-#dataset = load_dataset("xquad",'xquad.{}'.format(args.target))    
+elif 'commonsense_qa' == args.dataset:
+   dataset = load_dataset('tau/commonsense_qa', split='validation')
+#dataset = load_dataset("xquad",'xquad.{}'.format(args.target))
     # Output: {'name': 'John', 'age': 30, 'city': 'New York'}
 
 dataset_en = load_dataset('xquad', 'xquad.en')['validation']
@@ -74,7 +76,7 @@ if args.dataset == 'commonsense_qa' and args.typename == 'repeat':
   #input_en = 'context: ' + dataset_en[i]['context'] + '\n' + 'question: ' + dataset_en[i]['question']
       data['output'] = item['answerKey']  #'Translation of input:' + input_en + '\n' + "result: "+ dataset_en[i]['answers']['text'][0]
       data_list.append(data)
-   with open('../data/test/commonsense_qa_repeat.json'.format(args.target), 'w', encoding='utf-8') as file:
+   with open('data/test/commonsense_qa_repeat.json'.format(args.target), 'w', encoding='utf-8') as file:
       json.dump(data_list,file, ensure_ascii=False)
 
 if args.dataset == 'xquad' and args.typename == 'base':
