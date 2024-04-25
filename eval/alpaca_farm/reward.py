@@ -41,7 +41,7 @@ def main(args):
         df['reward'] = [reward[0]['score'] for reward in rewards]
 
     # save the reward to the input file
-    output_file = args.input_file.replace('.jsonl', '_reward.jsonl')
+    output_file = args.input_file.replace('.json', '_reward.json')
     df.to_json(output_file, lines=True, orient='records')
     
     if args.ref_file:
