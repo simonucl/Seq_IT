@@ -11,11 +11,11 @@ TASK=csqa
 for MODEL_PATH in /mnt/nfs/public/hf/models/meta-llama/Llama-2-7b-hf
 do
   MODEL_NAME=$(basename $MODEL_PATH)
-  MODEL_NAME=${MODEL_NAME}_${PROMPT_TYPE}
+  # MODEL_NAME=${MODEL_NAME}_${PROMPT_TYPE}
 
   echo MODEL_NAME: ${MODEL_NAME}
 
-  mkdir -p eval_results/${MODEL_NAME}
+  mkdir -p eval_results/csqa_repeat
 
   TESTFILE=data/test/commonsense_qa_repeat.json
   python3 eval_seq/generate_batch.py \
@@ -24,7 +24,7 @@ do
     --test_file ${TESTFILE} \
     --batch_size 64 \
     --samples 100 \
-    --save_file eval_results/${MODEL_NAME}/${MODEL_NAME}_csqa_repeat.json \
+    --save_file eval_results/csqa_repeat/${MODEL_NAME}.json \
     --load_8bit False \
     --use_vllm True
 done
