@@ -160,7 +160,7 @@ def main(
                 top_p=top_p,
                 top_k=top_k,
                 max_tokens=max_new_tokens,
-                stop=["\n\n"],
+                # stop=["\n\n"],
             )
             generations = model.generate(prompts, sampling_params)
             prompt_to_output = {
