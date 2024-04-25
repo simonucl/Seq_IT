@@ -46,8 +46,7 @@ def main(args):
     
     if args.ref_file:
         ref_df = pd.read_json(args.ref_file, lines=True)
-        ref_rewards = [r['reward'] for r in ref_df]
-        winrate = win_rate(df['reward'], ref_rewards)
+        winrate = win_rate(list(df['reward']), list(ref_df['reward']))
         # save as metric json file
         with open('/'.join(output_file.split('/')[:-1]) + '/metrics.json', 'w') as f:
             f.write(f'{{"win_rate": {winrate}}}')
