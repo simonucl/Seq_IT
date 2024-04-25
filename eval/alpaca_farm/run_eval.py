@@ -97,16 +97,22 @@ def main(args):
                     formatted_prompt = chat_formatting_function(messages)
                     formatted_prompts.append(formatted_prompt)
                 prompts = formatted_prompts
+            if args.stop_id_sequences is not None:
+                stop_id_sequences = tokenizer.encode(args.stop_id_sequences, add_special_tokens=False)[1:]
+            else:
+                stop_id_sequences = None
+                
             outputs = generate_completions(
                 model=model,
                 tokenizer=tokenizer,
                 prompts=prompts,
                 max_new_tokens=args.max_new_tokens,
-                stop_id_sequences='\n\n',
+                stop_id_sequences=[stop_id_sequences] if stop_id_sequences is not None else None,
                 do_sample=False,
                 temperature=0,
                 batch_size=args.eval_batch_size if args.eval_batch_size else 1,
-                use_cache=True
+                use_cache=True,
+                no_repeat_ngram_size=10,
             )
     else:
         openai_query_cache_path = os.path.join(args.save_dir, "openai_query_cache.jsonl")
@@ -241,6 +247,12 @@ if __name__ == "__main__":
         "--sample",
         type=int,
         default=-1,
+    )
+    parser.add_argument(
+        "--stop_id_sequences",
+        type=str,
+        default=None,
+        help="The stop id sequences for the model.",
     )
     args = parser.parse_args()
 
