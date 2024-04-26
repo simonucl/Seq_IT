@@ -59,7 +59,7 @@ def main(args):
             sampling_params = vllm.SamplingParams(
                 temperature=0,  # greedy decoding
                 max_tokens=args.max_new_tokens,
-                stop_id_sequences=[args.stop_id_sequences],
+                stop=[args.stop_id_sequences],
             )
             # apply chat formatting
             if args.use_chat_format:
