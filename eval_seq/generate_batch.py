@@ -52,6 +52,7 @@ def main(
     prompt_template: str = "alpaca",  # The prompt template to use, will default to alpaca.
     use_vllm: bool = False,
     is_chat: bool = False,
+    chat_template: str = "alpaca",
 ):
     print(1)
     print(test_file)
@@ -104,7 +105,9 @@ def main(
             device_map="auto",
             token='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',
         )
-
+    if chat_template == "tulu":
+        tokenizer.chat_template = "{% for message in messages %}\n{% if message['role'] == 'user' %}\n{{ '<|user|>\n' + message['content'] }}\n{% elif message['role'] == 'assistant' %}\n{{ '<|assistant|>\n'  + message['content'] + eos_token }}\n{% endif %}\n{% if loop.last and add_generation_prompt %}\n{{ '<|assistant|>' }}\n{% endif %}\n{% endfor %}"
+        
     if device == "cuda":
         print("Using " + str(torch.cuda.device_count())  + " GPU devices", flush=True)
 
