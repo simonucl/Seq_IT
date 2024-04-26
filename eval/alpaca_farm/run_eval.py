@@ -59,14 +59,18 @@ def main(args):
             sampling_params = vllm.SamplingParams(
                 temperature=0,  # greedy decoding
                 max_tokens=args.max_new_tokens,
-                stop=[args.stop_id_sequences],
+                stop=[args.stop_id_sequences] if not args.use_chat_format else None,
             )
             # apply chat formatting
             if args.use_chat_format:
                 formatted_prompts = []
                 if args.chat_formatting_function == "mistral":
                     tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
-                    chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
+                    chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False, add_generation_prompt=True)
+                elif args.chat_formatting_function == "tulu":
+                    tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
+                    tokenizer.chat_template = "{% for message in messages %}\n{% if message['role'] == 'user' %}\n{{ '<|user|>\n' + message['content'] }}\n{% elif message['role'] == 'assistant' %}\n{{ '<|assistant|>\n'  + message['content'] + eos_token }}\n{% endif %}\n{% if loop.last and add_generation_prompt %}\n{{ '<|assistant|>' }}\n{% endif %}\n{% endfor %}"
+                    chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False, add_generation_prompt=True)
                 else:
                     chat_formatting_function = partial(chat_formatting_function, add_bos=False)
                 for prompt in prompts:
