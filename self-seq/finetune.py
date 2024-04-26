@@ -371,7 +371,7 @@ def encode_mistral_format(example, tokenizer, max_seq_length, add_bos=True):
         {'role': 'assistant', 'content': output}
     ]
     encoded_messages = tokenizer.apply_chat_template(messages, return_tensors='pt', tokenize=True, max_length=max_seq_length)
-    encoded_instruction = tokenizer.apply_chat_template([{'role': 'user', 'content': instruction}], return_tensors='pt', tokenize=True, max_length=max_seq_length)
+    encoded_instruction = tokenizer.apply_chat_template([{'role': 'user', 'content': instruction}], return_tensors='pt', tokenize=True, max_length=max_seq_length, add_generation_prompt=True)
 
     input_ids = encoded_messages
     labels = input_ids.clone()
@@ -389,7 +389,12 @@ def encode_with_messages_format(example, tokenizer, max_seq_length, add_bos=Fals
     Here we assume each example has a 'messages' field Each message is a dict with 'role' and 'content' fields.
     We concatenate all messages with the roles as delimiters and tokenize them together.
     '''
-    messages = example['messages']
+    instruction = example['instruction'] + f"Input: {example['input']}"
+    output = example['output']
+    messages = [
+        {'role': 'user', 'content': instruction},
+        {'role': 'assistant', 'content': output}
+    ]
     if len(messages) == 0:
         raise ValueError('messages field is empty.')
     
@@ -684,6 +689,13 @@ def main():
         if "mistral" in args.prompt_template:
             encode_function = partial(
                 encode_mistral_format,
+                tokenizer=tokenizer,
+                max_seq_length=args.max_seq_length,
+                add_bos=args.add_bos,
+            )
+        elif "tulu" in args.prompt_template:
+            encode_function = partial(
+                encode_with_messages_format,
                 tokenizer=tokenizer,
                 max_seq_length=args.max_seq_length,
                 add_bos=args.add_bos,
