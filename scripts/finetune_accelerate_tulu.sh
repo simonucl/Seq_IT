@@ -4,8 +4,8 @@ MODEL_SIZE=7B
 NUM_GPUS=2
 BATCH_SIZE_PER_GPU=1
 TOTAL_BATCH_SIZE=128
-TRAIN_FILE=self-seq/data/alpaca/alpaca-cleaned.jsonl
-MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/meta-llama/Llama-2-7b-hf
+TRAIN_FILE=self-seq/data/alpaca-cleaned_replaced_without_a.jsonl
+MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B
 MODEL_NAME=$(basename $MODEL_NAME_OR_PATH)
 
 GRADIENT_ACC_STEPS=$(($TOTAL_BATCH_SIZE/$NUM_GPUS/$BATCH_SIZE_PER_GPU))
