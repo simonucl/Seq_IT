@@ -6,7 +6,7 @@ from openai import OpenAI
 from tqdm import tqdm
 from template import *
 import argparse
-from token_store import API_KEYs
+# from token_store import API_KEYs
 import os
 from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 import torch
@@ -44,12 +44,10 @@ def get_prompt(p):
         instruction, output = p['conversations'][0], p['conversations'][1]
         prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
         input = ''
-        return {'prompt': prompt, 'instruction': instruction}
     elif 'question' in p: # cases for flancot
         instruction = p['question']
         prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction)
         input = ''
-        return {'prompt': prompt, 'instruction': instruction}
     else:
         # cases for alpaca
         if p['input'] != '':
@@ -159,14 +157,22 @@ if __name__ == '__main__':
             attn_implementation='flash_attention_2',
             device_map="auto",
         )
-        generation_config = GenerationConfig(
-                temperature=0,
-                top_p=1,
-                top_k=50,
-                num_beams=1,
-                max_new_tokens=4096,
-                use_cache=True,
-            )
+        generation_config = {
+                'temperature': 0,
+                'top_p': 1,
+                'top_k': 50,
+                'num_beams': 1,
+                'max_new_tokens': 4096,
+                'use_cache': True
+                }
+        # generation_config = GenerationConfig(
+        #         temperature=0,
+        #         top_p=1,
+        #         top_k=50,
+        #         num_beams=1,
+        #         max_new_tokens=4096,
+        #         use_cache=True,
+        #     )
         generations = []
         for i in range(0, len(prompts), args.batch_size):
             batch_prompts = [p['messages'] for p in prompts[i:i+args.batch_size]]
@@ -185,7 +191,7 @@ if __name__ == '__main__':
             for prompt, output in zip(batch_prompts, batch_outputs):
                 generations.append({
                     'idx': i,
-                    'input': prompt['input'], # 'input': '
+                    # 'input': prompt['input'], # 'input': '
                     'prompt': prompt,
                     'completions': output
                 })
