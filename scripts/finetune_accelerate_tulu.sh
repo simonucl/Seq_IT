@@ -4,7 +4,7 @@ MODEL_SIZE=7B
 NUM_GPUS=2
 BATCH_SIZE_PER_GPU=1
 TOTAL_BATCH_SIZE=128
-TRAIN_FILE=self-seq/data/alpaca-cleaned_replaced_without_a.jsonl
+TRAIN_FILE=self-seq/data/alpaca/alpaca-cleaned.jsonl
 MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/meta-llama/Llama-2-7b-hf
 MODEL_NAME=$(basename $MODEL_NAME_OR_PATH)
 
@@ -36,7 +36,7 @@ accelerate launch \
     --warmup_ratio 0.03 \
     --weight_decay 0. \
     --num_train_epochs 3 \
-    --output_dir output/self-seq-${MODEL_NAME}-tulu/ \
+    --output_dir output/self-seq-${MODEL_NAME}-alpaca-tulu/ \
     --prompt_template tulu \
     --with_tracking \
     --do_eval \
