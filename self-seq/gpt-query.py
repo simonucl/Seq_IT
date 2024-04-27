@@ -69,6 +69,7 @@ if __name__ == '__main__':
     args.add_argument('--batch_size', type=int, default=1)
     args.add_argument('--load_8bit', action='store_true')
     args.add_argument('--use_vllm', action='store_true')
+    args.add_argument('--use_instruct', action='store_true')
 
     args = args.parse_args()
     input_file = args.input_file
@@ -120,7 +121,11 @@ if __name__ == '__main__':
             tensor_parallel_size=torch.cuda.device_count(),
             gpu_memory_utilization=0.97
         )
-        tokenize_prompts = [tokenizer.apply_chat_template(p['messages'], add_generation_prompt=True, tokenize=False) for p in prompts]
+        if args.use_instruct:
+            tokenize_prompts = [tokenizer.apply_chat_template(p['messages'], add_generation_prompt=True, tokenize=False) for p in prompts]
+        else:
+            tokenize_prompts = [p['prompt'] for p in prompts]
+
         sampling_params = vllm.SamplingParams(
                 temperature=0,
                 top_p=1,
@@ -129,7 +134,7 @@ if __name__ == '__main__':
                 # stop=["\n\n"],
             )
         
-        generations = model.generate(prompts, sampling_params)
+        generations = model.generate(tokenize_prompts, sampling_params)
         prompt_to_output = {
                 g.prompt: g.outputs[0].text for g in generations
             }
@@ -176,7 +181,10 @@ if __name__ == '__main__':
         generations = []
         for i in range(0, len(prompts), args.batch_size):
             batch_prompts = [p['messages'] for p in prompts[i:i+args.batch_size]]
-            tokenized = [tokenizer.apply_chat_template(p, add_generation_prompt=True, tokenize=False) for p in batch_prompts]
+            if args.use_instruct:
+                tokenized = [tokenizer.apply_chat_template(p, add_generation_prompt=True, tokenize=False) for p in batch_prompts]
+            else:
+                tokenized = [p['prompt'] for p in prompts[i:i+args.batch_size]]
             tokenized_prompts = tokenizer(tokenized, padding="longest", return_tensors="pt", add_special_tokens=True)
             batch_input_ids = tokenized_prompts.input_ids
             attention_mask = tokenized_prompts.attention_mask
@@ -188,9 +196,9 @@ if __name__ == '__main__':
             )
 
             batch_outputs = tokenizer.batch_decode(batch_outputs, skip_special_tokens=True)
-            for prompt, output in zip(batch_prompts, batch_outputs):
+            for idx, (prompt, output) in enumerate(zip(batch_prompts, batch_outputs)):
                 generations.append({
-                    'idx': i,
+                    'idx': i + idx,
                     # 'input': prompt['input'], # 'input': '
                     'prompt': prompt,
                     'completions': output
