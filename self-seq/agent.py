@@ -63,7 +63,7 @@ class HfAgent:
 class VllmAgent:
     def __init__(self, model_name, model_kwargs, generation_kwargs):
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = vllm.VLLM(
+        self.model = vllm.LLM(
             model_name,
             **model_kwargs
         )
