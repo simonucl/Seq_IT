@@ -5,6 +5,7 @@ import random
 from openai import OpenAI
 from tqdm import tqdm, trange
 from template import *
+from instruct_template import *
 import argparse
 # from token_store import API_KEYs
 import os
@@ -43,6 +44,33 @@ def get_prompt(p, is_chat=False):
     messages = [{'role': 'system', 'content': SYSTEM_PROMPT}, {'role': 'user', 'content': prompt}]
     return {'prompt': prompt, 'instruction': instruction, 'input': input, 'messages': messages}
 
+def get_gen_instruction_prompt(p):
+    if (p['option'] is None) or (p['option'] == 'D'):
+        return {
+            **p,
+            'new_instruction': p['instruction'],
+        }
+    
+    if p['option'] == 'A':
+        prompt_prefix = PROMPT_PREFIX_A
+        few_shot_examples = FEW_SHOTS_EXAMPLE_A
+        prompt_template = PROMPT_TEMPLATE_A
+    elif p['option'] == 'B':
+        prompt_prefix = PROMPT_PREFIX_B
+        few_shot_examples = FEW_SHOTS_EXAMPLE_B
+        prompt_template = PROMPT_TEMPLATE_B
+    elif p['option'] == 'C':
+        prompt_prefix = PROMPT_PREFIX_C
+        few_shot_examples = FEW_SHOTS_EXAMPLE_C
+        prompt_template = PROMPT_TEMPLATE_C
+
+    e = few_shot_examples.copy()
+    random.shuffle(e)
+    prompt = prompt_prefix + '\n\n' + '\n\n'.join(e)
+    prompt += '\n\n' + prompt_template.format(p['instruction'])
+    messages = [{'role': 'user', 'content': prompt}]
+    return {**p, 'messages': messages}
+
 def extract_classification(o):
     # check if 'option: a', 'option: b', 'option: c', 'option: d' in the completion
     # if so, extract the option and the explanation
@@ -67,6 +95,17 @@ def extract_classification(o):
         else:
             return None
 
+def extract_instruction(o):
+    # check if the completion contains 'new instruction' or 'new task'
+    # if so, extract the new instruction
+    # if not, return None
+    if '#new instruction#' in o.lower():
+        return o[o.lower().index('new instruction') + len('new instruction'):].strip(":# \n")
+    elif 'new instruction' in o.lower():
+        return o[o.lower().index('new instruction') + len('new instruction'):].strip(":# \n")
+    else:
+        return None
+    
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
     args.add_argument('--input_file', type=str, default='data/alpaca.jsonl')
@@ -200,6 +239,25 @@ if __name__ == '__main__':
                         'completions': output,
                         'option': extract_classification(output)
                     })
-                with open(output_file, 'a', encoding='utf-8') as json_file:
-                    for g in generations:
-                        json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+            with open(output_file, 'w', encoding='utf-8') as json_file:
+                for g in generations:
+                    json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+
+            # Starting the next steps
+            get_gen_instruction_prompts = [get_gen_instruction_prompt(p) for p in generations]
+            gen_instruction = [p for p in get_gen_instruction_prompts if 'messages' in p]
+            new_generations = [p for p in get_gen_instruction_prompts if 'messages' not in p]
+            for i in trange(0, len(gen_instruction), args.batch_size):
+                batch_prompts = [p for p in gen_instruction[i:i + args.batch_size]]
+                batch_tokenized_prompts = [tokenizer.apply_chat_template(p['messages'], add_generation_prompt=True, tokenize=False) for p in batch_prompts]
+
+                outputs = agent.generate(batch_tokenized_prompts, stop_id_sequences=stop_id_sequences)
+                for prompt, output in enumerate(zip(batch_prompts, outputs)):
+                    new_generations.append({
+                        **prompt,
+                        'new_instruction': output,
+                        'extracted_instruction': extract_instruction(output)
+                    })
+            with open(output_file, 'w', encoding='utf-8') as json_file:
+                for g in new_generations:
+                    json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
