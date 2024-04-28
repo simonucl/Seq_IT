@@ -3,7 +3,7 @@ import os.path
 import random
 
 from openai import OpenAI
-from tqdm import tqdm
+from tqdm import tqdm, trange
 from template import *
 import argparse
 # from token_store import API_KEYs
@@ -46,7 +46,7 @@ def get_prompt(p):
         input = ''
     elif 'question' in p: # cases for flancot
         instruction = p['question']
-        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction)
+        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
         input = ''
     else:
         # cases for alpaca
@@ -179,7 +179,7 @@ if __name__ == '__main__':
         #         use_cache=True,
         #     )
         generations = []
-        for i in range(0, len(prompts), args.batch_size):
+        for i in trange(0, len(prompts), args.batch_size):
             batch_prompts = [p['messages'] for p in prompts[i:i+args.batch_size]]
             if args.use_instruct:
                 tokenized = [tokenizer.apply_chat_template(p, add_generation_prompt=True, tokenize=False) for p in batch_prompts]
@@ -195,7 +195,8 @@ if __name__ == '__main__':
                 **generation_config
             )
 
-            batch_outputs = tokenizer.batch_decode(batch_outputs, skip_special_tokens=True)
+            # get the batch outputs after the original prompt
+            batch_outputs = tokenizer.batch_decode(batch_outputs[:, batch_input_ids.shape[1]:], skip_special_tokens=True)
             for idx, (prompt, output) in enumerate(zip(batch_prompts, batch_outputs)):
                 generations.append({
                     'idx': i + idx,

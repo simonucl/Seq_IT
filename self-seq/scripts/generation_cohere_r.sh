@@ -17,4 +17,4 @@ python3 self-seq/gpt-query.py \
     --sample 20 \
     --query /mnt/nfs/public/hf/models/CohereForAI/c4ai-command-r-v01 \
     --batch_size 4 \
-    --use_vllm
+    --use_instruct
