@@ -152,7 +152,7 @@ if __name__ == '__main__':
             "temperature": 0,
             "top_p": 1,
             "top_k": 50,
-            "max_new_tokens": 2048,
+            "max_new_tokens": 256,
         }
         if args.use_vllm:
             vllm_kwargs = {
