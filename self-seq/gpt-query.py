@@ -33,8 +33,9 @@ def get_prompt(p, is_chat=False):
         input = ''
     else:
         # cases for alpaca
+        instruction = p['instruction']
+        input = ''
         if p['input'] != '':
-            instruction = p['instruction']
             input = INPUT_TEMPLATE.format(p['input'])
             prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, input)
         else:
