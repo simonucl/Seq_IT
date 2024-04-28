@@ -77,7 +77,7 @@ class VllmAgent:
         prompt_to_output = {
                 g.prompt: g.outputs[0].text for g in generations
             }
-        outputs = [prompt_to_output[p] if prompt in prompt_to_output else "" for p in prompt]
+        outputs = [prompt_to_output[p] if p in prompt_to_output else "" for p in prompt]
         return outputs
 
 class GptAgent:
