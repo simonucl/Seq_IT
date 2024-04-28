@@ -146,7 +146,7 @@ if __name__ == '__main__':
         else:
             tokenize_prompts = [p['prompt'] for p in prompts]
             stop = "###"
-            stop_id_sequences = tokenizer.encode(stop, add_special_tokens=False, return_tensors="pt")[1:]
+            stop_id_sequences = tokenizer.encode(stop, add_special_tokens=False)[1:]
 
         generation_kwargs = {
             "temperature": 0,
