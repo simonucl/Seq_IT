@@ -156,7 +156,6 @@ if __name__ == '__main__':
         }
         if args.use_vllm:
             vllm_kwargs = {
-            "tokenizer": tokenizer,
             "tokenizer_mode": "slow",
             "tensor_parallel_size": torch.cuda.device_count(),
             "gpu_memory_utilization": 0.97,
