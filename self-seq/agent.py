@@ -53,12 +53,16 @@ class HfAgent:
         if stop_id_sequences:
             for output_idx in range(batch_outputs.shape[0]):
                 for token_idx in range(batch_input_ids.shape[1], batch_outputs.shape[1]):
-                    if any(batch_outputs[output_idx, token_idx: token_idx+len(stop_sequence)].tolist() == stop_sequence for stop_sequence in stop_id_sequences):
+                    if any(batch_outputs[output_idx, token_idx: token_idx+len(stop_sequence)].tolist() == stop_sequence for stop_sequence in [stop_id_sequences]):
                         batch_outputs[output_idx, token_idx:] = self.tokenizer.pad_token_id
                         break
 
-        batch_outputs = self.tokenizer.batch_decode(batch_outputs[:, tokenized_prompts['input_ids'].shape[1]:], skip_special_tokens=True)
-        return batch_outputs
+        batch_outputs = self.tokenizer.batch_decode(batch_outputs, skip_special_tokens=True)
+        batch_prompts = self.tokenizer.batch_decode(batch_input_ids, skip_special_tokens=True)
+        batch_generations = [
+            output[len(prompt):] for prompt, output in zip(batch_prompts, batch_outputs)
+        ]
+        return batch_generations
     
 class VllmAgent:
     def __init__(self, model_name, model_kwargs, generation_kwargs):
