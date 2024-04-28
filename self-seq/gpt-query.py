@@ -152,7 +152,7 @@ if __name__ == '__main__':
             "temperature": 0,
             "top_p": 1,
             "top_k": 50,
-            "max_tokens": 2048,
+            "max_new_tokens": 2048,
         }
         if args.use_vllm:
             vllm_kwargs = {
@@ -160,8 +160,8 @@ if __name__ == '__main__':
             "tokenizer_mode": "slow",
             "tensor_parallel_size": torch.cuda.device_count(),
             "gpu_memory_utilization": 0.97,
-            "stop": [stop],
         }
+            generation_kwargs["stop"] = [stop]
             agent = VllmAgent(args.query, vllm_kwargs, generation_kwargs)
             outputs = agent.generate(tokenize_prompts)
             for i, p in enumerate(prompts):
