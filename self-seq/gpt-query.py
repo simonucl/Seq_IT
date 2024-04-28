@@ -11,34 +11,17 @@ import os
 from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 import torch
 import vllm
+import cohere
+import time
+from agent import HfAgent, VllmAgent, GptAgent, CohereAgent
 
-def make_requests_GPT_turbo(prompt):
-    print('Querying GPT-3.5-turbo...')
-    client = OpenAI(
-                # This is the default and can be omitted
-                api_key=random.choice(API_KEYs),
-                max_retries=3,
-            )
+def get_prompt(p, is_chat=False):
+    few_shot_example = FEW_SHOTS_EXAMPLE if not is_chat else FEW_SHOTS_EXAMPLE_CHAT
+    prompt_prefix = PROMPT_PREFIX if not is_chat else PROMPT_PREFIX_CHAT
 
-    chat_completion = client.chat.completions.create(
-        messages=prompt['messages'],
-        model="gpt-3.5-turbo",
-        temperature=0,
-        max_tokens=4096,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0
-    )
-    # print(chat_completion)
-    result = chat_completion.choices[0].message.content
-    return result.strip()
-        # except openai.error.OpenAIError as e:
-        #     print(f"OpenAIError: {e}.")
-
-def get_prompt(p):
-    e = FEW_SHOTS_EXAMPLE.copy()
+    e = few_shot_example.copy()
     random.shuffle(e)
-    prompt = PROMPT_PREFIX + '\n\n' + '\n\n'.join(e)
+    prompt = prompt_prefix + '\n\n' + '\n\n'.join(e)
 
     if 'conversations' in p: # cases for lima
         instruction, output = p['conversations'][0], p['conversations'][1]
@@ -58,6 +41,30 @@ def get_prompt(p):
             prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
     messages = [{'role': 'system', 'content': SYSTEM_PROMPT}, {'role': 'user', 'content': prompt}]
     return {'prompt': prompt, 'instruction': instruction, 'input': input, 'messages': messages}
+
+def extract_classification(o):
+    # check if 'option: a', 'option: b', 'option: c', 'option: d' in the completion
+    # if so, extract the option and the explanation
+    # if not, return None
+    if 'option: a' in o.lower():
+        return 'A'
+    elif 'option: b' in o.lower():
+        return 'B'
+    elif 'option: c' in o.lower():
+        return 'C'
+    elif 'option: d' in o.lower():
+        return 'D'
+    else:
+        if 'A.' in o:
+            return 'A'
+        elif 'B.' in o:
+            return 'B'
+        elif 'C.' in o:
+            return 'C'
+        elif 'D.' in o:
+            return 'D'
+        else:
+            return None
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
@@ -96,14 +103,16 @@ if __name__ == '__main__':
         random.seed(args.seed)
         input_data = random.sample(input_data, args.sample)
 
-    prompts = [get_prompt(p) for p in input_data]
+    prompts = [get_prompt(p, is_chat=args.is_instruct) for p in input_data]
 
-    if args.query in ['gpt-3.5-turbo']:
+    if 'gpt' in args.query:
+        Agent = GptAgent(api_key=random.choice(API_KEYs), model_name=args.query)
+
         with open(output_file, 'a', encoding='utf-8') as json_file:
             
             for index in tqdm(range(len(json_data), len(input_data))):
                 prompt = prompts[index]
-                gpt_answer = make_requests_GPT_turbo(prompt)
+                gpt_answer = Agent.generate(prompt)
                 json_data.append({
                     'idx': index,
                     'input': prompt['input'],
@@ -112,98 +121,83 @@ if __name__ == '__main__':
                 })
                 json_file.write(json.dumps(json_data[-1], ensure_ascii=False) + '\n')
                 print(f'↑ has been stored.')
-    elif args.use_vllm:
-        tokenizer = AutoTokenizer.from_pretrained(args.query)
-        model = vllm.LLM(
-            model=args.query,
-            tokenizer=tokenizer,
-            tokenizer_mode="slow",
-            tensor_parallel_size=torch.cuda.device_count(),
-            gpu_memory_utilization=0.97
-        )
-        if args.use_instruct:
-            tokenize_prompts = [tokenizer.apply_chat_template(p['messages'], add_generation_prompt=True, tokenize=False) for p in prompts]
-        else:
-            tokenize_prompts = [p['prompt'] for p in prompts]
+    elif args.query in ['command-r']:
+        Agent = CohereAgent(api_key=random.choice(API_KEYs))
 
-        sampling_params = vllm.SamplingParams(
-                temperature=0,
-                top_p=1,
-                top_k=50,
-                max_tokens=2048,
-                # stop=["\n\n"],
-            )
-        
-        generations = model.generate(tokenize_prompts, sampling_params)
-        prompt_to_output = {
-                g.prompt: g.outputs[0].text for g in generations
-            }
-        outputs = [prompt_to_output[p] if prompt in prompt_to_output else "" for p in prompts]
-        for i, p in enumerate(prompts):
-            json_data.append({
-                'idx': i,
-                'input': p['input'],
-                'prompt': p['prompt'],
-                'completions': outputs[i],
-            })
-        with open(output_file, 'w', encoding='utf-8') as json_file:
-            for g in json_data:
-                json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+        with open(output_file, 'a', encoding='utf-8') as json_file:
+            for index in tqdm(range(len(json_data), len(input_data))):
+                prompt = prompts[index]
+                cohere_answer = Agent.generate(prompt)
+                json_data.append({
+                    'idx': index,
+                    'input': prompt['input'],
+                    'prompt': prompt['prompt'],
+                    'completions': cohere_answer,
+                })
+                json_file.write(json.dumps(json_data[-1], ensure_ascii=False) + '\n')
+                print(f'↑ has been stored.')
     else:
         tokenizer = AutoTokenizer.from_pretrained(args.query)
+        if args.use_instruct:
+            tokenize_prompts = [tokenizer.apply_chat_template(p['messages'], add_generation_prompt=True, tokenize=False) for p in prompts]
+            stop = None
+            stop_id_sequences = None
+        else:
+            tokenize_prompts = [p['prompt'] for p in prompts]
+            stop = "###"
+            stop_id_sequences = tokenizer.encode(stop, add_special_tokens=False, return_tensors="pt")[1:]
 
-        tokenizer.padding_side = "left"
-        tokenizer.pad_token = tokenizer.eos_token
-
-        model = AutoModelForCausalLM.from_pretrained(
-            args.query,
-            load_in_8bit=args.load_8bit,
-            torch_dtype=torch.bfloat16,
-            attn_implementation='flash_attention_2',
-            device_map="auto",
-        )
-        generation_config = {
-                'temperature': 0,
-                'top_p': 1,
-                'top_k': 50,
-                'num_beams': 1,
-                'max_new_tokens': 2048,
-                'use_cache': True
-                }
-        # generation_config = GenerationConfig(
-        #         temperature=0,
-        #         top_p=1,
-        #         top_k=50,
-        #         num_beams=1,
-        #         max_new_tokens=4096,
-        #         use_cache=True,
-        #     )
-        generations = []
-        for i in trange(0, len(prompts), args.batch_size):
-            batch_prompts = [p['messages'] for p in prompts[i:i+args.batch_size]]
-            if args.use_instruct:
-                tokenized = [tokenizer.apply_chat_template(p, add_generation_prompt=True, tokenize=False) for p in batch_prompts]
-            else:
-                tokenized = [p['prompt'] for p in prompts[i:i+args.batch_size]]
-            tokenized_prompts = tokenizer(tokenized, padding="longest", return_tensors="pt", add_special_tokens=True)
-            batch_input_ids = tokenized_prompts.input_ids
-            attention_mask = tokenized_prompts.attention_mask
-
-            batch_outputs = model.generate(
-                input_ids=batch_input_ids,
-                attention_mask=attention_mask,
-                **generation_config
-            )
-
-            # get the batch outputs after the original prompt
-            batch_outputs = tokenizer.batch_decode(batch_outputs[:, batch_input_ids.shape[1]:], skip_special_tokens=True)
-            for idx, (prompt, output) in enumerate(zip(batch_prompts, batch_outputs)):
-                generations.append({
-                    'idx': i + idx,
-                    # 'input': prompt['input'], # 'input': '
-                    'prompt': prompt,
-                    'completions': output
+        generation_kwargs = {
+            "temperature": 0,
+            "top_p": 1,
+            "top_k": 50,
+            "max_tokens": 2048,
+        }
+        if args.use_vllm:
+            vllm_kwargs = {
+            "tokenizer": tokenizer,
+            "tokenizer_mode": "slow",
+            "tensor_parallel_size": torch.cuda.device_count(),
+            "gpu_memory_utilization": 0.97,
+            "stop": [stop],
+        }
+            agent = VllmAgent(args.query, vllm_kwargs, generation_kwargs)
+            outputs = agent.generate(tokenize_prompts)
+            for i, p in enumerate(prompts):
+                option = extract_classification(outputs[i])
+                json_data.append({
+                    'idx': i,
+                    'input': p['input'],
+                    'instruction': p['instruction'],
+                    'completions': outputs[i],
+                    'option': option
                 })
-            with open(output_file, 'a', encoding='utf-8') as json_file:
-                for g in generations:
+            with open(output_file, 'w', encoding='utf-8') as json_file:
+                for g in json_data:
                     json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+        else:
+            model_kwargs = {
+            "load_in_8bit": args.load_8bit,
+            "torch_dtype": torch.bfloat16,
+            "attn_implementation": 'flash_attention_2',
+            "device_map": "auto",
+        }
+            
+            generation_kwargs['use_cache'] = True
+            agent = HfAgent(args.query, model_kwargs, generation_kwargs)
+
+            generations = []
+            for i in trange(0, len(tokenize_prompts), args.batch_size):
+                batch_prompts = tokenize_prompts[i:i + args.batch_size]
+                outputs = agent.generate(batch_prompts, stop_id_sequences=stop_id_sequences)
+                for idx, (prompt, output) in enumerate(zip(batch_prompts, outputs)):
+                    generations.append({
+                        'idx': i + idx,
+                        "input": prompts[i + idx]['input'],
+                        "instruction": prompts[i + idx]['instruction'],
+                        'completions': output,
+                        'option': extract_classification(output)
+                    })
+                with open(output_file, 'a', encoding='utf-8') as json_file:
+                    for g in generations:
+                        json_file.write(json.dumps(g, ensure_ascii=False) + '\n')

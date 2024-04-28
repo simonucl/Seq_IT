@@ -16,4 +16,4 @@ python3 self-seq/gpt-query.py \
     --input_file self-seq/data/flancot/flancot_filtered_15k.jsonl \
     --sample 20 \
     --query /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B \
-    --batch_size 1
+    --batch_size 16
