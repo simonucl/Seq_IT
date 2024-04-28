@@ -252,7 +252,7 @@ if __name__ == '__main__':
                 batch_tokenized_prompts = [tokenizer.apply_chat_template(p['messages'], add_generation_prompt=True, tokenize=False) for p in batch_prompts]
 
                 outputs = agent.generate(batch_tokenized_prompts, stop_id_sequences=stop_id_sequences)
-                for prompt, output in enumerate(zip(batch_prompts, outputs)):
+                for prompt, output in zip(batch_prompts, outputs):
                     new_generations.append({
                         **prompt,
                         'new_instruction': output,
