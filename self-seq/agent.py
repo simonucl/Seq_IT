@@ -65,7 +65,7 @@ class VllmAgent:
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = vllm.LLM(
             model_name,
-            tokenizer=self.tokenizer,
+            tokenizer=model_name,
             **model_kwargs
         )
         self.sampling_params = vllm.SamplingParams(
