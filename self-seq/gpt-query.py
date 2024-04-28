@@ -103,7 +103,7 @@ if __name__ == '__main__':
         random.seed(args.seed)
         input_data = random.sample(input_data, args.sample)
 
-    prompts = [get_prompt(p, is_chat=args.is_instruct) for p in input_data]
+    prompts = [get_prompt(p, is_chat=args.use_instruct) for p in input_data]
 
     if 'gpt' in args.query:
         Agent = GptAgent(api_key=random.choice(API_KEYs), model_name=args.query)
