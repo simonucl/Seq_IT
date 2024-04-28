@@ -130,7 +130,7 @@ if __name__ == '__main__':
                 temperature=0,
                 top_p=1,
                 top_k=50,
-                max_tokens=4096,
+                max_tokens=2048,
                 # stop=["\n\n"],
             )
         
@@ -167,7 +167,7 @@ if __name__ == '__main__':
                 'top_p': 1,
                 'top_k': 50,
                 'num_beams': 1,
-                'max_new_tokens': 4096,
+                'max_new_tokens': 2048,
                 'use_cache': True
                 }
         # generation_config = GenerationConfig(

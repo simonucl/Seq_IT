@@ -1,7 +1,7 @@
 import pandas
 from datasets import load_dataset
 
-SYSTEM_PROMPT = "Please follow strictly the format of the few shot examples given."
+SYSTEM_PROMPT = "You are an assistant to classify the correct choices for the given instruction. Please follow strictly the format of the few shot examples given and provide explanation."
 PROMPT_PREFIX = """Given the original instruction, you should propose a new instruction based on it by doing one of following things:
 A. Decompose it into two tasks.
 B. Add a prefix task.
@@ -34,14 +34,14 @@ So the option is: D.""",
 
 """The instruction is: 'Give three tips for staying healthy.'
 
-Let's think step by step. For the given instruction, a suitable adaptation is to **add a prefix task**. This would involve asking the user to perform a preliminary activity before providing the tips for staying healthy. New instruction: "Research the most common health issues in your area, and then give three tips for staying healthy based on your findings."
+Let's think step by step. For the given instruction, a suitable adaptation is to add a prefix task. This would involve asking the user to perform a preliminary activity before providing the tips for staying healthy. New instruction: "Research the most common health issues in your area, and then give three tips for staying healthy based on your findings."
 This addition prepares the user by directing them to focus on specific health concerns relevant to their location, making the subsequent tips more targeted and practical.
 So the option is: B."""
 ]
 
 PROMPT_TEMPLATE = """
-The instruction is: '{}'
+The instruction is: "{}". {}
 
 Let's think step by step."""
 
-INPUT_TEMPLATE = "And this is the original input: '{}'"
+INPUT_TEMPLATE = "Input: '{}'"
