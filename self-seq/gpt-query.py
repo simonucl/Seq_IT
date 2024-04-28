@@ -161,6 +161,8 @@ if __name__ == '__main__':
             "gpu_memory_utilization": 0.97,
         }
             generation_kwargs["stop"] = [stop]
+            # replace max_new_tokens with max_tokens
+            generation_kwargs["max_tokens"] = generation_kwargs.pop("max_new_tokens")
             agent = VllmAgent(args.query, vllm_kwargs, generation_kwargs)
             outputs = agent.generate(tokenize_prompts)
             for i, p in enumerate(prompts):
