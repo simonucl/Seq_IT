@@ -48,12 +48,12 @@ class HfAgent:
     def generate(self, prompt, stop_id_sequences=None):
         tokenized_prompts = self.tokenizer(prompt, padding="longest", return_tensors="pt", add_special_tokens=True)
         batch_input_ids = tokenized_prompts['input_ids']
-        batch_outputs = self.model.generate(**tokenized_prompts, **self.generation_kwargs, stopping_criteria=[KeyWordsCriteria([stop_id_sequences])] if stop_id_sequences is not None else None)
+        batch_outputs = self.model.generate(**tokenized_prompts, **self.generation_kwargs, stopping_criteria=[KeyWordsCriteria(stop_id_sequences)] if stop_id_sequences is not None else None)
 
         if stop_id_sequences:
             for output_idx in range(batch_outputs.shape[0]):
                 for token_idx in range(batch_input_ids.shape[1], batch_outputs.shape[1]):
-                    if any(batch_outputs[output_idx, token_idx: token_idx+len(stop_sequence)].tolist() == stop_sequence for stop_sequence in [stop_id_sequences]):
+                    if any(batch_outputs[output_idx, token_idx: token_idx+len(stop_sequence)].tolist() == stop_sequence for stop_sequence in stop_id_sequences):
                         batch_outputs[output_idx, token_idx:] = self.tokenizer.pad_token_id
                         break
 

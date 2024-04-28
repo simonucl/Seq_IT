@@ -145,8 +145,8 @@ if __name__ == '__main__':
             stop_id_sequences = None
         else:
             tokenize_prompts = [p['prompt'] for p in prompts]
-            stop = "###"
-            stop_id_sequences = tokenizer.encode(stop, add_special_tokens=False)
+            stop = ["###", "###\n", "###\n\n"]
+            stop_id_sequences = [tokenizer.encode(s, add_special_tokens=False)[-1] for s in stop]
 
         generation_kwargs = {
             "temperature": 0,
@@ -160,7 +160,7 @@ if __name__ == '__main__':
             "tensor_parallel_size": torch.cuda.device_count(),
             "gpu_memory_utilization": 0.97,
         }
-            generation_kwargs["stop"] = [stop]
+            generation_kwargs["stop"] = stop
             # replace max_new_tokens with max_tokens
             generation_kwargs["max_tokens"] = generation_kwargs.pop("max_new_tokens")
             agent = VllmAgent(args.query, vllm_kwargs, generation_kwargs)
