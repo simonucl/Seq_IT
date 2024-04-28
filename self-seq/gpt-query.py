@@ -47,13 +47,13 @@ def extract_classification(o):
     # check if 'option: a', 'option: b', 'option: c', 'option: d' in the completion
     # if so, extract the option and the explanation
     # if not, return None
-    if 'option: a' in o.lower():
+    if ('option a' in o.lower()) or ('option: a' in o.lower()):
         return 'A'
-    elif 'option: b' in o.lower():
+    elif ('option b' in o.lower()) or ('option: b' in o.lower()):
         return 'B'
-    elif 'option: c' in o.lower():
+    elif ('option c' in o.lower()) or ('option: c' in o.lower()):
         return 'C'
-    elif 'option: d' in o.lower():
+    elif ('option d' in o.lower()) or ('option: d' in o.lower()):
         return 'D'
     else:
         if 'A.' in o:
