@@ -190,20 +190,20 @@ if __name__ == '__main__':
     if 'gpt' in args.query:
         agent = GptAgent(api_key=random.choice(API_KEYs), model_name=args.query)
 
-        with open(output_file, 'a', encoding='utf-8') as json_file:
-            
-            for index in tqdm(range(len(json_data), len(input_data))):
-                prompt = prompts[index]
-                gpt_answer = agent.generate(prompt)
-                json_data.append({
-                    'idx': index,
-                    # 'input': prompt['input'],
-                    'instruction': prompt['instruction'],
-                    'prompt': prompt['prompt'],
-                    'completions': gpt_answer,
-                })
-                json_file.write(json.dumps(json_data[-1], ensure_ascii=False) + '\n')
-                print(f'↑ has been stored.')
+        json_data = []
+        for index in trange(0, len(input_data)):
+            prompt = prompts[index]
+            gpt_answer = agent.generate(prompt)
+            json_data.append({
+                'idx': index,
+                'input': prompt['input'],
+                'instruction': prompt['instruction'],
+                'completions': gpt_answer,
+                'option': extract_classification(gpt_answer)
+            })
+        with open(output_file, 'w', encoding='utf-8') as json_file:
+            for g in json_data:
+                json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
                 
         get_gen_instruction_prompts = [get_gen_instruction_prompt(p) for p in json_data]
         gen_instruction = [p for p in get_gen_instruction_prompts if 'messages' in p]
@@ -423,12 +423,17 @@ if __name__ == '__main__':
                     refined_generations.append({
                         **refined_generations[i + idx],
                         'final_instruction': prompt,
-                        'final_instruction_reponse': output,
+                        'final_instruction_response': output,
                     })
-            refined_generations = [p for p in refined_generations if ('extracted_refined_instruction' in p) and (p['extracted_refined_instruction'] is not None)]
-            remaining_generations = [p for p in refined_generations if ('final_instruction_reponse' in p) and (p['final_instruction_reponse'] is not None)]
+            output_file = output_file.replace('.jsonl', '-response.jsonl')
+            with open(output_file, 'w', encoding='utf-8') as json_file:
+                for g in refined_generations:
+                    json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+
+            extracted_refined_generations = [p for p in refined_generations if ('extracted_refined_instruction' in p) and (p['extracted_refined_instruction'] is not None)]
+            remaining_generations = [p for p in refined_generations if ('extracted_refined_instruction' not in p) or (p['extracted_refined_instruction'] is None)]
             prompts = []
-            for p in refined_generations:
+            for p in extracted_refined_generations:
                 prompts.append(p['extracted_refined_instruction'])
             instruction_prompts = [tokenizer.apply_chat_template([{'role': 'user', 'content': p}], add_generation_prompt=True, tokenize=False) for p in prompts]
             for i in trange(0, len(instruction_prompts), args.batch_size):
