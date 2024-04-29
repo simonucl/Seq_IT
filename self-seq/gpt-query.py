@@ -274,7 +274,7 @@ if __name__ == '__main__':
             batch_prompts = instruction_prompts[i]
             outputs = agent.generate(batch_prompts)
             remaining_generations.append({
-                **refined_generations[i],
+                **extracted_refined_generations[i],
                 'final_refined_instruction_reponse': outputs,
             })
 
@@ -447,7 +447,7 @@ if __name__ == '__main__':
                 for idx, (prompt, output) in enumerate(zip(batch_prompts, outputs)):
                     # remove messages from the prompt
                     remaining_generations.append({
-                        **refined_generations[i + idx],
+                        **extracted_refined_generations[i + idx],
                         'final_refined_instruction_reponse': output,
                     })
 
