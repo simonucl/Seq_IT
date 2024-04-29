@@ -10,7 +10,7 @@ import argparse
 import os
 from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 import torch
-import vllm
+# import vllm
 import cohere
 import time
 from transformers import StoppingCriteria
@@ -118,7 +118,7 @@ class CohereAgent:
             system_message = ""
         else:
             system_message = systems[-1]['content']
-        message = prompt[-1]['content']
+        message = prompt['messages'][-1]['content']
         
         if message == "":
             return ""
@@ -128,12 +128,12 @@ class CohereAgent:
             try:
                 if system_message == "":
                     response = self.co.chat(
-                        model="command-r",
+                        model="command-r-plus",
                         message=message,
                     )
                 else:
                     response = self.co.chat(
-                        model="command-r",
+                        model="command-r-plus",
                         preamble=system_message,
                         message=message,
                     )

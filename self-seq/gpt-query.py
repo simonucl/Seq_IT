@@ -15,6 +15,7 @@ import vllm
 import cohere
 import time
 from agent import HfAgent, VllmAgent, GptAgent, CohereAgent
+import refine_template
 
 def get_prompt(p, is_chat=False):
     few_shot_example = FEW_SHOTS_EXAMPLE if not is_chat else FEW_SHOTS_EXAMPLE_CHAT
@@ -71,6 +72,24 @@ def get_gen_instruction_prompt(p):
     messages = [{'role': 'user', 'content': prompt}]
     return {**p, 'messages': messages}
 
+def get_refine_prompt(p, is_chat=False):
+    if p['extracted_instruction'] is None:
+        return p
+
+    original_instruction = p['instruction']
+    new_instruction = p['extracted_instruction']
+
+    prompt_prefix = refine_template.PROMPT_PREFIX
+    few_shot_example = refine_template.FEW_SHOTS_EXAMPLE
+    prompt_template = refine_template.PROMPT_TEMPLATE
+
+    e = few_shot_example.copy()
+    random.shuffle(e)
+    prompt = prompt_prefix + '\n\n' + '\n\n'.join(e)
+    prompt += '\n\n' + prompt_template.format(p['instruction'], p['extracted_instruction'])
+    messages = [{'role': 'user', 'content': prompt}]
+    return {**p, 'messages': messages}
+
 def extract_classification(o):
     # check if 'option: a', 'option: b', 'option: c', 'option: d' in the completion
     # if so, extract the option and the explanation
@@ -93,7 +112,14 @@ def extract_classification(o):
         elif 'D.' in o:
             return 'D'
         else:
-            return None
+            if 'prefix task' in o.lower():
+                return 'B'
+            elif 'suffix task' in o.lower():
+                return 'C'
+            elif 'decompose' in o.lower():
+                return 'A'
+            else:
+                return 'D'
 
 def extract_instruction(o):
     # check if the completion contains 'new instruction' or 'new task'
@@ -106,6 +132,16 @@ def extract_instruction(o):
     else:
         return None
     
+def extracted_refined_instruction(o):
+    # check if yes is in the first 5 tokens
+    if 'yes' in " ".join(o.split()[:5]).lower():
+        return None
+    else:
+        if "no" in " ".join(o.split()[:5]).lower():
+            return o[o.lower().index('new instruction') + len('new instruction'):].strip(":# \n")
+        else:
+            return None
+        
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
     args.add_argument('--input_file', type=str, default='data/alpaca.jsonl')
@@ -117,6 +153,7 @@ if __name__ == '__main__':
     args.add_argument('--load_8bit', action='store_true')
     args.add_argument('--use_vllm', action='store_true')
     args.add_argument('--use_instruct', action='store_true')
+    args.add_argument('--do_refine', action='store_true')
 
     args = args.parse_args()
     input_file = args.input_file
@@ -191,7 +228,7 @@ if __name__ == '__main__':
             "temperature": 0,
             "top_p": 1,
             "top_k": 50,
-            "max_new_tokens": 512,
+            "max_new_tokens": 1024,
         }
         if args.use_vllm:
             vllm_kwargs = {
@@ -243,7 +280,7 @@ if __name__ == '__main__':
                 for g in generations:
                     json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
 
-            # Starting the next steps
+            # Step 2: Add sequential instruction generation
             get_gen_instruction_prompts = [get_gen_instruction_prompt(p) for p in generations]
             gen_instruction = [p for p in get_gen_instruction_prompts if 'messages' in p]
             new_generations = [p for p in get_gen_instruction_prompts if 'messages' not in p]
@@ -253,11 +290,63 @@ if __name__ == '__main__':
 
                 outputs = agent.generate(batch_tokenized_prompts, stop_id_sequences=stop_id_sequences)
                 for prompt, output in zip(batch_prompts, outputs):
+                    # remove messages from the prompt
+                    prompt.pop('messages')
                     new_generations.append({
                         **prompt,
                         'new_instruction': output,
                         'extracted_instruction': extract_instruction(output)
                     })
+            output_file = output_file.replace('.jsonl', '-generate_instruct.jsonl')
             with open(output_file, 'w', encoding='utf-8') as json_file:
                 for g in new_generations:
+                    json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+
+            # Step 3 (Optional): Add refinement
+            refining_generations = [p for p in new_generations if ('extracted_instruction' in p) and (p['extracted_instruction'] is not None)]
+            refined_generations = [p for p in new_generations if ('extracted_instruction' not in p) or (p['extracted_instruction'] is None)]
+            
+            refineing_prompts = [get_refine_prompt(p, is_chat=args.use_instruct) for p in refining_generations]
+            for i in trange(0, len(refineing_prompts), args.batch_size):
+                batch_prompts = [p for p in refineing_prompts[i:i + args.batch_size]]
+                batch_tokenized_prompts = [tokenizer.apply_chat_template(p['messages'], add_generation_prompt=True, tokenize=False) for p in batch_prompts]
+
+                outputs = agent.generate(batch_tokenized_prompts, stop_id_sequences=stop_id_sequences)
+                for prompt, output in zip(batch_prompts, outputs):
+                    # remove messages from the prompt
+                    prompt.pop('messages')
+                    refined_generations.append({
+                        **prompt,
+                        'refine_instruction': output,
+                        'extracted_refined_instruction': extract_instruction(output)
+                    })
+            output_file = output_file.replace('.jsonl', '-refine.jsonl')
+            with open(output_file, 'w', encoding='utf-8') as json_file:
+                for g in refined_generations:
+                    json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+
+            # Step 4: Return the final output
+            instruction_prompts = []
+            for p in refined_generations:
+                if "extracted_refined_instruction" in p and p["extracted_refined_instruction"] is not None:
+                    instruction_prompts.append(p["extracted_refined_instruction"])
+                elif "extracted_instruction" in p and p["extracted_instruction"] is not None:
+                    instruction_prompts.append(p["extracted_instruction"])
+                else:
+                    instruction_prompts.append(p["instruction"])
+            instruction_prompts = [tokenizer.apply_chat_template([{'role': 'user', 'content': p}], add_generation_prompt=True, tokenize=False) for p in instruction_prompts]
+            
+            for i in trange(0, len(instruction_prompts), args.batch_size):
+                batch_prompts = [p for p in instruction_prompts[i:i + args.batch_size]]
+                outputs = agent.generate(batch_prompts, stop_id_sequences=stop_id_sequences)
+                for prompt, output in zip(batch_prompts, outputs):
+                    # remove messages from the prompt
+                    prompt.pop('messages')
+                    refined_generations.append({
+                        **prompt,
+                        'final_instruction_reponse': output,
+                    })
+            output_file = output_file.replace('.jsonl', '-final.jsonl')
+            with open(output_file, 'w', encoding='utf-8') as json_file:
+                for g in refined_generations:
                     json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
