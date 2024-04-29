@@ -7,7 +7,7 @@ from tqdm import tqdm, trange
 from template import *
 from instruct_template import *
 import argparse
-# from token_store import API_KEYs
+from token_store import API_KEYs
 import os
 from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 import torch
