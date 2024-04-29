@@ -339,11 +339,11 @@ if __name__ == '__main__':
             for i in trange(0, len(instruction_prompts), args.batch_size):
                 batch_prompts = [p for p in instruction_prompts[i:i + args.batch_size]]
                 outputs = agent.generate(batch_prompts, stop_id_sequences=stop_id_sequences)
-                for prompt, output in zip(batch_prompts, outputs):
+                for idx, (prompt, output) in enumerate(zip(batch_prompts, outputs)):
                     # remove messages from the prompt
-                    prompt.pop('messages')
                     refined_generations.append({
-                        **prompt,
+                        **refined_generations[i + idx],
+                        'final_instruction': prompt,
                         'final_instruction_reponse': output,
                     })
             output_file = output_file.replace('.jsonl', '-final.jsonl')
