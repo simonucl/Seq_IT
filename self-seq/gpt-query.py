@@ -176,7 +176,7 @@ def classification(agent, generation_kwargs, prompts, batch_size=1):
             })
     return json_data
 
-def generation(agent, generation_kwargs, prompts, batch_size=1):
+def generation(agent, generate_kwargs, prompts, batch_size=1):
     if isinstance(agent, GptAgent):
         batch_size = 1 
     get_gen_instruction_prompts = [get_gen_instruction_prompt(p) for p in prompts]
@@ -188,7 +188,7 @@ def generation(agent, generation_kwargs, prompts, batch_size=1):
             batch_prompts = prompts[i]
         else:
             batch_prompts = prompts[i:i + batch_size]
-        outputs = agent.generate(batch_prompts, **generation_kwargs)
+        outputs = agent.generate(batch_prompts, **generate_kwargs)
 
         if isinstance(agent, GptAgent):
             outputs = [outputs]
