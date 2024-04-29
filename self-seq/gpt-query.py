@@ -134,7 +134,14 @@ def extract_instruction(o):
     
 def extracted_refined_instruction(o):
     if "no" in " ".join(o.split()[:10]).lower():
-        return o[o.lower().index('#new instruction#') + len('#new instruction#'):o.lower().index("###")].strip(":# \n")
+        if "#new instruction#" in o.lower():
+            o = o[o.lower().index('#new instruction#') + len('#new instruction#'):]
+        elif "new instruction" in o.lower():
+            o = o[o.lower().index('new instruction') + len('new instruction'):]
+
+        if "###" in o.lower():
+            o = o[:o.lower().index("###")]
+        return o.strip(":# \n")
     else:
         return None
         
@@ -147,11 +154,13 @@ if __name__ == '__main__':
     args.add_argument('--seed', type=int, default=42)
     args.add_argument('--batch_size', type=int, default=1)
     args.add_argument('--load_8bit', action='store_true')
+    args.add_argument('--load_4bit', action='store_true')
     args.add_argument('--use_vllm', action='store_true')
     args.add_argument('--use_instruct', action='store_true')
     args.add_argument('--do_refine', action='store_true')
 
     args = args.parse_args()
+    assert not (args.load_8bit and args.load_4bit)
     input_file = args.input_file
     if args.output_file is None:
         output_file = input_file.replace('.jsonl', f'-{os.path.basename(args.query)}.jsonl')
@@ -327,6 +336,7 @@ if __name__ == '__main__':
         else:
             model_kwargs = {
             "load_in_8bit": args.load_8bit,
+            "load_in_4bit": args.load_4bit,
             "torch_dtype": torch.bfloat16,
             "attn_implementation": 'flash_attention_2',
             "device_map": "auto",
