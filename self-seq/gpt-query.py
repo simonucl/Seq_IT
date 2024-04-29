@@ -254,14 +254,19 @@ if __name__ == '__main__':
             outputs = agent.generate(batch_prompts)
             refined_generations[i] = {
                 **refined_generations[i],
-                # 'final_instruction': batch_prompts,
-                'final_instruction_reponse': outputs,
+                'final_instruction': batch_prompts,
+                'final_instruction_response': outputs,
             }
 
-        refined_generations = [p for p in refined_generations if ('extracted_refined_instruction' in p) and (p['extracted_refined_instruction'] is not None)]
-        remaining_generations = [p for p in refined_generations if ('final_instruction_reponse' in p) and (p['final_instruction_reponse'] is not None)]
+        output_file = output_file.replace('.jsonl', '-response.jsonl')
+        with open(output_file, 'w', encoding='utf-8') as json_file:
+            for g in refined_generations:
+                json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+
+        extracted_refined_generations = [p for p in refined_generations if ('extracted_refined_instruction' in p) and (p['extracted_refined_instruction'] is not None)]
+        remaining_generations = [p for p in refined_generations if ('extracted_refined_instruction' not in p) or (p['extracted_refined_instruction'] is None)]
         prompts = []
-        for p in refined_generations:
+        for p in extracted_refined_generations:
             prompts.append(p['extracted_refined_instruction'])
         instruction_prompts = [{'messages': [{'role': 'user', 'content': p}]} for p in prompts]
 
