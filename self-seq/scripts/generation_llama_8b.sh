@@ -3,7 +3,9 @@ python3 self-seq/gpt-query.py \
     --sample 100 \
     --query /mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B-Instruct \
     --batch_size 16 \
-    --use_instruct
+    --use_instruct \
+    --add_system_prompt
+
 
 python3 self-seq/gpt-query.py \
     --input_file self-seq/data/alpaca/alpaca-cleaned.jsonl \

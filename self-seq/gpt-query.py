@@ -42,7 +42,7 @@ def get_prompt(p, is_chat=False):
             prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, input)
         else:
             prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
-            
+
     if 'system_prompt' in p:
         system_prompt = p['system_prompt']
     else:
@@ -322,6 +322,7 @@ if __name__ == '__main__':
     args.add_argument('--use_instruct', action='store_true')
     args.add_argument('--do_refine', action='store_true')
     args.add_argument('--ignore_cache', action='store_true')
+    args.add_argument('--add_system_prompt', action='store_true')
 
     args = args.parse_args()
     assert not (args.load_8bit and args.load_4bit)
@@ -350,6 +351,10 @@ if __name__ == '__main__':
         input_data = random.sample(input_data, args.sample)
 
     prompts = [get_prompt(p, is_chat=args.use_instruct) for p in input_data]
+    if (args.add_system_prompt) and ('system_prompt' in prompts[0]):
+        system_prompt_map = {i : p['system_prompt'] for i, p in enumerate(prompts)}
+    else:
+        system_prompt_map = None
 
     if 'gpt' in args.query:
         agent = GptAgent(api_key=random.choice(API_KEYs), model_name=args.query)
@@ -409,6 +414,11 @@ if __name__ == '__main__':
             with open(output_file, 'w', encoding='utf-8') as json_file:
                 for g in refined_generations:
                     json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+
+        if args.add_system_prompt:
+            assert system_prompt_map is not None
+            for i, p in enumerate(refined_generations):
+                refined_generations[i]['system_prompt'] = system_prompt_map[p['idx']]
 
         # Step 4: Return the final output
         output_file = output_file.replace('.jsonl', '-response.jsonl')
@@ -563,6 +573,11 @@ if __name__ == '__main__':
                 with open(output_file, 'w', encoding='utf-8') as json_file:
                     for g in refined_generations:
                         json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+
+            if args.add_system_prompt:
+                assert system_prompt_map is not None
+                for i, p in enumerate(refined_generations):
+                    refined_generations[i]['system_prompt'] = system_prompt_map[p['idx']]
 
             # Step 4: Return the final output
             output_file = output_file.replace('.jsonl', '-response.jsonl')
