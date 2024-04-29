@@ -239,7 +239,7 @@ def generate_response(agent, prompts, batch_size=1, generation_kwargs={}):
         if "extracted_instruction" in p and p["extracted_instruction"] is not None:
             instruction = p["extracted_instruction"]
         else:
-            instruction == p["instruction"]
+            instruction = p["instruction"]
         if 'system_prompt' in p:
             instruction_prompts.append([{ 'role': 'system', 'content': p['system_prompt'] }, { 'role': 'user', 'content': instruction }])
         else:
