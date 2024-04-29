@@ -133,14 +133,10 @@ def extract_instruction(o):
         return None
     
 def extracted_refined_instruction(o):
-    # check if yes is in the first 5 tokens
-    if 'yes' in " ".join(o.split()[:5]).lower():
-        return None
+    if "no" in " ".join(o.split()[:5]).lower():
+        return o[o.lower().index('new instruction') + len('new instruction'):].strip(":# \n")
     else:
-        if "no" in " ".join(o.split()[:5]).lower():
-            return o[o.lower().index('new instruction') + len('new instruction'):].strip(":# \n")
-        else:
-            return None
+        return None
         
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
@@ -318,7 +314,7 @@ if __name__ == '__main__':
                     refined_generations.append({
                         **prompt,
                         'refine_instruction': output,
-                        'extracted_refined_instruction': extract_instruction(output)
+                        'extracted_refined_instruction': extracted_refined_instruction(output)
                     })
             output_file = output_file.replace('.jsonl', '-refine.jsonl')
             with open(output_file, 'w', encoding='utf-8') as json_file:
@@ -328,9 +324,7 @@ if __name__ == '__main__':
             # Step 4: Return the final output
             instruction_prompts = []
             for p in refined_generations:
-                if "extracted_refined_instruction" in p and p["extracted_refined_instruction"] is not None:
-                    instruction_prompts.append(p["extracted_refined_instruction"])
-                elif "extracted_instruction" in p and p["extracted_instruction"] is not None:
+                if "extracted_instruction" in p and p["extracted_instruction"] is not None:
                     instruction_prompts.append(p["extracted_instruction"])
                 else:
                     instruction_prompts.append(p["instruction"])
@@ -346,7 +340,23 @@ if __name__ == '__main__':
                         'final_instruction': prompt,
                         'final_instruction_reponse': output,
                     })
+            refined_generations = [p for p in refined_generations if ('extracted_refined_instruction' in p) and (p['extracted_refined_instruction'] is not None)]
+            remaining_generations = [p for p in refined_generations if ('final_instruction_reponse' in p) and (p['final_instruction_reponse'] is not None)]
+            prompts = []
+            for p in refined_generations:
+                prompts.append(p['extracted_refined_instruction'])
+            instruction_prompts = [tokenizer.apply_chat_template([{'role': 'user', 'content': p}], add_generation_prompt=True, tokenize=False) for p in prompts]
+            for i in trange(0, len(instruction_prompts), args.batch_size):
+                batch_prompts = [p for p in instruction_prompts[i:i + args.batch_size]]
+                outputs = agent.generate(batch_prompts, stop_id_sequences=stop_id_sequences)
+                for idx, (prompt, output) in enumerate(zip(batch_prompts, outputs)):
+                    # remove messages from the prompt
+                    remaining_generations.append({
+                        **refined_generations[i + idx],
+                        'final_refined_instruction_reponse': output,
+                    })
+
             output_file = output_file.replace('.jsonl', '-final.jsonl')
             with open(output_file, 'w', encoding='utf-8') as json_file:
-                for g in refined_generations:
+                for g in remaining_generations:
                     json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
