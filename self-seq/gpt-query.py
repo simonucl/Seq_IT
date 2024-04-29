@@ -133,8 +133,8 @@ def extract_instruction(o):
         return None
     
 def extracted_refined_instruction(o):
-    if "no" in " ".join(o.split()[:5]).lower():
-        return o[o.lower().index('new instruction') + len('new instruction'):].strip(":# \n")
+    if "no" in " ".join(o.split()[:10]).lower():
+        return o[o.lower().index('#new instruction#') + len('#new instruction#'):o.lower().index("###")].strip(":# \n")
     else:
         return None
         
@@ -179,21 +179,96 @@ if __name__ == '__main__':
     prompts = [get_prompt(p, is_chat=args.use_instruct) for p in input_data]
 
     if 'gpt' in args.query:
-        Agent = GptAgent(api_key=random.choice(API_KEYs), model_name=args.query)
+        agent = GptAgent(api_key=random.choice(API_KEYs), model_name=args.query)
 
         with open(output_file, 'a', encoding='utf-8') as json_file:
             
             for index in tqdm(range(len(json_data), len(input_data))):
                 prompt = prompts[index]
-                gpt_answer = Agent.generate(prompt)
+                gpt_answer = agent.generate(prompt)
                 json_data.append({
                     'idx': index,
-                    'input': prompt['input'],
+                    # 'input': prompt['input'],
+                    'instruction': prompt['instruction'],
                     'prompt': prompt['prompt'],
                     'completions': gpt_answer,
                 })
                 json_file.write(json.dumps(json_data[-1], ensure_ascii=False) + '\n')
                 print(f'↑ has been stored.')
+                
+        get_gen_instruction_prompts = [get_gen_instruction_prompt(p) for p in json_data]
+        gen_instruction = [p for p in get_gen_instruction_prompts if 'messages' in p]
+        new_generations = [p for p in get_gen_instruction_prompts if 'messages' not in p]
+        for index in trange(0, len(gen_instruction)):
+            batch_prompts = gen_instruction[index]
+            outputs = agent.generate(batch_prompts)
+            batch_prompts.pop('messages')
+            new_generations.append({
+                **batch_prompts,
+                'new_instruction': outputs,
+                'extracted_instruction': extract_instruction(outputs)
+            })
+        output_file = output_file.replace('.jsonl', '-generate_instruct.jsonl')
+        with open(output_file, 'w', encoding='utf-8') as json_file:
+            for g in new_generations:
+                json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+
+        # Step 3 (Optional): Add refinement
+        refining_generations = [p for p in new_generations if ('extracted_instruction' in p) and (p['extracted_instruction'] is not None)]
+        refined_generations = [p for p in new_generations if ('extracted_instruction' not in p) or (p['extracted_instruction'] is None)]
+        
+        refineing_prompts = [get_refine_prompt(p, is_chat=args.use_instruct) for p in refining_generations]
+        for i in trange(0, len(refineing_prompts)):
+            batch_prompts = refineing_prompts[i]
+            outputs = agent.generate(batch_prompts)
+            batch_prompts.pop('messages')
+            refined_generations.append({
+                **batch_prompts,
+                'refine_instruction': outputs,
+                'extracted_refined_instruction': extracted_refined_instruction(outputs)
+            })
+        output_file = output_file.replace('.jsonl', '-refine.jsonl')
+        with open(output_file, 'w', encoding='utf-8') as json_file:
+            for g in refined_generations:
+                json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+
+        # Step 4: Return the final output
+        instruction_prompts = []
+        for p in refined_generations:
+            if "extracted_instruction" in p and p["extracted_instruction"] is not None:
+                instruction_prompts.append(p["extracted_instruction"])
+            else:
+                instruction_prompts.append(p["instruction"])
+        instruction_prompts = [{'messages': [{'role': 'user', 'content': p}]} for p in instruction_prompts]
+        for i in trange(0, len(instruction_prompts)):
+            batch_prompts = instruction_prompts[i]
+            outputs = agent.generate(batch_prompts)
+            refined_generations[i] = {
+                **refined_generations[i],
+                # 'final_instruction': batch_prompts,
+                'final_instruction_reponse': outputs,
+            }
+
+        refined_generations = [p for p in refined_generations if ('extracted_refined_instruction' in p) and (p['extracted_refined_instruction'] is not None)]
+        remaining_generations = [p for p in refined_generations if ('final_instruction_reponse' in p) and (p['final_instruction_reponse'] is not None)]
+        prompts = []
+        for p in refined_generations:
+            prompts.append(p['extracted_refined_instruction'])
+        instruction_prompts = [{'messages': [{'role': 'user', 'content': p}]} for p in prompts]
+
+        for i in trange(0, len(instruction_prompts)):
+            batch_prompts = instruction_prompts[i]
+            outputs = agent.generate(batch_prompts)
+            remaining_generations.append({
+                **refined_generations[i],
+                'final_refined_instruction_reponse': outputs,
+            })
+
+        output_file = output_file.replace('.jsonl', '-final.jsonl')
+        with open(output_file, 'w', encoding='utf-8') as json_file:
+            for g in remaining_generations:
+                json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+
     elif args.query in ['command-r']:
         Agent = CohereAgent(api_key=random.choice(API_KEYs))
 
