@@ -170,7 +170,7 @@ def classification(agent, generation_kwargs, prompts, batch_size=1):
             generations.append({
                 'idx': i + idx,
                 "input": prompts[i + idx]['input'],
-                'system_prompt': prompt['system_prompt'],
+                'system_prompt': prompts[i + idx]['system_prompt'] if 'system_prompt' in prompts[i + idx] else None,
                 "instruction": prompts[i + idx]['instruction'],
                 'completions': output,
                 'option': extract_classification(output)
