@@ -10,7 +10,7 @@ import argparse
 import os
 from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 import torch
-# import vllm
+import vllm
 import cohere
 import time
 from transformers import StoppingCriteria
