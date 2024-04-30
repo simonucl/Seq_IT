@@ -160,6 +160,7 @@ def classification(agent, generation_kwargs, prompts, batch_size=1):
             batch_prompts = prompts[i]
         else:
             batch_prompts = prompts[i:i + batch_size]
+            batch_prompts = [tokenizer.apply_chat_template(p['messages'], add_generation_prompt=True, tokenize=False) for p in batch_prompts]
         outputs = agent.generate(batch_prompts, **generation_kwargs)
         if isinstance(agent, GptAgent):
             outputs = [outputs]
@@ -178,7 +179,7 @@ def classification(agent, generation_kwargs, prompts, batch_size=1):
 
 def generation(agent, generation_kwargs, prompts, batch_size=1):
     if isinstance(agent, GptAgent):
-        batch_size = 1 
+        batch_size = 1
     get_gen_instruction_prompts = [get_gen_instruction_prompt(p) for p in prompts]
     gen_instruction = [p for p in get_gen_instruction_prompts if 'messages' in p]
     new_generations = [p for p in get_gen_instruction_prompts if 'messages' not in p]
@@ -188,6 +189,7 @@ def generation(agent, generation_kwargs, prompts, batch_size=1):
             batch_prompts = prompts[i]
         else:
             batch_prompts = prompts[i:i + batch_size]
+            batch_prompts = [tokenizer.apply_chat_template(p['messages'], add_generation_prompt=True, tokenize=False) for p in batch_prompts]
         outputs = agent.generate(batch_prompts, **generation_kwargs)
 
         if isinstance(agent, GptAgent):
@@ -216,6 +218,7 @@ def refinement(agent, prompts, batch_size=1, generation_kwargs={}):
             batch_prompts = refineing_prompts[i]
         else:
             batch_prompts = [p for p in refineing_prompts[i:i + batch_size]]
+            batch_prompts = [tokenizer.apply_chat_template(p['messages'], add_generation_prompt=True, tokenize=False) for p in batch_prompts]
 
         outputs = agent.generate(batch_prompts, **generation_kwargs)
         if isinstance(agent, GptAgent):
