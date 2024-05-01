@@ -191,9 +191,9 @@ def generation(agent, generation_kwargs, prompts, batch_size=1):
 
     for i in trange(0, len(gen_instruction), batch_size):
         if isinstance(agent, GptAgent):
-            batch_prompts = prompts[i]
+            batch_prompts = gen_instruction[i]
         else:
-            batch_prompts = prompts[i:i + batch_size]
+            batch_prompts = gen_instruction[i:i + batch_size]
             batch_prompts = [tokenizer.apply_chat_template(p['messages'], add_generation_prompt=True, tokenize=False) for p in batch_prompts]
         outputs = agent.generate(batch_prompts, **generation_kwargs)
 
