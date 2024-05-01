@@ -52,7 +52,8 @@ class HfAgent:
         tokenized_prompts = self.tokenizer(prompt, padding="longest", return_tensors="pt", add_special_tokens=True)
         batch_input_ids = tokenized_prompts['input_ids']
         tokenized_prompts = tokenized_prompts.to(self.model.device)
-        batch_outputs = self.model.generate(**tokenized_prompts, **self.generation_kwargs, stopping_criteria=[KeyWordsCriteria(stop_id_sequences)] if stop_id_sequences is not None else None)
+        with torch.cuda.amp.autocast():
+            batch_outputs = self.model.generate(**tokenized_prompts, **self.generation_kwargs, stopping_criteria=[KeyWordsCriteria(stop_id_sequences)] if stop_id_sequences is not None else None)
 
         if stop_id_sequences:
             for output_idx in range(batch_outputs.shape[0]):
