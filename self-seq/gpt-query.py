@@ -132,9 +132,10 @@ def extract_instruction(o):
     # if so, extract the new instruction
     # if not, return None
     if '#new instruction#' in o.lower():
-        instruction = o[o.lower().index('#new instruction#') + len('#new instruction#'):]
+        # get the last appearance of the new instruction
+        instruction = o[o.lower().rindex('#new instruction#') + len('#new instruction#'):]
     elif 'new instruction' in o.lower():
-        instruction = o[o.lower().index('new instruction') + len('new instruction'):]
+        instruction = o[o.lower().rindex('new instruction') + len('new instruction'):]
     else:
         return None
     
