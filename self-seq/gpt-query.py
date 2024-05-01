@@ -497,9 +497,9 @@ if __name__ == '__main__':
         }
         if args.use_vllm:
             vllm_kwargs = {
-            "tokenizer_mode": "slow",
+            "tokenizer_mode": "auto",
             "tensor_parallel_size": torch.cuda.device_count(),
-            "gpu_memory_utilization": 0.97,
+            "gpu_memory_utilization": 0.95,
         }
             generation_kwargs["stop"] = stop
             # replace max_new_tokens with max_tokens
