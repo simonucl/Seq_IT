@@ -180,7 +180,7 @@ def classification(agent, generation_kwargs, prompts, batch_size=1):
                 'completions': output,
                 'option': extract_classification(output)
             })
-    return json_data
+    return generations
 
 def generation(agent, generation_kwargs, prompts, batch_size=1):
     if isinstance(agent, GptAgent):
@@ -191,9 +191,9 @@ def generation(agent, generation_kwargs, prompts, batch_size=1):
 
     for i in trange(0, len(gen_instruction), batch_size):
         if isinstance(agent, GptAgent):
-            batch_prompts = prompts[i]
+            batch_prompts = gen_instruction[i]
         else:
-            batch_prompts = prompts[i:i + batch_size]
+            batch_prompts = gen_instruction[i:i + batch_size]
             batch_prompts = [tokenizer.apply_chat_template(p['messages'], add_generation_prompt=True, tokenize=False) for p in batch_prompts]
         outputs = agent.generate(batch_prompts, **generation_kwargs)
 
@@ -342,13 +342,13 @@ if __name__ == '__main__':
         output_file = args.output_file
     json_data = []
 
-    if os.path.exists(output_file):
-        with open(output_file, 'r', encoding='utf-8') as initial_file:
-            for line in initial_file:
-                json_data.append(json.loads(line))
-    else:
-        with open(output_file, 'w', encoding='utf-8') as initial_file:
-            json_data = []
+    # if os.path.exists(output_file):
+    #     with open(output_file, 'r', encoding='utf-8') as initial_file:
+    #         for line in initial_file:
+    #             json_data.append(json.loads(line))
+    # else:
+    #     with open(output_file, 'w', encoding='utf-8') as initial_file:
+    #         json_data = []
 
     input_data = []
     with open(input_file, 'r', encoding='utf-8') as file:
