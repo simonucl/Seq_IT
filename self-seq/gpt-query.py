@@ -570,7 +570,7 @@ if __name__ == '__main__':
                     agent=agent,
                     prompts=new_generations,
                     batch_size=args.batch_size,
-                    generation_kwargs={'stop_id_sequences': stop_id_sequences},
+                    generation_kwargs=generation_kwargs,
                 )
                 with open(output_file, 'w', encoding='utf-8') as json_file:
                     for g in refined_generations:
@@ -596,7 +596,7 @@ if __name__ == '__main__':
                 agent=agent,
                 prompts=refined_generations,
                 batch_size=args.batch_size,
-                generation_kwargs={'stop_id_sequences': stop_id_sequences}, 
+                generation_kwargs=generation_kwargs,
             )
             with open(output_file, 'w', encoding='utf-8') as json_file:
                 for g in refined_generations:
@@ -609,7 +609,7 @@ if __name__ == '__main__':
                 agent=agent,
                 prompts=refined_generations,
                 batch_size=args.batch_size,
-                generation_kwargs={'stop_id_sequences': stop_id_sequences},
+                generation_kwargs=generation_kwargs,
             )
         else:
             remaining_generations = refined_generations
