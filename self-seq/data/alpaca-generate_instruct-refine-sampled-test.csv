@@ -1,0 +1,537 @@
+idx,model,instruction,input,option,completions,extracted_instruction,refine_instruction,extracted_refined_instruction
+6,Meta-Llama-3-70B-Instruct,Describe the capital of Spain in 25 words.,,D,,,,
+6,c4ai-command-r-plus,Describe the capital of Spain in 25 words.,,D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction is clear and concise, and adding or changing it might detract from the simplicity and specificity of the request. 
+
+So the option is: D.",,,
+6,c4ai-command-r-v01,Describe the capital of Spain in 25 words.,,C,"The instruction is clear and concise, providing a straightforward request. To enhance it, a suitable modification would be to add a suffix task, encouraging users to explore the city beyond its mere description. 
+
+The new instruction is: ""Describe Madrid, the capital of Spain, in 25 words, and explain what makes this city unique and worth visiting.""
+
+Option: C.","Describe Madrid's significant landmarks, giving a brief overview of the city's essence, and explain why it's a remarkable place to visit. Include the rich history and cultural attractions that Madrid offers in your description.","No
+#New Instruction#: “#New Instruction#: Provide a concise description of Madrid, touching on its essence, notable landmarks, and the enduring appeal for visitors, with a quick glimpse into its rich history and cultural offerings.”###","“#New Instruction#: Provide a concise description of Madrid, touching on its essence, notable landmarks, and the enduring appeal for visitors, with a quick glimpse into its rich history and cultural offerings.”"
+6,gpt-3.5-turbo,Describe the capital of Spain in 25 words.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the user's response by requiring them to provide additional information related to the capital of Spain. New instruction: ""Describe the capital of Spain in 25 words and explain one significant historical event that took place there."" This modification (Option C) not only maintains the original task of describing the capital within a word limit but also prompts the user to delve into the historical significance of the city, enriching the response with contextual details. So the option is: C.###","“Describe the capital of Spain in 25 words. Then, compare the capital of Spain with another major city in Europe, highlighting the similarities and differences between the two cities.”","Answer: No
+#New Instruction#: “Describe the capital of Spain in 25 words. Then, compare the capital of Spain with another major city in Europe, highlighting the similarities and differences between the two cities.”###","“Describe the capital of Spain in 25 words. Then, compare the capital of Spain with another major city in Europe, highlighting the similarities and differences between the two cities.”"
+6,gpt-4-turbo,Describe the capital of Spain in 25 words.,,D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction is already concise and clear, asking for a brief description of the capital of Spain in a specific word limit. This constraint encourages precision and focus in the response, making it a straightforward and effective task without the need for further modification.
+So the option is: D.###",,,
+8,Meta-Llama-3-70B-Instruct,"Analyze the following text for tone: ""We need to act now before it's too late"".",,D,,,,
+8,c4ai-command-r-plus,"Analyze the following text for tone: ""We need to act now before it's too late"".",,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would involve applying the tone analysis to a specific context. 
+
+New instruction: ""Analyze the tone of the sentence 'We need to act now before it's too late.' and explain how this tone might change if the statement was made by a different person in a different situation."" 
+
+This modification (Option C) maintains the original request to analyze tone while also encouraging critical thinking about how tone can be influenced by context, speaker, and situation. 
+
+So the option is: C.","""Analyze the tone of the following text: ""We need to act now before it's too late"". Then, explain the potential impact of this tone on the intended audience and provide a revised sentence that maintains the same tone but uses different wording."" ###
+
+Explanation: The original instruction asks for a tone analysis of the given sentence. By adding a suffix task, we can explore the potential impact of this tone on the intended audience. This encourages critical thinking about the writer's purpose and the effect their words may have on readers. Additionally, providing a revised sentence with the same tone but different wording tests the user's understanding of tone and its nuances.",Yes,
+8,c4ai-command-r-v01,"Analyze the following text for tone: ""We need to act now before it's too late"".",,B,"The original instruction can be improved by adding a prefix task, which would help set the scene and provide context for the analysis. 
+
+New Instruction: Imagine you are an advertising executive analyzing the tone of this message as part of a new campaign strategy. First, establish the target audience for the campaign and then analyze the tone of the provided text, considering the implications and feelings conveyed. 
+
+This addition (Option B) helps to introduce a purpose and an intended audience, which could aid in interpreting the text's tone, making the analysis more focused and engaging. 
+
+Therefore, the option is B.","""Decipher the message's implicit meaning and intended purpose. Then, analyze the text's tone: 'We need to act now before it's too late'.""","Yes.
+
+Answer: Urgent and pressing. 
+
+No.
+
+Answer: The rewritten instruction lacks the original text, which is crucial to answer the question.
+
+#New Instruction#: To analyze the tone, consider this extended version of the message: ""We need to take action immediately, or we'll miss the opportunity. Act now, or it'll be too late!"" The urgency and potential consequences are emphasized.###
+
+Yes.
+
+Answer: Yes.","To analyze the tone, consider this extended version of the message: ""We need to take action immediately, or we'll miss the opportunity. Act now, or it'll be too late!"" The urgency and potential consequences are emphasized."
+8,gpt-3.5-turbo,"Analyze the following text for tone: ""We need to act now before it's too late"".",,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the analysis by providing a specific focus for the tone identified. New instruction: ""Analyze the following text for tone: 'We need to act now before it's too late.' Explain how the identified tone contributes to the overall message or urgency conveyed in the text.""
+This modification (Option C) extends the analysis beyond just identifying the tone to understanding its impact on the message, making the interpretation more insightful and meaningful.
+So the option is: C.###","“Analyze the following text for tone: ""We need to act now before it's too late"". Identify the tone of the text and provide a brief explanation of why you believe this tone was chosen in this context.”",Answer: Yes,
+8,gpt-4-turbo,"Analyze the following text for tone: ""We need to act now before it's too late"".",,D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction is clear and directly asks to analyze the tone of a specific text. It is straightforward and does not require additional tasks to enhance understanding or effectiveness. The task is well-defined and focuses on a critical aspect of text analysis, which is sufficient for the user to engage with and complete effectively.
+
+So the option is: D.###",,,
+9,Meta-Llama-3-70B-Instruct,Brainstorm five challenges that can be caused by global warming.,,D,,,,
+9,c4ai-command-r-plus,Brainstorm five challenges that can be caused by global warming.,,B,"For the given instruction, a suitable adaptation is to add a prefix task. This would involve providing context and a specific framework to guide the brainstorming process, ensuring the challenges are considered in relation to a particular aspect of global warming, which might be ""five challenges that global warming might pose to marine life."" This addition provides a focused lens for generating relevant and meaningful challenges, making the task more structured and the responses more specific and insightful.
+So the option is: B.","""Research and identify the potential consequences of global warming on a global scale, and based on your findings, brainstorm five specific challenges that it can pose to the environment, societies, or human well-being."" ###
+
+Explanation: The original instruction asks for a direct brainstorming session on the challenges caused by global warming. However, by adding a prefix task, we can provide a more structured approach. The first step is to research and identify the potential consequences of global warming, which will provide a foundation of knowledge to then draw from when brainstorming specific challenges. This ensures that the challenges listed are well-informed and grounded in the understood impacts of global warming.","No
+#New Instruction#: ""Research and identify the potential consequences of global warming on a global scale. Then, based on your findings, brainstorm five specific challenges that it can pose to the environment, societies, or human well-being."" ###","""Research and identify the potential consequences of global warming on a global scale. Then, based on your findings, brainstorm five specific challenges that it can pose to the environment, societies, or human well-being."""
+9,c4ai-command-r-v01,Brainstorm five challenges that can be caused by global warming.,,B,"For the given instruction on global warming, the suitable option is to add a prefix task. 
+
+New Instruction: ""Research and present the current and potential future impacts of global warming on a specific region or ecosystem of your choice. Then, brainstorm and describe five challenges that these impacts could pose."" 
+
+This addition focuses the brainstorming on a specific area, making the challenges more contextually rooted and engaging. It moves the focus from a general discussion of global warming to a more targeted and tangible set of issues, which could make the task more meaningful and relevant for the user. 
+
+Therefore, the best option is B.",“Get an insight into the adverse effects of global warming and brainstorm five challenges that might arise from this global issue.”,"Yes. 
+
+Answer: Global warming could result in rising sea levels, increased frequency of extreme weather events, droughts and heatwaves, food scarcity, and the spread of diseases. 
+
+###",
+9,gpt-3.5-turbo,Brainstorm five challenges that can be caused by global warming.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the user's critical thinking by requiring them to propose solutions or actions related to the challenges identified. New instruction: ""Brainstorm five challenges that can be caused by global warming, and suggest one potential solution or mitigation strategy for each challenge.""
+This modification (Option C) not only prompts the user to identify the challenges but also encourages them to think proactively by proposing solutions, fostering a more comprehensive understanding of the topic.
+So the option is: C.###","“Brainstorm five challenges that can be caused by global warming. Then, suggest potential solutions or mitigation strategies for each of the identified challenges.”","Answer: No
+#New Instruction#: “Brainstorm five challenges that can be caused by global warming. Then, suggest potential solutions or mitigation strategies for each of the identified challenges.”###","“Brainstorm five challenges that can be caused by global warming. Then, suggest potential solutions or mitigation strategies for each of the identified challenges.”"
+9,gpt-4-turbo,Brainstorm five challenges that can be caused by global warming.,,B,"For the given instruction, a suitable adaptation is to add a prefix task. This would involve asking the user to perform a preliminary activity before brainstorming the challenges. New instruction: ""Research the latest scientific findings on global warming, and then brainstorm five challenges that can be caused by global warming based on your findings.""
+This addition prepares the user by providing them with updated and relevant information on global warming, which can lead to a more informed and precise brainstorming session about the challenges.
+So the option is: B.###","“Review the known impacts of global warming on different aspects such as weather patterns, ecosystems, and human societies, and based on this understanding, brainstorm five challenges that can be caused by global warming.”",Answer: Yes###,
+12,Meta-Llama-3-70B-Instruct,Explain an algorithm to multiply two integers without using a multiplication operator.,,D,assistant,,,
+12,c4ai-command-r-plus,Explain an algorithm to multiply two integers without using a multiplication operator.,,D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction is clear and focused, requesting a specific explanation without any unnecessary complexity. Adding or changing the instruction may detract from the core task of explaining the algorithm, and the current form already provides a clear scope and challenge. 
+
+So the option is: D.",,,
+12,c4ai-command-r-v01,Explain an algorithm to multiply two integers without using a multiplication operator.,,A,"The best option for the given instruction is to decompose it into the following two tasks:
+
+First, provide a clear and detailed explanation of the algorithm, breaking down the steps one by one. Then, illustrate the algorithm's functionality by giving an example of multiplying two specific numbers, say 4 and 6. This two-step approach ensures a comprehensive understanding of the concept by first explaining the theory and then putting it into practice.
+
+This adaptation helps clarify the process and makes it more accessible, especially for those who learn best by connecting theoretical knowledge with tangible examples.","""First, understand the requirement: you want to multiply two integers without using the multiplication operator.  Then, describe a step-by-step process or algorithm to perform this multiplication, considering addition, subtraction, or any other mathematical operation that can be used as an alternative to multiplication.""","Yes.
+
+No.
+#New Instruction#: “#New Instruction#: Multiplication Algorithm: 
+1. Start by writing the two numbers, one on top of the other, with the digits aligned right to left, like this: 
+
+a x b 
+
+2. Initialize a new column to the right of the numbers, representing the units digit of the product. 
+3. Begin with the rightmost digit of 'a', perform addition operations, adding the corresponding digits of 'b' and place the units digit of the sum in the units column. 
+4. Move one place value to the left and perform the same operation, but now use subtraction. Record the units digit of the difference in the units column. 
+5. Continue this process, alternating between addition and subtraction, moving one place value at a time towards the left. 
+6. The resulting digits in the units column will be the product of the two given numbers, without using multiplication.”###
+
+Yes: Answer###","“#New Instruction#: Multiplication Algorithm: 
+1. Start by writing the two numbers, one on top of the other, with the digits aligned right to left, like this: 
+
+a x b 
+
+2. Initialize a new column to the right of the numbers, representing the units digit of the product. 
+3. Begin with the rightmost digit of 'a', perform addition operations, adding the corresponding digits of 'b' and place the units digit of the sum in the units column. 
+4. Move one place value to the left and perform the same operation, but now use subtraction. Record the units digit of the difference in the units column. 
+5. Continue this process, alternating between addition and subtraction, moving one place value at a time towards the left. 
+6. The resulting digits in the units column will be the product of the two given numbers, without using multiplication.”"
+12,gpt-3.5-turbo,Explain an algorithm to multiply two integers without using a multiplication operator.,,A,"For the given instruction, a suitable adaptation is to decompose it into two tasks. The existing instruction involves explaining a complex algorithm, which can be broken down into understanding the individual steps of the algorithm and then describing how these steps collectively achieve the multiplication without using a multiplication operator. New instruction: ""First, Break down the steps involved in the algorithm to multiply two integers without using a multiplication operator. Then, Explain how these steps work together to achieve the multiplication result.""
+This modification (Option A) helps users to grasp the algorithm's components before delving into its overall functionality, aiding in a clearer and more structured explanation.
+So the option is: A.###","“Describe the process of repeated addition as a method to achieve multiplication without using a multiplication operator, then illustrate how this process can be implemented in a step-by-step algorithm to multiply two integers.""",Answer: Yes,
+12,gpt-4-turbo,Explain an algorithm to multiply two integers without using a multiplication operator.,,D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction is already clear and specific, asking for an explanation of a particular algorithmic challenge. It is a well-defined task that encourages problem-solving and understanding of alternative methods in programming. Adding more tasks or decomposing it could unnecessarily complicate the straightforward nature of the request.
+So the option is: D.###",,,
+23,Meta-Llama-3-70B-Instruct,Describe a blockchain in layman's terms.,,D,,,,
+23,c4ai-command-r-plus,Describe a blockchain in layman's terms.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would help the user understand the concept of blockchain by relating it to a real-world example. 
+
+New instruction: ""Describe a blockchain in layman's terms and provide an example of how it is used in a real-world application."" 
+
+This modification (Option C) not only covers the original request to describe blockchain in simple terms but also makes the concept more tangible and understandable by providing a practical example of its usage. 
+
+So the option is: C.","""Describe a blockchain in layman's terms, using a relatable analogy or example to illustrate your explanation.""",Yes,
+23,c4ai-command-r-v01,Describe a blockchain in layman's terms.,,A,"The suitable option for the given instruction is A. 
+
+Decompose it into the following two tasks: 
+
+""First, explain the core components of a blockchain network and its purpose. Then, describe how this network functions, focusing on the steps data goes through within the network, in simple and understandable terms.""
+
+This two-part adaptation provides a more comprehensive understanding by breaking down the complex concept into manageable parts. The first task focuses on grasping the fundamental elements, and the second task ensures a user describes the function in a simplistic manner, making it accessible to those unfamiliar with the technology.","To describe blockchain in simple terms, first explain the purpose and characteristics of the technology behind blockchain and then provide an analogy or simple scenario to help imagine the process. This two-step approach will help in describing the concept without using technical jargon. 
+
+Begin by describing blockchain as a decentralized digital ledger system, emphasizing its secure and trustworthy nature due to the consensus process. Explain that it's like a digital book keeping system where transactions are recorded indefinitely. Then, analogize each blockchain 'block' as a transparent box containing information, sealed and chained to other boxes, forming an unbreakable chain, hence the name. This visual image conveys the idea of a continuous, secure record system. 
+
+Finally, describe how each participating computer in the network has a copy of this ever-growing chain, ensuring accessibility and verification of information, thus providing a simple yet effective description of blockchain technology and its core principles.","Yes. Answer: Yes.
+
+No. Answer: No, the new instruction lacks the crucial detail about the band's origin which is vital to answer the question. 
+
+Yes. Answer: Yes###
+
+Yes. Answer: Blockchain is like a digital ledger, a transparent and unbreakable record system. Each transaction is stored in a 'block' - think of it as a box, sealed and linked to other boxes, forming a continuous chain. This chain is duplicated across many computers, ensuring the security and accessibility of the information it holds. This decentralized system guarantees a trustworthy and reliable way of recording transactions, giving an added layer of security and confidence in the digital world. 
+
+The blocks themselves are like transparent storage units, each containing specific information, and the chain is a visual representation of a secure, indelible record, accessible to all, which ensures the data's integrity. This explains the core of blockchain technology, its key attributes, and the analogy helps visualize the process, providing an easy-to-understand description. ###","lacks the crucial detail about the band's origin which is vital to answer the question. 
+
+Yes. Answer: Yes"
+23,gpt-3.5-turbo,Describe a blockchain in layman's terms.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the user's understanding by relating the concept to a practical application. 
+
+New instruction: ""Describe a blockchain in layman's terms and provide an example of how it is used in securing online transactions.""
+
+This modification (Option C) not only explains the concept of blockchain in simple language but also illustrates its practical application, making the explanation more relatable and comprehensive.
+
+So the option is: C.###","“Describe a blockchain in layman's terms. Then, provide an example of how blockchain technology can be used in a real-life situation to illustrate your explanation.”","Answer: No
+#New Instruction#: “Describe a blockchain in layman's terms. Then, provide an example of how blockchain technology can be used in a real-life situation to illustrate your explanation.”###","“Describe a blockchain in layman's terms. Then, provide an example of how blockchain technology can be used in a real-life situation to illustrate your explanation.”"
+23,gpt-4-turbo,Describe a blockchain in layman's terms.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the user's understanding by connecting the concept to real-world applications. New instruction: ""Describe a blockchain in layman's terms and provide examples of its applications in different industries.""
+This modification (Option C) not only covers the original request to describe blockchain in simple terms but also extends the learning by illustrating how blockchain technology is applied across various sectors, making the explanation more tangible and relatable.
+So the option is: C.###","""Describe a blockchain in layman's terms and provide an example of how it can be used in real-world applications.""","Answer: No
+#New Instruction#: ""Describe a blockchain in layman's terms.""###","""Describe a blockchain in layman's terms."""
+24,Meta-Llama-3-70B-Instruct,Design a program that teaches students about data structures.,,D,,,,
+24,c4ai-command-r-plus,Design a program that teaches students about data structures.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would involve first designing the program and then evaluating its effectiveness. New instruction: ""Design a program outline that teaches students about data structures and then reflect on how the program could be adapted to cater to students with different learning styles.""
+This modification (Option C) encourages the designer to consider the diverse needs of learners and adapt the program to ensure inclusivity and maximize the benefit for all students, thereby enhancing the program's effectiveness.
+So the option is: C.","""Design a program outline that teaches students about data structures, including the topics that will be covered and the learning objectives for each topic.""
+
+Explanation: The original instruction is quite broad and open-ended, which could result in a wide range of responses. By adding a suffix task that focuses on creating a program outline, the new instruction provides a more specific and structured framework. This ensures that the response includes essential elements such as topics and learning objectives, making it more focused and comprehensive.",Yes,
+24,c4ai-command-r-v01,Design a program that teaches students about data structures.,,B,"The given instruction can be improved by adding a prefix task. 
+
+Prefix Task: 
+""Before designing the program, identify the key concepts and learning objectives that should be covered in a curriculum about data structures. These concepts could include data types, data storage, common data structures like arrays, linked lists, stacks, and their real-world applications. Research and decide on three essential skills students should acquire by the end of the program.""
+
+This additional task will help the user to first identify the key components of data structures, which will then guide the design of an effective learning program. It adds a valuable planning step that could enhance the program's relevance and educational goals. 
+
+Therefore, the best option is B.","“Outline the learning objectives and essential knowledge outcomes for the program, then design step-by-step content modules that teach students about various data structures, their characteristics, and practical applications.”","Yes: Answer: Yes.
+
+No: Answer: #New Instruction#: Outline the basic program goals, then create a detailed curriculum with topics and learning objectives about data structures for students. ###
+
+Yes: Answer: Yes###","Outline the basic program goals, then create a detailed curriculum with topics and learning objectives about data structures for students."
+24,gpt-3.5-turbo,Design a program that teaches students about data structures.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the original request by specifying the expected outcome or purpose of the program designed. New instruction: ""Design a program that teaches students about data structures and includes interactive exercises to reinforce learning.""
+This modification (Option C) not only maintains the core task of designing a program but also adds a practical element by incorporating interactive exercises, which can improve engagement and understanding for the students using the program.
+So the option is: C.###","“Design a program that teaches students about data structures. Outline the key concepts, topics, and interactive elements that should be included in the program to effectively educate students on data structures.”","Answer: No
+#New Instruction#: “Design a program that teaches students about data structures. Include the key concepts, topics, and interactive elements that should be part of the program to effectively educate students on data structures.”###","“Design a program that teaches students about data structures. Include the key concepts, topics, and interactive elements that should be part of the program to effectively educate students on data structures.”"
+24,gpt-4-turbo,Design a program that teaches students about data structures.,,B,"For the given instruction, a suitable adaptation is to add a prefix task. This would involve asking the user to perform a preliminary activity before designing the program. New instruction: ""Identify the key concepts and principles of data structures, then design a program that teaches students about these concepts.""
+This addition helps the user by ensuring they have a clear understanding of the fundamental concepts of data structures before they begin designing the educational program, making the program more effective and educational.
+So the option is: B.###","“Identify the key data structures that are essential for students to learn and assess the current understanding level of the students regarding these topics, then design a program that teaches students about these data structures.”",Answer: Yes###,
+25,Meta-Llama-3-70B-Instruct,Reply to the following comment.,Input: 'I love the new product!',D,assistant,,,
+25,c4ai-command-r-plus,Reply to the following comment.,Input: 'I love the new product!',B,"For the given instruction, a suitable adaptation is to add a prefix task. This involves asking the user to perform a preliminary evaluation of the comment before replying to it. 
+
+New instruction: ""Evaluate the sentiment of the comment and reply accordingly.""
+
+This addition helps guide the user to consider the sentiment of the comment, ensuring an appropriate and contextually relevant reply. 
+
+So the option is: B.","""Analyze the given comment and identify the main points or concerns raised. Reply to the following comment, addressing these points.""","No
+#New Instruction#: ""Reply to the following comment by identifying the main points or concerns raised and addressing them in your response.""###","""Reply to the following comment by identifying the main points or concerns raised and addressing them in your response."""
+25,c4ai-command-r-v01,Reply to the following comment.,Input: 'I love the new product!',B,"The most suitable adaptation for the instruction is to add a prefix task, which could help to provide a more thoughtful and personalized response. 
+
+New Instruction: ""Before replying to the comment, brainstorm three features of the product that you think would be most appealing to the target audience. Then craft a response, considering the features you've chosen."" 
+
+This addition helps to add depth to the reply, ensuring it's not a generic response and encourages the user to engage with the product's attributes first, making the reply more likely to be tailored and enthusiastic. 
+
+Therefore, the option is B.","“Contemplate the comment and identify its main arguments and key points. Then, formulate a thoughtful reply, addressing these points while adding your perspective or agreement/disagreement.”","Yes.
+
+Answer: The new instruction contains all the necessary information and effectively guides the solution.",
+25,gpt-3.5-turbo,Reply to the following comment.,Input: 'I love the new product!',B,"For the given instruction, a suitable adaptation is to add a prefix task. This would guide the user to consider a specific aspect before replying to the comment. New instruction: ""Analyze the key features of the new product mentioned in the comment, and then reply to the comment expressing your thoughts on these features.""
+This addition prompts the user to critically evaluate the product before responding, leading to a more informed and detailed reply that reflects a deeper understanding of the product's strengths.
+So the option is: B.###","“Analyze the content and tone of the following comment, consider the main points raised, and formulate a thoughtful and relevant reply.”","Answer: No
+#New Instruction#: “Reply to the following comment. Analyze the content and tone of the comment, consider the main points raised, and formulate a thoughtful and relevant reply.”###","“Reply to the following comment. Analyze the content and tone of the comment, consider the main points raised, and formulate a thoughtful and relevant reply.”"
+25,gpt-4-turbo,Reply to the following comment.,Input: 'I love the new product!',B,"For the given instruction, a suitable adaptation is to add a prefix task. This would involve asking the user to analyze the sentiment of the comment before replying. New instruction: ""First, determine the sentiment of the comment 'I love the new product!'. Then, craft an appropriate reply based on the sentiment.""
+This addition helps the user to tailor their response more effectively by considering the emotional tone of the comment, which can lead to a more engaging and appropriate interaction.
+So the option is: B.###","“Analyze the content and context of the following comment, and then craft an appropriate reply.”",Answer: Yes###,
+27,Meta-Llama-3-70B-Instruct,Identify two important considerations when building a website.,,D,,,,
+27,c4ai-command-r-plus,Identify two important considerations when building a website.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would encourage the user to apply their knowledge and provide a more comprehensive response. 
+
+New instruction: ""Identify two important considerations when building a website and explain how addressing these considerations can contribute to the website's overall success and user experience."" 
+
+This modification (Option C) maintains the core of the original request but adds a practical application layer. By explaining how these considerations impact the website's performance and user experience, the response becomes more comprehensive and applicable. 
+
+So the option is: C.","Identify two important considerations when building a website and explain why each consideration is crucial for the website's success, providing specific examples of potential issues that may arise if these considerations are overlooked. ###
+
+This new instruction maintains the core of the original prompt while adding a suffix task that emphasizes the importance of each consideration. By requiring an explanation of why each consideration is important, the task prompts the user to think critically about the potential consequences of neglecting these factors. This addition enhances the user's understanding of website development best practices and underscores the value of thoughtful planning and implementation.",Yes,
+27,c4ai-command-r-v01,Identify two important considerations when building a website.,,C,"For the given instruction, the suitable adaptation is to add a suffix task. This extension would prompt users to apply their knowledge practically. 
+
+New Instruction: ""Identify two important considerations when building a website and explain how they impact the user experience."" 
+
+This modification maintains the core instruction's focus while enhancing it by seeking an explanation of the user's choices, ensuring a deeper understanding of the considerations and their implications. 
+
+Therefore, the option is C.","""Identify two crucial factors to consider when constructing a website. Explain why they are essential, outlining the potential positive and negative impacts on the website's performance and user experience if these considerations are neglected."" 
+
+The added suffix task encourages users to think beyond the identification of the considerations, prompting them to analyze the reasons behind the choices and foresee the consequences, thus enhancing the depth of understanding.","Yes. 
+
+Answer: The two considerations are usability and security.
+
+Usability ensures the website is user-friendly, easy to navigate, and aesthetically pleasing, enhancing user experience. Security is vital to protect data, prevent breaches, and ensure the safety of user information. Neglecting usability may lead to a confusing, frustrating user journey, while security breaches could expose sensitive data and deter users.",
+27,gpt-3.5-turbo,Identify two important considerations when building a website.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the user's understanding by providing additional context for the considerations mentioned. New instruction: ""Identify two important considerations when building a website and explain how these considerations impact user experience.""
+This modification (Option C) not only requires identifying the considerations but also delves into their significance in relation to user experience, making the explanation more insightful and practical.
+So the option is: C.###",“Identify two important considerations when building a website and explain why each of these considerations is crucial in the website development process.”,"Answer: No
+#New Instruction#: “Identify two important considerations when building a website and explain why each of these considerations is crucial in the website development process.”###",“Identify two important considerations when building a website and explain why each of these considerations is crucial in the website development process.”
+27,gpt-4-turbo,Identify two important considerations when building a website.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the user's understanding by applying the considerations in a practical context. New instruction: ""Identify two important considerations when building a website and explain how these considerations impact the user experience and functionality of the site.""
+This modification (Option C) not only covers the original request to identify important considerations but also extends the learning by connecting these considerations to their practical implications on the website's user experience and functionality, making the explanation more comprehensive and actionable.
+So the option is: C.###",“Identify two important considerations when building a website and explain why each consideration is crucial for the success of a website.”,Answer: Yes,
+31,Meta-Llama-3-70B-Instruct,Categorize the given query as either (1) sales related or (2) troubleshooting related,"Input: 'Whenever I print, the white output is weak. This is on a Epson F2100 printer. What are my options?'",D,,,,
+31,c4ai-command-r-plus,Categorize the given query as either (1) sales related or (2) troubleshooting related,"Input: 'Whenever I print, the white output is weak. This is on a Epson F2100 printer. What are my options?'",D,"Here is the response for the given instruction:
+
+Let's think step by step. For the given instruction, a suitable adaptation is to keep as original version. The instruction clearly states to categorize the query as either sales or troubleshooting-related, and the provided text contains all the necessary information to make this distinction. No additional tasks or modifications are needed to understand the query or perform the categorization.
+So the option is: D.",,,
+31,c4ai-command-r-v01,Categorize the given query as either (1) sales related or (2) troubleshooting related,"Input: 'Whenever I print, the white output is weak. This is on a Epson F2100 printer. What are my options?'",D,"For the given instruction, the suitable adaptation is to keep as the original version. The instruction is straightforward, clear, and concise, making it accessible for users to understand and categorize the query. Thus, the option is D.",,,
+31,gpt-3.5-turbo,Categorize the given query as either (1) sales related or (2) troubleshooting related,"Input: 'Whenever I print, the white output is weak. This is on a Epson F2100 printer. What are my options?'",C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the user's understanding by providing a practical application of the categorization task. New instruction: ""Categorize the given query as either (1) sales related or (2) troubleshooting related, and then provide a brief explanation for your categorization decision.""
+This modification (Option C) not only involves categorizing the query but also requires the user to justify their choice, which can deepen their comprehension of the distinctions between sales and troubleshooting queries.
+So the option is: C.###","“Categorize the given query as either (1) sales related or (2) troubleshooting related, and provide a brief explanation for your classification.”","Answer: No
+#New Instruction#: “Categorize the given query as either (1) sales related or (2) troubleshooting related, and provide a brief explanation for your classification.”###","“Categorize the given query as either (1) sales related or (2) troubleshooting related, and provide a brief explanation for your classification.”"
+31,gpt-4-turbo,Categorize the given query as either (1) sales related or (2) troubleshooting related,"Input: 'Whenever I print, the white output is weak. This is on a Epson F2100 printer. What are my options?'",D,"For the given instruction, a suitable adaptation is to keep it as the original version. The instruction is clear and straightforward, asking to categorize a specific query into one of two predefined categories based on the content of the query. It is a direct task that does not require additional context or preliminary steps to be effectively completed. The simplicity and directness of the task make it efficient and easy to understand, ensuring that the user can focus on analyzing the content of the query to make the correct categorization.
+
+So the option is: D.###",,,
+52,Meta-Llama-3-70B-Instruct,Explain the function of a computer’s RAM,,D,,,,
+52,c4ai-command-r-plus,Explain the function of a computer’s RAM,,B,"For the given instruction, a suitable adaptation is to add a prefix task. This would involve defining the term ""RAM"" before explaining its function. 
+
+New instruction: ""Define the term 'RAM' in the context of computers, and then explain its function."" 
+
+This addition ensures that the user understands the basic concept of RAM before delving into its function, providing a more comprehensive understanding of the topic. 
+
+So the option is: B.","""Break down the components of a computer's RAM and then explain its function, including how it interacts with other computer components.""###
+
+Explanation: The original instruction asks for an explanation of the function of RAM in a computer. By adding a prefix task to break down the components of RAM, it provides a structured approach to understanding its function. This additional step helps in providing context and a more comprehensive understanding of RAM's role in a computer system.","No
+#New Instruction#: Break down the components of a computer's RAM and explain its function, including how it interacts with other hardware components. ###","Break down the components of a computer's RAM and explain its function, including how it interacts with other hardware components."
+52,c4ai-command-r-v01,Explain the function of a computer’s RAM,,C,"For the given instruction, the suitable option is to add a suffix task. This helps to enhance the understanding of the function and significance of RAM in a practical, applied context. 
+
+New Instruction: ""Explain the function of a computer's RAM and how it affects the overall performance and speed of a computer when running multiple applications simultaneously."" 
+
+This addition (option C) not only describes the function of RAM but also explains its impact on the computer's performance, offering a more comprehensive understanding.","Explain the function of a computer's RAM, and how it affects the overall performance of a computer when running multiple applications. Outline a scenario where a high-demand task could require extra RAM and explain the potential consequences of insufficient RAM.","Yes. 
+
+Answer: The new instruction contains all the necessary information required to answer the question.",
+52,gpt-3.5-turbo,Explain the function of a computer’s RAM,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would deepen the user's understanding by connecting the function of RAM to a practical scenario. New instruction: ""Explain the function of a computer’s RAM and provide an example of how having more RAM can improve the performance of a specific software application.""
+This modification (Option C) not only covers the original request to explain the function of RAM but also enhances the explanation by illustrating the practical impact of RAM capacity on software performance, making the concept more tangible and relatable.
+So the option is: C.###",“Explain the function of a computer’s RAM and provide two examples of how the RAM affects the performance of a computer during multitasking.”,"Answer: No
+#New Instruction#: “Explain the function of a computer’s RAM and provide two examples of how the RAM affects the performance of a computer during multitasking.”###",“Explain the function of a computer’s RAM and provide two examples of how the RAM affects the performance of a computer during multitasking.”
+52,gpt-4-turbo,Explain the function of a computer’s RAM,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the user's understanding by connecting the function of RAM to its impact on computer performance. New instruction: ""Explain the function of a computer’s RAM and describe how it affects the overall performance of a computer.""
+This modification (Option C) not only covers the original request to explain the function of RAM but also extends the learning by connecting the function of RAM to its practical impact on a computer's performance, making the explanation more comprehensive and applicable.
+So the option is: C.###","""Explain the function of a computer’s RAM and compare its role with that of the hard drive in terms of affecting a computer’s performance.""","Answer: No
+#New Instruction#: ""Explain the function of a computer’s RAM.""###","""Explain the function of a computer’s RAM."""
+62,Meta-Llama-3-70B-Instruct,Compose a 10-second jingle,,D,assistant,,,
+62,c4ai-command-r-plus,Compose a 10-second jingle,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would involve creating a 10-second jingle and then providing a rationale for the creative choices made. New instruction: ""Compose a 10-second jingle for a product or service of your choice, and then explain the creative decisions behind the jingle's composition, including the choice of rhythm, melody, and lyrics.""
+
+This modification (Option C) enhances the task by not only demanding the creation of a jingle but also requiring the user to reflect on and articulate the reasons behind their creative process. This adds depth to the response and provides insight into the user's understanding of jingle composition and its effectiveness in advertising.
+
+So the option is: C.","Compose a 10-second jingle about a made-up breakfast cereal with a fun and catchy tune. Then, create a slogan and design a package for this cereal, considering the target audience and the unique selling points you want to highlight. ###
+
+This new instruction maintains the original task of composing a jingle but now adds a suffix task that challenges the user to apply their creativity to other aspects of breakfast cereal branding. The jingle serves as a starting point, and the additional tasks of creating a slogan and designing packaging build upon it. This encourages the user to think about the bigger picture of marketing and branding, stimulating their creativity and strategic thinking.",Yes,
+62,c4ai-command-r-v01,Compose a 10-second jingle,,A,"For the given instruction, a suitable adaptation is to decompose it into two tasks. 
+New instruction: ""First, decide on a theme or concept for your 10-second jingle. Then, create the jingle, ensuring it aligns with the chosen theme and conveys a clear message within the short duration."" 
+
+This modification helps provide a more structured approach by giving users a clear starting point and ensuring that the jingle has a cohesive idea behind it, making the creative process more guided and structured. 
+
+Therefore, the option is A.","To compose a 10-second jingle, first decide on a catchy melody that captures the attention of the listeners. Then, add lyrics that are easy to remember and effectively convey the message or theme you wish to impart, ensuring that the jingle adheres to the 10-second time constraint.","Yes. 
+
+Answer: No.
+
+No.
+
+Yes.###
+
+No.
+
+#New Instruction#: Create a short, memorable melody with a simple, catchy tune and upbeat rhythm. Next, craft concise lyrics that capture the essence of the message you wish to convey. Ensure the entire jingle stays within the 10-second timeframe.###","Create a short, memorable melody with a simple, catchy tune and upbeat rhythm. Next, craft concise lyrics that capture the essence of the message you wish to convey. Ensure the entire jingle stays within the 10-second timeframe."
+62,gpt-3.5-turbo,Compose a 10-second jingle,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would provide additional context and purpose to the jingle creation. New instruction: ""Compose a 10-second jingle to promote a new product launch.""
+This modification (Option C) adds a specific goal for the jingle, making the task more engaging and challenging by requiring the jingle to serve a promotional purpose.
+So the option is: C.###",“Compose a 10-second jingle targeted towards children to promote a healthy eating habit.”,"Answer: No
+#New Instruction#: “Compose a 10-second jingle”###",“Compose a 10-second jingle”
+62,gpt-4-turbo,Compose a 10-second jingle,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the creative process by asking the user to also explain the purpose and target audience of the jingle after composing it. New instruction: ""Compose a 10-second jingle and explain its purpose and target audience.""
+This modification (Option C) not only asks for the creation of a jingle but also encourages the user to think about the marketing aspects of the jingle, such as its appeal and relevance to a specific audience, thereby adding depth to the task.
+So the option is: C.###","“Compose a 10-second jingle, then describe a scenario or product for which this jingle would be most effective.”","Answer: No
+#New Instruction#: “Compose a 10-second jingle.”###",“Compose a 10-second jingle.”
+67,Meta-Llama-3-70B-Instruct,What is the y-intercept of the line x - 2y = 5?,,D,,,,
+67,c4ai-command-r-plus,What is the y-intercept of the line x - 2y = 5?,,D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction is a straightforward math problem that can be solved directly using the formula for the y-intercept, and no additional context or modifications are necessary. 
+
+So the option is: D.",,,
+67,c4ai-command-r-v01,What is the y-intercept of the line x - 2y = 5?,,C,"The best option for the given instruction is to add a suffix task. This instruction is a mathematical equation involving a straight line, and adding a suffix task will help to enhance the learning outcome.
+
+New instruction: ""What is the y-intercept of the line x - 2y = 5? Explain how you found the value, describing the steps taken, and then describe what this value represents in the context of the equation.""
+
+This addition not only tests a user's ability to solve the equation but also deepens their understanding of the concept by explaining the meaning of the y-intercept in the equation's context. It makes the learning more meaningful and extends comprehension beyond a single numerical answer.","What is the y-intercept of the line x - 2y = 5? And, how might this mathematical concept be applied in real-world scenarios? How could knowing the y-intercept of a line be useful outside of academics?","Yes.
+
+Answer: 5###",
+67,gpt-3.5-turbo,What is the y-intercept of the line x - 2y = 5?,,D,"For the given instruction, a suitable adaptation is to keep as the original version. The instruction is concise and directly asks for the y-intercept of a given line equation. It is clear and does not require additional tasks to be added for clarity or context.
+So the option is: D.###",,,
+67,gpt-4-turbo,What is the y-intercept of the line x - 2y = 5?,,D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction is straightforward and directly asks for a specific mathematical property of a line given in standard form. It is clear and concise, providing all the necessary information for solving the problem without any need for additional tasks or context.
+So the option is: D.###",,,
+68,Meta-Llama-3-70B-Instruct,What is the similarity between a cat and a dog?,,D,,,,
+68,c4ai-command-r-plus,What is the similarity between a cat and a dog?,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would involve asking the user to provide additional context or apply the knowledge in a different way. 
+
+New instruction: ""What is the similarity between a cat and a dog? Now, provide an example of two other animals that share a similar trait and explain the similarity."" 
+
+This modification (Option C) maintains the core of the original instruction while expanding its scope. By introducing the additional task, the user is encouraged to think of other examples beyond cats and dogs, enhancing their understanding of the concept and making the response more creative and informative. 
+
+So the option is: C.","""What is the similarity between a cat and a dog? Explain one advantage that arises from this similarity.""",Yes,
+68,c4ai-command-r-v01,What is the similarity between a cat and a dog?,,C,"For the given instruction about cats and dogs, the suitable adaptation is to add a suffix task. This could help to enhance the user's exploration beyond a simple description of physical traits. 
+
+New instruction: ""Describe a physical attribute that is similar between cats and dogs, and then explain how these similar traits impact their behavior or daily lives."" 
+
+This addition (option C) encourages a deeper analysis of the topic, connecting physical attributes to functional aspects of their lives, which provides a more engaging and insightful exploration of the subject.","What is the similarity between a cat and a dog? How are these similarities beneficial for both species in terms of evolution and their relationship with humans? ###
+
+Would you like me to continue with another example?","Yes. 
+
+Answer: No, as the new instruction requires additional information about the evolutionary benefits, which is not mentioned in the original instruction. 
+
+#New Instruction#: ""What is a shared feature of cats and dogs that has likely evolved to benefit their relationships with humans?"" ###","""What is a shared feature of cats and dogs that has likely evolved to benefit their relationships with humans?"""
+68,gpt-3.5-turbo,What is the similarity between a cat and a dog?,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would deepen the user's understanding by asking them to apply the identified similarity in a specific context. New instruction: ""What is the similarity between a cat and a dog, and how does this similarity impact their behavior towards humans?"" This modification (Option C) not only addresses the initial question about the similarity between a cat and a dog but also prompts the user to consider the practical implications of this similarity, fostering a deeper analysis of the relationship between these animals and humans. So the option is: C.###",“What is the similarity between a cat and a dog? Identify the similarity and provide an example of how this similarity can be observed in their behavior or interactions with humans.”,"Answer: No
+#New Instruction#: “What is the similarity between a cat and a dog? Identify the similarity and provide an example of how this similarity can be observed in their behavior or interactions with humans.”###",“What is the similarity between a cat and a dog? Identify the similarity and provide an example of how this similarity can be observed in their behavior or interactions with humans.”
+68,gpt-4-turbo,What is the similarity between a cat and a dog?,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the user's understanding by encouraging them to think more deeply about the relationship between the two animals. New instruction: ""What is the similarity between a cat and a dog, and explain why these similarities might exist from an evolutionary perspective.""
+This modification (Option C) not only asks for similarities but also extends the discussion to evolutionary reasons, providing a more comprehensive understanding of the topic.
+So the option is: C.###","""What is the similarity between a cat and a dog? After identifying the similarities, explain why these similarities might be important in understanding the behavior or domestication of these animals.""","Answer: No
+#New Instruction#: ""What is the similarity between a cat and a dog?""###","""What is the similarity between a cat and a dog?"""
+70,Meta-Llama-3-70B-Instruct,Reshape the following sentences into one complex sentence using a conjuction.,Input: 'He was born in Chicago. He is an engineer.',D,,,,
+70,c4ai-command-r-plus,Reshape the following sentences into one complex sentence using a conjuction.,Input: 'He was born in Chicago. He is an engineer.',D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction clearly directs the task of combining the two sentences using a conjunction, and adding or changing the instruction may complicate the task unnecessarily.
+So the option is: D.",,,
+70,c4ai-command-r-v01,Reshape the following sentences into one complex sentence using a conjuction.,Input: 'He was born in Chicago. He is an engineer.',A,"For the given instruction, the suitable adaptation is to add a suffix task. Users can first reshape the simple sentences into one complex sentence using a conjunction and then be asked to do a follow-up activity to further engage with the concept.
+
+New Instruction: ""Reshape the two sentences into a complex sentence using a conjunction and then write a short paragraph exploring the idea of contrasting backgrounds, using the new complex sentence as the topic sentence.""
+
+Option: A.","""Identify the essential information from the sentences and understand their logical connection. Then, using a conjunction, create a complex sentence that conveys the same meaning.""","No
+#New Instruction#: “Two sentences claim that Allister, a pop punk band, released the fourth full-length studio album Countdown to Nowhere on June 16, 2010, in Japan and October 5, 2010, in the U.S. Reshape these into one complex sentence while maintaining the logical connection.”###
+","“Two sentences claim that Allister, a pop punk band, released the fourth full-length studio album Countdown to Nowhere on June 16, 2010, in Japan and October 5, 2010, in the U.S. Reshape these into one complex sentence while maintaining the logical connection.”"
+70,gpt-3.5-turbo,Reshape the following sentences into one complex sentence using a conjuction.,Input: 'He was born in Chicago. He is an engineer.',A,"For the given instruction, a suitable adaptation is to decompose it into two tasks. This would involve breaking down the task of reshaping the sentences into a complex sentence using a conjunction into two separate steps: first, combining the two sentences into a single sentence, and second, transforming it into a complex sentence using a conjunction. 
+
+New instruction: ""Combine the following sentences 'He was born in Chicago. He is an engineer.' into one sentence. Then, reshape the combined sentence into a complex sentence using a conjunction.""
+
+This modification (Option A) helps users to first focus on merging the sentences before moving on to the more advanced task of creating a complex sentence with a conjunction, ensuring a step-by-step approach to the task. 
+
+So the option is: A.###",“Combine the following sentences into one complex sentence using a conjunction. Ensure that the conjunction effectively connects the ideas in the original sentences to form a coherent and cohesive complex sentence.”,Answer: Yes,
+70,gpt-4-turbo,Reshape the following sentences into one complex sentence using a conjuction.,Input: 'He was born in Chicago. He is an engineer.',D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction is clear and directly asks to perform a specific task of combining sentences using a conjunction. It is straightforward and does not require additional tasks to enhance understanding or application.
+So the option is: D.###",,,
+73,Meta-Llama-3-70B-Instruct,"Classify the following sentence as true or false: ""All mammals give birth to live young"".",,D,,,,
+73,c4ai-command-r-plus,"Classify the following sentence as true or false: ""All mammals give birth to live young"".",,D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction clearly states the task of classifying the sentence as true or false, and no additional information is provided that would require a prefix or suffix task. 
+
+So the option is: D.",,,
+73,c4ai-command-r-v01,"Classify the following sentence as true or false: ""All mammals give birth to live young"".",,D,"The original instruction is clear and straightforward, requiring the user only to read a sentence and choose between two options, so the best option is:
+D. Keep as the original version.",,,
+73,gpt-3.5-turbo,"Classify the following sentence as true or false: ""All mammals give birth to live young"".",,D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction is straightforward and directly asks to classify a sentence as true or false. There is no need for additional tasks as the task is clear and concise, requiring a simple true/false determination based on the statement provided. So the option is: D.###",,,
+73,gpt-4-turbo,"Classify the following sentence as true or false: ""All mammals give birth to live young"".",,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the user's understanding by encouraging further exploration of the topic. New instruction: ""Classify the following sentence as true or false: 'All mammals give birth to live young.' Then, provide an explanation for your classification, including examples of any exceptions.""
+This modification (Option C) not only covers the original request to classify the statement as true or false but also extends the learning by requiring the user to justify their answer and discuss exceptions, making the activity more educational and comprehensive.
+So the option is: C.###","""Classify the following sentence as true or false: 'All mammals give birth to live young'. Then, explain why this statement is true or false, providing examples of mammals that support your explanation.""",Answer: Yes,
+75,Meta-Llama-3-70B-Instruct,Generate a motivational quote,,D,,,,
+75,c4ai-command-r-plus,Generate a motivational quote,,B,"For the given instruction, a suitable adaptation is to add a prefix task. This would involve providing a specific theme or context to guide the generation of the motivational quote. New instruction: ""Think of a challenging situation many people face in their daily lives, such as public speaking anxiety or procrastination. Now, generate a motivational quote to inspire someone facing this challenge.""
+This addition provides a practical framework to make the quote more relevant and impactful for the intended audience, potentially increasing its effectiveness and resonance.
+So the option is: B.","""Reflect on past experiences or observations of successful individuals to identify a key lesson or insight that can serve as a source of motivation. Articulate this insight in the form of a quote, attributing it to a fictional or anonymous source if desired.""","No
+#New Instruction#: ""Generate a motivational quote by reflecting on past experiences or observations of successful individuals. Provide a quote that encapsulates a key lesson or insight that can inspire and motivate others.""###","""Generate a motivational quote by reflecting on past experiences or observations of successful individuals. Provide a quote that encapsulates a key lesson or insight that can inspire and motivate others."""
+75,c4ai-command-r-v01,Generate a motivational quote,,B,"For the given instruction, the suitable adaptation is to add a prefix task. This will set the scene and provide context for the quote, giving a more meaningful and personalized motivation. 
+
+New Instruction: ""Think about a challenging situation or obstacle you have faced or are currently dealing with. Now, generate a motivational quote that could inspire someone going through a similar struggle, offering a message of perseverance and determination."" 
+
+This addition (Option B) provides a framework to make the quote more impactful and tailored, giving it a specific direction and purpose.",“Reflect on personal development and life experiences to inspire a motivational quote.”,"Yes: Answer: Yes.
+
+No: Answer: The new instruction needs to include the band's origin which is crucial to determine the correctness of the assumption. 
+
+#New Instruction#: Countdown to Nowhere reveals the band's roots in Illinois, U.S.A., which leads us to confirm that the assumption about the band members' American identities is indeed accurate. ###","Countdown to Nowhere reveals the band's roots in Illinois, U.S.A., which leads us to confirm that the assumption about the band members' American identities is indeed accurate."
+75,gpt-3.5-turbo,Generate a motivational quote,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the user's creativity and encourage them to apply the generated quote in a specific context. New instruction: ""Generate a motivational quote and explain how this quote can inspire someone facing a challenge.""
+This modification (Option C) not only prompts the user to create a motivational quote but also encourages them to reflect on its impact and relevance in motivating individuals during difficult times, making the exercise more meaningful and insightful.
+So the option is: C.###",“Generate a motivational quote and explain how this quote resonates with you personally and how you can apply its message to your life.”,"Answer: No
+#New Instruction#: “Generate a motivational quote and explain how this quote resonates with you personally and how you can apply its message to your life.”###",“Generate a motivational quote and explain how this quote resonates with you personally and how you can apply its message to your life.”
+75,gpt-4-turbo,Generate a motivational quote,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would involve asking the user to perform an additional activity after generating the motivational quote. New instruction: ""Generate a motivational quote and explain how it can be applied in everyday life.""
+This addition enriches the task by not only creating a motivational quote but also reflecting on its practical application, making the exercise more meaningful and insightful.
+So the option is: C.###",“Generate a motivational quote and describe a situation or context where this quote would be particularly inspiring or effective.”,"Answer: No
+#New Instruction#: “Generate a motivational quote.”###",“Generate a motivational quote.”
+77,Meta-Llama-3-70B-Instruct,Generate a joke involving a pair of scientists.,,D,,,,
+77,c4ai-command-r-plus,Generate a joke involving a pair of scientists.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would involve creating a joke with a punchline related to the scientific community, and then explaining what makes it funny to ensure the joke lands well and is understandable to a broad audience. 
+
+New instruction: ""Generate a joke involving a pair of scientists, and then explain the humor behind the joke to ensure it is accessible and effective for a wide audience."" 
+
+This modification (Option C) maintains the core task of generating a joke while adding a practical consideration - ensuring the joke is understandable and funny to a diverse audience. It provides a guideline to create a successful joke and helps to refine the joke-telling skill by reflecting on the craft. 
+
+So the option is: C.","""Premise: ""A tour group is standing on the grass with ruins in the background."" Based on this premise, can we conclude that the hypothesis ""Some women are posing for a picture."" is true? Explain your answer and provide evidence from the premise to support your conclusion.""
+
+This new instruction maintains the original structure but adds a suffix task that requires an explanation and supporting evidence for the conclusion. This addition encourages critical thinking and a deeper analysis of the premise, enhancing the overall reasoning skills of the task.
+
+#New Instruction#: ""How did Julius Caesar die, and what were the short-term and long-term political consequences of his death on the Roman Republic and the rise of the Roman Empire?""
+
+By adding the suffix task, the instruction now prompts a deeper exploration of the impact of Caesar's death on the political landscape, both immediately and in the long term. This encourages a more comprehensive understanding of this significant historical event and its far-reaching implications.
+
+#New Instruction#: ""Generate three verbs that convey the meaning of 'to apologize' in different contexts or scenarios. Provide an example sentence for each verb, showcasing its usage in a specific context.""
+
+The suffix task here enhances the original instruction by providing context and practical examples for the generated verbs. This not only aids in understanding the synonyms but also showcases their applicability in different scenarios, making the task more engaging and educational.
+
+#New Instruction#: ""Generate a joke involving a pair of scientists. Explain the joke in a way that a 5-year-old would understand.""
+
+Adding the suffix task of explaining the joke ensures that it is accessible to a younger audience and promotes clarity and comprehension. It challenges the creativity and adaptability of the joke-teller, making the task more interactive and inclusive.",Yes,
+77,c4ai-command-r-v01,Generate a joke involving a pair of scientists.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. The addition of a follow-up activity will encourage users to create a joke with a scientific element, enhancing the fun and educational aspect.
+
+New instruction: ""Generate a joke involving a pair of scientists. Then, explain the science behind the joke for those who might not get it.""
+
+Option: C.","Generate a joke involving a pair of scientists and explain the joke. 
+
+The joke: ""Did you hear about the two scientists who were discussing the meaning of life? One proposed a complex theory, but the other couldn't understand a word he said. After a long pause, the second scientist said, 'Why don't you just say you're wrong and save us both the trouble?'"". 
+
+The joke explains the communication barrier between two scientists who likely speak the same language but use different jargon, a lighthearted issue many professionals can relate to. This joke also highlights the common occurrence of miscommunication and the humorous idea that sometimes the simplest solution is best.","Yes. 
+
+Answer: No.
+
+No.
+
+Answer: Yes.###
+
+Yes.
+
+Answer: Here's a new joke that follows the original instruction: 
+
+Two scientists were working on a groundbreaking experiment. One turned to the other and said, ""You know, this reminds me of a story. A light bulb moments kind of thing."" 
+
+The other, deep in thought, nodded and smiled, recognizing the reference. 
+
+""So, what's the punchline?"" the first scientist teased. 
+
+""Oh, it's not that kind of experiment,"" the other replied with a wink. 
+
+They shared a laugh, knowing that their work, though serious, could still have a touch of humor.###","Yes. 
+
+Answer: No.
+
+No.
+
+Answer: Yes."
+77,gpt-3.5-turbo,Generate a joke involving a pair of scientists.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would involve asking the user to extend the joke by providing a punchline or a humorous twist. New instruction: ""Generate a joke involving a pair of scientists and add a punchline that highlights their quirky behavior.""
+This addition encourages creativity and humor by prompting the user to not only create the initial setup of the joke but also to deliver a funny conclusion, making the joke more engaging and complete.
+So the option is: C.###","“Generate a joke involving a pair of scientists. Then, specify whether this joke would be more suitable for a scientific conference or a casual gathering with friends, and explain why.”","Answer: No
+#New Instruction#: “Generate a joke involving a pair of scientists. 
+###",“Generate a joke involving a pair of scientists.
+77,gpt-4-turbo,Generate a joke involving a pair of scientists.,,D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction is straightforward and specific, asking for the creation of a joke involving a specific subject, which is a pair of scientists. It is clear and concise, providing enough direction without needing further breakdown or additional tasks.
+So the option is: D.###",,,
+81,Meta-Llama-3-70B-Instruct,Create an algorithm that draws a circle in 3D space.,,D,,,,
+81,c4ai-command-r-plus,Create an algorithm that draws a circle in 3D space.,,B,"For the given instruction, a suitable adaptation is to add a prefix task. This would involve first explaining the fundamental concepts and steps involved in creating algorithms, especially for drawing shapes in a 3D space. This additional context will provide a foundation for understanding the process before attempting to create the algorithm. 
+
+New instruction: ""Explain the process of creating an algorithm for drawing basic shapes in 3D space, and then provide the steps for creating an algorithm to draw a circle in 3D."" 
+
+This modification (Option B) ensures that the user has a grasp of the underlying concepts and a systematic approach to the task before attempting to create the algorithm. It provides a more educational and comprehensive framework for understanding the process of algorithmic creation. 
+
+So the option is: B.","""Understand the concept of 3D space and the mathematical equations required to represent a circle in 3D. Then, create an algorithm that draws a circle in 3D space.""",Yes,
+81,c4ai-command-r-v01,Create an algorithm that draws a circle in 3D space.,,B,"The best option for the given instruction is to add a prefix task. 
+
+New Instruction: 
+""Before attempting to create an algorithm for drawing a circle in 3D space, research and present the fundamental principles and challenges of achieving this in a computer graphics or coding environment. Then, describe your proposed algorithm, considering the initial position, rotation, and movement of the circle in 3D space.""
+
+The addition of the prefix task provides a conceptual framework and an understanding of the complexities involved in drawing a 3D circle, which would help the subsequent algorithm design. This makes the instruction more structured and suited to a step-by-step approach. 
+
+Therefore, the option is B.","""Break down the task of creating a 3D circle-drawing algorithm into steps. Start by defining the parameters and variables, such as the coordinates and dimensions, then formulate the step-by-step logic for plotting points in 3D space to form a circle.""","Yes. 
+
+Answer: No.
+
+No.
+
+Yes.###
+
+Yes.","Yes. 
+
+Answer: No.
+
+No.
+
+Yes."
+81,gpt-3.5-turbo,Create an algorithm that draws a circle in 3D space.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would enhance the original task by adding a further requirement or challenge. New instruction: ""Create an algorithm that draws a circle in 3D space and then modify the algorithm to animate the circle rotating around a specified axis.""
+This modification (Option C) builds upon the initial task of creating the algorithm by introducing an additional step that involves animation, which can deepen the user's understanding of 3D space and algorithmic design.
+So the option is: C.###",“Create an algorithm that draws a circle in 3D space. Implement the algorithm in a programming language of your choice and test it with various parameters to observe how the circle is rendered in different scenarios.”,"Answer: No
+#New Instruction#: “Create an algorithm that draws a circle in 3D space.###”",“Create an algorithm that draws a circle in 3D space.
+81,gpt-4-turbo,Create an algorithm that draws a circle in 3D space.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would involve asking the user to perform an additional activity after creating the algorithm. New instruction: ""Create an algorithm that draws a circle in 3D space and then explain how the algorithm can be modified to draw an ellipse.""
+This addition (Option C) not only covers the original request to create an algorithm for drawing a circle but also extends the learning by challenging the user to adapt the algorithm for a related but more complex shape, enhancing their understanding of geometric transformations in 3D space.
+So the option is: C.###","""Create an algorithm that draws a circle in 3D space. After creating the algorithm, provide a sample output or a demonstration of the algorithm in action to verify its functionality.""",Answer: Yes,
+86,Meta-Llama-3-70B-Instruct,List three advantages of human transportation over other animals.,,D,,,,
+86,c4ai-command-r-plus,List three advantages of human transportation over other animals.,,D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction is clear and straightforward, and decomposing or adding tasks might unnecessarily complicate it. The task is to directly provide a list of advantages without any additional context or requirements that would benefit from a modified instruction. 
+
+So the option is: D.",,,
+86,c4ai-command-r-v01,List three advantages of human transportation over other animals.,,C,"The instruction could be improved by adding a suffix task. After listing the advantages, it would be beneficial to explore and discuss how these advantages have impacted human evolution and daily life. 
+
+Therefore, the new instruction is: 
+
+""List three advantages of human transportation over other animals and explain how these advantages have shaped human evolution and daily routines.""
+
+This addition not only focuses on the initial request but also encourages a deeper understanding of the topic by investigating the consequences and significance of those advantages. 
+
+The option is thus: C.","“List three advantages of human transportation over other animals. Then, describe how these advantages have impacted the development of civilizations throughout history, focusing on one specific example for each point.”","No
+#New Instruction#: “#New Instruction#: List the three major advantages of human transportation systems compared to other animals. Transport being a key factor, explain how it has helped in the growth and spread of civilizations, with specific focus on the following -  1. Enhanced connectivity, 2. Easy access to resources, and 3. Swift exchange of knowledge and culture. ###”","“#New Instruction#: List the three major advantages of human transportation systems compared to other animals. Transport being a key factor, explain how it has helped in the growth and spread of civilizations, with specific focus on the following -  1. Enhanced connectivity, 2. Easy access to resources, and 3. Swift exchange of knowledge and culture."
+86,gpt-3.5-turbo,List three advantages of human transportation over other animals.,,C,"For the given instruction, a suitable adaptation is to add a suffix task. This would deepen the user's understanding by exploring the implications of the advantages listed. New instruction: ""List three advantages of human transportation over other animals and explain how these advantages have influenced human development.""
+This modification (Option C) not only requires listing the advantages but also prompts the user to reflect on the broader impact of these advantages on human progress, fostering a deeper understanding of the topic.
+So the option is: C.###",“List three advantages of human transportation over other animals. Compare and contrast these advantages with the transportation abilities of other animals to highlight the unique strengths of human transportation.”,"Answer: No
+#New Instruction#: “List three advantages of human transportation over other animals. Compare and contrast these advantages with the transportation abilities of other animals to highlight the unique strengths of human transportation.”###",“List three advantages of human transportation over other animals. Compare and contrast these advantages with the transportation abilities of other animals to highlight the unique strengths of human transportation.”
+86,gpt-4-turbo,List three advantages of human transportation over other animals.,,D,"For the given instruction, a suitable adaptation is to keep as original version. The instruction is straightforward and asks for a direct comparison in the form of listing advantages, which is a clear and concise task. Adding additional tasks or decomposing it might overcomplicate the simple objective of listing advantages, which is already well-defined and focused.
+So the option is: D.###",,,
+94,Meta-Llama-3-70B-Instruct,Select one sentence describing the new iPhone 6s,"Input: 'The new iPhone 6s is a revolutionary smartphone that comes with an entirely new iOS system, an improved camera and an extremely durable frame.'",D,,,,
+94,c4ai-command-r-plus,Select one sentence describing the new iPhone 6s,"Input: 'The new iPhone 6s is a revolutionary smartphone that comes with an entirely new iOS system, an improved camera and an extremely durable frame.'",D,"For the given instruction, a suitable adaptation is to keep as original version. The new iPhone 6s description provided is clear and concise, and the instruction asks directly to select a sentence that describes it. There is no need to add or change anything in the instruction to make the task more comprehensive or practical. 
+
+So the option is: D.",,,
+94,c4ai-command-r-v01,Select one sentence describing the new iPhone 6s,"Input: 'The new iPhone 6s is a revolutionary smartphone that comes with an entirely new iOS system, an improved camera and an extremely durable frame.'",B,"The given instruction is clear and concise, and directly asks the user to complete a single task. To enhance this, a suitable adaptation would be to add a prefix task, which will help users form a more detailed opinion on the product. 
+
+New instruction: ""Before selecting a single sentence to describe the new iPhone 6s, create a list of three key features of the phone. Then, using these features, craft a sentence that best describes the phone's overall appeal or USPs.""
+
+This addition not only encourages users to think about the phone's attributes but also challenges them to promote its features in a concise manner, which is often a difficult task. 
+
+Therefore, the option is B.","""Research the notable features and improvements of the new iPhone 6s, and then select a single sentence that best describes its most impressive attribute.""","Yes: Answer: Yes.
+
+No: #New Instruction#: The band's origins can be traced to Chicago, Illinois, which confirms the assumption that the band members are indeed Americans. ###
+
+Yes: Answer: The iPhone 6s boasts improved performance and a new 3D Touch feature, revolutionizing the user experience with enhanced responsiveness and depth perception. ###","The band's origins can be traced to Chicago, Illinois, which confirms the assumption that the band members are indeed Americans."
+94,gpt-3.5-turbo,Select one sentence describing the new iPhone 6s,"Input: 'The new iPhone 6s is a revolutionary smartphone that comes with an entirely new iOS system, an improved camera and an extremely durable frame.'",A,"For the given instruction, a suitable adaptation is to decompose it into two tasks. The existing instruction involves selecting a sentence describing the new iPhone 6s. This can be decomposed into first understanding the features mentioned in the sentence provided, and then selecting a sentence that accurately describes one of those features. New instruction: ""Identify and explain the key features of the new iPhone 6s based on the provided sentence. Then, select a sentence that specifically describes one of these features.""
+This modification (Option A) helps users break down the information in the sentence to better understand the characteristics of the iPhone 6s before choosing a relevant description, which can enhance their comprehension and selection accuracy.
+So the option is: A.###","“Review the available information or sources about the new iPhone 6s to understand its features and specifications. Based on this information, select one sentence that accurately describes the new iPhone 6s.”",Answer: Yes,
+94,gpt-4-turbo,Select one sentence describing the new iPhone 6s,"Input: 'The new iPhone 6s is a revolutionary smartphone that comes with an entirely new iOS system, an improved camera and an extremely durable frame.'",C,"For the given instruction, a suitable adaptation is to add a suffix task. This would involve asking the user to perform an additional activity after selecting the sentence that describes the new iPhone 6s. New instruction: ""Select one sentence describing the new iPhone 6s and explain why this sentence effectively captures the essence of the product.""
+This addition encourages the user to not only identify the descriptive sentence but also to engage critically by justifying their choice, enhancing their understanding of effective product description.
+So the option is: C.###",“Select one sentence describing the new iPhone 6s and evaluate how well this sentence captures the key features and advancements of the iPhone 6s.”,"Answer: No
+#New Instruction#: “Select one sentence describing the new iPhone 6s.”###",“Select one sentence describing the new iPhone 6s.”
