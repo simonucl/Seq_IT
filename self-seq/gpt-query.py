@@ -342,13 +342,13 @@ if __name__ == '__main__':
         output_file = args.output_file
     json_data = []
 
-    if os.path.exists(output_file):
-        with open(output_file, 'r', encoding='utf-8') as initial_file:
-            for line in initial_file:
-                json_data.append(json.loads(line))
-    else:
-        with open(output_file, 'w', encoding='utf-8') as initial_file:
-            json_data = []
+    # if os.path.exists(output_file):
+    #     with open(output_file, 'r', encoding='utf-8') as initial_file:
+    #         for line in initial_file:
+    #             json_data.append(json.loads(line))
+    # else:
+    #     with open(output_file, 'w', encoding='utf-8') as initial_file:
+    #         json_data = []
 
     input_data = []
     with open(input_file, 'r', encoding='utf-8') as file:
