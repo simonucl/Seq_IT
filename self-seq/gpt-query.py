@@ -132,11 +132,15 @@ def extract_instruction(o):
     # if so, extract the new instruction
     # if not, return None
     if '#new instruction#' in o.lower():
-        return o[o.lower().index('new instruction') + len('new instruction'):].strip(":# \n")
+        instruction = o[o.lower().index('#new instruction#') + len('#new instruction#'):]
     elif 'new instruction' in o.lower():
-        return o[o.lower().index('new instruction') + len('new instruction'):].strip(":# \n")
+        instruction = o[o.lower().index('new instruction') + len('new instruction'):]
     else:
         return None
+    
+    if "###" in instruction:
+        instruction = instruction[:instruction.index("###")]
+    return instruction.strip(":# \n")
     
 def extracted_refined_instruction(o):
     if "no" in " ".join(o.split()[:10]).lower():
@@ -326,6 +330,7 @@ if __name__ == '__main__':
     args.add_argument('--do_refine', action='store_true')
     args.add_argument('--ignore_cache', action='store_true')
     args.add_argument('--add_system_prompt', action='store_true')
+    args.add_argument('--no_refinement', action='store_true')
 
     args = args.parse_args()
     assert not (args.load_8bit and args.load_4bit)
@@ -401,22 +406,25 @@ if __name__ == '__main__':
 
         # Step 3 (Optional): Add refinement
         output_file = output_file.replace('.jsonl', '-refine.jsonl')
-        if (not args.ignore_cache) and (os.path.exists(output_file)):
-            print(f'Using cached generations from {output_file}')
-            refined_generations = []
-            with open(output_file, 'r', encoding='utf-8') as json_file:
-                for line in json_file:
-                    refined_generations.append(json.loads(line))
+        if not args.no_refinement:
+            if (not args.ignore_cache) and (os.path.exists(output_file)):
+                print(f'Using cached generations from {output_file}')
+                refined_generations = []
+                with open(output_file, 'r', encoding='utf-8') as json_file:
+                    for line in json_file:
+                        refined_generations.append(json.loads(line))
+            else:
+                refined_generations = refinement(
+                    agent=agent,
+                    prompts=new_generations,
+                    batch_size=1,
+                    generation_kwargs={}
+                )
+                with open(output_file, 'w', encoding='utf-8') as json_file:
+                    for g in refined_generations:
+                        json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
         else:
-            refined_generations = refinement(
-                agent=agent,
-                prompts=new_generations,
-                batch_size=1,
-                generation_kwargs={}
-            )
-            with open(output_file, 'w', encoding='utf-8') as json_file:
-                for g in refined_generations:
-                    json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+            refined_generations = new_generations
 
         if args.add_system_prompt:
             assert system_prompt_map is not None
@@ -638,22 +646,25 @@ if __name__ == '__main__':
 
             # Step 3 (Optional): Add refinement
             output_file = output_file.replace('.jsonl', '-refine.jsonl')
-            if (not args.ignore_cache) and (os.path.exists(output_file)):
-                print(f'Using cached generations from {output_file}')
-                refined_generations = []
-                with open(output_file, 'r', encoding='utf-8') as json_file:
-                    for line in json_file:
-                        refined_generations.append(json.loads(line))
+            if not args.no_refinement:
+                if (not args.ignore_cache) and (os.path.exists(output_file)):
+                    print(f'Using cached generations from {output_file}')
+                    refined_generations = []
+                    with open(output_file, 'r', encoding='utf-8') as json_file:
+                        for line in json_file:
+                            refined_generations.append(json.loads(line))
+                else:
+                    refined_generations = refinement(
+                        agent=agent,
+                        prompts=new_generations,
+                        batch_size=args.batch_size,
+                        generation_kwargs={'stop_id_sequences': stop_id_sequences},
+                    )
+                    with open(output_file, 'w', encoding='utf-8') as json_file:
+                        for g in refined_generations:
+                            json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
             else:
-                refined_generations = refinement(
-                    agent=agent,
-                    prompts=new_generations,
-                    batch_size=args.batch_size,
-                    generation_kwargs={'stop_id_sequences': stop_id_sequences},
-                )
-                with open(output_file, 'w', encoding='utf-8') as json_file:
-                    for g in refined_generations:
-                        json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+                refined_generations = new_generations
 
             if args.add_system_prompt:
                 assert system_prompt_map is not None
@@ -681,12 +692,15 @@ if __name__ == '__main__':
 
             # Step 5 (Optional): Get reponse for refined instruction
             output_file = output_file.replace('.jsonl', '-final.jsonl')
-            remaining_generations = generate_refined_response(
-                agent=agent,
-                prompts=refined_generations,
-                batch_size=args.batch_size,
-                generation_kwargs={'stop_id_sequences': stop_id_sequences},
-            )
+            if not args.no_refinement:
+                remaining_generations = generate_refined_response(
+                    agent=agent,
+                    prompts=refined_generations,
+                    batch_size=args.batch_size,
+                    generation_kwargs={'stop_id_sequences': stop_id_sequences},
+                )
+            else:
+                remaining_generations = refined_generations
             with open(output_file, 'w', encoding='utf-8') as json_file:
                 for g in remaining_generations:
                     json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
