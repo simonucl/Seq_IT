@@ -180,7 +180,7 @@ def classification(agent, generation_kwargs, prompts, batch_size=1):
                 'completions': output,
                 'option': extract_classification(output)
             })
-    return json_data
+    return generations
 
 def generation(agent, generation_kwargs, prompts, batch_size=1):
     if isinstance(agent, GptAgent):
