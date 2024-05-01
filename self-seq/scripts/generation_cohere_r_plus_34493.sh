@@ -1,4 +1,4 @@
-INPUT_FILE=self-seq/data/alpaca/alpaca-cleaned_17267.jsonl
+INPUT_FILE=self-seq/data/alpaca/alpaca-cleaned_34493.jsonl
 
 # python3 self-seq/gpt-query.py \
 #     --input_file self-seq/data/flancot/flancot_filtered_15k.jsonl \
