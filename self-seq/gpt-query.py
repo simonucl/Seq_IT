@@ -201,8 +201,9 @@ def generation(agent, generation_kwargs, prompts, batch_size=1):
             outputs = [outputs]
             batch_prompts = [batch_prompts]
 
-        for prompt, output in zip(batch_prompts, outputs):
+        for idx, (prompt, output) in enumerate(zip(batch_prompts, outputs)):
             # remove messages from the prompt
+            prompt = gen_instruction[i + idx]
             prompt.pop('messages')
             new_generations.append({
                 **prompt,
@@ -229,8 +230,9 @@ def refinement(agent, prompts, batch_size=1, generation_kwargs={}):
         if isinstance(agent, GptAgent):
             outputs = [outputs]
             batch_prompts = [batch_prompts]
-        for prompt, output in zip(batch_prompts, outputs):
+        for idx, (prompt, output) in enumerate(zip(batch_prompts, outputs)):
             # remove messages from the prompt
+            prompt = refineing_prompts[i + idx]
             prompt.pop('messages')
             refined_generations.append({
                 **prompt,
