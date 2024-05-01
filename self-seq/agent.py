@@ -42,6 +42,9 @@ class HfAgent:
             model_name,
             **model_kwargs
         )
+        if 'gptq' in model_name.lower():
+            from auto_gptq import exllama_set_max_input_length
+            self.model = exllama_set_max_input_length(self.model, 8092)
         self.generation_kwargs = generation_kwargs
 
     @torch.no_grad()
