@@ -22,7 +22,7 @@ def get_prompt(p, is_chat=False):
     prompt_prefix = PROMPT_PREFIX if not is_chat else PROMPT_PREFIX_CHAT
 
     e = few_shot_example.copy()
-    random.shuffle(e)
+    random.shuffle(e) # shuffle the few shot examples to prevent position bias
     prompt = prompt_prefix + '\n\n' + '\n\n'.join(e)
 
     if 'conversations' in p: # cases for lima
@@ -33,8 +33,7 @@ def get_prompt(p, is_chat=False):
         instruction = p['question']
         prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
         input = ''
-    else:
-        # cases for alpaca
+    else: # cases for alpaca like data (with input)
         instruction = p['instruction']
         input = ''
         if p['input'] != '':
