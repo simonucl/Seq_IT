@@ -278,7 +278,7 @@ def generate_response(agent, prompts, batch_size=1, generation_kwargs={}):
                 'final_instruction': prompt,
                 'final_instruction_response': output,
             })
-    return prompts
+    return reponses
 
 def generate_refined_response(agent, prompts, batch_size=1, generation_kwargs={}):
     if isinstance(agent, GptAgent):
@@ -512,7 +512,7 @@ if __name__ == '__main__':
             model_kwargs = {
             "load_in_8bit": args.load_8bit,
             "load_in_4bit": args.load_4bit,
-            "torch_dtype": torch.bfloat16,
+            "torch_dtype": torch.bfloat16 if 'gptq' not in args.query.lower() else torch.float16,
             "attn_implementation": 'flash_attention_2',
             "device_map": "auto",
             }
