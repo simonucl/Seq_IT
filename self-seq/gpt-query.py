@@ -159,6 +159,8 @@ def extracted_refined_instruction(o):
 def classification(agent, generation_kwargs, prompts, batch_size=1):
     if isinstance(agent, GptAgent):
         batch_size = 1
+    elif isinstance(agent, VllmAgent):
+        batch_size = len(prompts)
     generations = []
     for i in trange(0, len(prompts), batch_size):
         if isinstance(agent, GptAgent):
@@ -185,6 +187,8 @@ def classification(agent, generation_kwargs, prompts, batch_size=1):
 def generation(agent, generation_kwargs, prompts, batch_size=1):
     if isinstance(agent, GptAgent):
         batch_size = 1
+    elif isinstance(agent, VllmAgent):
+        batch_size = len(prompts)
     get_gen_instruction_prompts = [get_gen_instruction_prompt(p) for p in prompts]
     gen_instruction = [p for p in get_gen_instruction_prompts if 'messages' in p]
     new_generations = [p for p in get_gen_instruction_prompts if 'messages' not in p]
@@ -215,6 +219,8 @@ def generation(agent, generation_kwargs, prompts, batch_size=1):
 def refinement(agent, prompts, batch_size=1, generation_kwargs={}):
     if isinstance(agent, GptAgent):
         batch_size = 1
+    elif isinstance(agent, VllmAgent):
+        batch_size = len(prompts)
     refining_generations = [p for p in prompts if ('extracted_instruction' in p) and (p['extracted_instruction'] is not None)]
     refined_generations = [p for p in prompts if ('extracted_instruction' not in p) or (p['extracted_instruction'] is None)]
     
@@ -244,6 +250,8 @@ def refinement(agent, prompts, batch_size=1, generation_kwargs={}):
 def generate_response(agent, prompts, batch_size=1, generation_kwargs={}):
     if isinstance(agent, GptAgent):
         batch_size = 1
+    elif isinstance(agent, VllmAgent):
+        batch_size = len(prompts)
     instruction_prompts = []
     for p in prompts:
         if "extracted_instruction" in p and p["extracted_instruction"] is not None:
@@ -283,6 +291,8 @@ def generate_response(agent, prompts, batch_size=1, generation_kwargs={}):
 def generate_refined_response(agent, prompts, batch_size=1, generation_kwargs={}):
     if isinstance(agent, GptAgent):
         batch_size = 1
+    elif isinstance(agent, VllmAgent):
+        batch_size = len(prompts)
     extracted_refined_generations = [p for p in prompts if ('extracted_refined_instruction' in p) and (p['extracted_refined_instruction'] is not None)]
     remaining_generations = [p for p in refined_generations if ('extracted_refined_instruction' not in p) or (p['extracted_refined_instruction'] is None)]
 
