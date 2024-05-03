@@ -1,4 +1,4 @@
-INPUT_FILE=self-seq/data/flancot_split/flancot_filtered_15k.jsonl
+INPUT_FILE=self-seq/data/alpaca/alpaca_cleaned.jsonl
 
 python3 self-seq/gpt-query.py \
     --input_file $INPUT_FILE \
