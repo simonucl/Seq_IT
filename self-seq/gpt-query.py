@@ -73,7 +73,11 @@ def get_gen_instruction_prompt(p):
     e = few_shot_examples.copy()
     random.shuffle(e)
     prompt = prompt_prefix + '\n\n' + '\n\n'.join(e)
-    prompt += '\n\n' + prompt_template.format(p['instruction'])
+    if p['input'] != '':
+        prompt += '\n\n' + prompt_template.format(p['instruction'], p['input'])
+    else:
+        prompt += '\n\n' + prompt_template.format(p['instruction'], '')
+    # prompt += '\n\n' + prompt_template.format(p['instruction'])
     messages = [{'role': 'user', 'content': prompt}]
     return {**p, 'messages': messages}
 
@@ -259,7 +263,7 @@ def generate_response(agent, prompts, batch_size=1, generation_kwargs={}):
             instruction = p["instruction"]
         instruction = instruction.strip("\"")
         if p['input'] != '':
-            instruction = f"{instruction} Input: {p['input']}"
+            instruction = f"{instruction} {p['input']}" # p['input'] has prefix "Input:"
 
         if 'system_prompt' in p:
             instruction_prompts.append([{ 'role': 'system', 'content': p['system_prompt'] }, { 'role': 'user', 'content': instruction }])

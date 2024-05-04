@@ -60,11 +60,11 @@ Now adding a suffix task. Let's think step by step. The instruction directs to p
 #New Instruction#: “Premise: \"A tour group is standing on the grass with ruins in the background.\"\nBased on this premise, can we conclude that the hypothesis \"Some women are posing for a picture.\" Based on the premise provided, deduce whether the hypothesis is true, false, or if there isn't enough information to determine the answer. Then, explain your thought process and conclusion.”###"""
 ]
 
-PROMPT_TEMPLATE_A = """#Original Instruction#: '{}'
+PROMPT_TEMPLATE_A = """#Original Instruction#: '{}' {}
 You task is to decompose the instruction into two sequential instructions that will eventually lead to the answer the original instructions. Let's think step by step. """
-PROMPT_TEMPLATE_B = """#Original Instruction#: '{}'
+PROMPT_TEMPLATE_B = """#Original Instruction#: '{}' {}
 Now adding a prefix task. Let's think step by step. """
-PROMPT_TEMPLATE_C = """#Original Instruction#: '{}'
+PROMPT_TEMPLATE_C = """#Original Instruction#: '{}' {}
 Now adding a suffix task. Let's think step by step. """
 
 def get_gen_instruction_prompt(p):
