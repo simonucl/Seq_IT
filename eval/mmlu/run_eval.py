@@ -48,7 +48,7 @@ def gen_prompt(train_df, subject, k=-1):
 @torch.no_grad()
 def eval_hf_model(args, subject, model, tokenizer, dev_df, test_df, batch_size=1):
     prompts = []
-    chat_formatting_function = dynamic_import_function(args.chat_formatting_function) if args.use_chat_format else None
+    # chat_formatting_function = dynamic_import_function(args.chat_formatting_function) if args.use_chat_format else None
     for i in range(0, test_df.shape[0]):
         k = args.ntrain
         prompt_end = format_example(test_df, i, include_answer=False)
