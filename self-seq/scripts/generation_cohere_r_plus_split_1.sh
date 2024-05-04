@@ -1,4 +1,4 @@
-INPUT_FILE=self-seq/data/alpaca_original/alpaca-split_1-ori.jsonl
+INPUT_FILE=self-seq/data/alpaca/alpaca_original/alpaca-split_1-ori.jsonl
 
 python3 self-seq/gpt-query.py \
     --input_file $INPUT_FILE \
