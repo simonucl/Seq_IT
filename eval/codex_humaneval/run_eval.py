@@ -31,6 +31,10 @@ def main(args):
         if args.chat_formatting_function == "mistral":
             tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
             chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
+        elif args.chat_formatting_function == "tulu":
+            tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
+            tokenizer.chat_template = "{% for message in messages %}\n{% if message['role'] == 'user' %}\n{{ '<|user|>\n' + message['content'] }}\n{% elif message['role'] == 'assistant' %}\n{{ '<|assistant|>\n'  + message['content'] + eos_token }}\n{% endif %}\n{% if loop.last and add_generation_prompt %}\n{{ '<|assistant|>' }}\n{% endif %}\n{% endfor %}"
+            chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
         else:
             chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
             chat_formatting_function = partial(chat_formatting_function, add_bos=False)
