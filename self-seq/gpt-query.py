@@ -352,6 +352,7 @@ if __name__ == '__main__':
     args.add_argument('--add_system_prompt', action='store_true')
     args.add_argument('--no_refinement', action='store_true')
     args.add_argument('--regen_response', action='store_true')
+    args.add_argument('--direct_response', action='store_true')
 
     args = args.parse_args()
     assert not (args.load_8bit and args.load_4bit)
@@ -537,6 +538,27 @@ if __name__ == '__main__':
             agent = HfAgent(args.query, model_kwargs, generation_kwargs)
             generation_kwargs = {'stop_id_sequences': stop_id_sequences}
 
+        if args.direct_response:
+            output_file = output_file.replace('.jsonl', '-direct_response.jsonl')
+            if (not args.ignore_cache) and (os.path.exists(output_file)):
+                print(f'Using cached generations from {output_file}')
+                refined_generations = []
+                with open(output_file, 'r', encoding='utf-8') as json_file:
+                    for line in json_file:
+                        refined_generations.append(json.loads(line))
+            else:
+                refined_generations = generate_response(
+                    agent=agent,
+                    prompts=prompts,
+                    batch_size=args.batch_size,
+                    generation_kwargs=generation_kwargs,
+                )
+                with open(output_file, 'w', encoding='utf-8') as json_file:
+                    for g in refined_generations:
+                        json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+            # end the process
+            import sys
+            sys.exit(1)
         # Step 1: classification
         if (not args.ignore_cache) and (os.path.exists(output_file)):
             print(f'Using cached generations from {output_file}')
