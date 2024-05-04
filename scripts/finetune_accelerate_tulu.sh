@@ -4,7 +4,7 @@ MODEL_SIZE=7B
 NUM_GPUS=2
 BATCH_SIZE_PER_GPU=1
 TOTAL_BATCH_SIZE=128
-TRAIN_FILE=self-seq/data/alpaca-cleaned_replaced_without_a.jsonl
+TRAIN_FILE=self-seq/data/flancot/final_15k_data_cmd_rplus.jsonl
 MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B
 MODEL_NAME=$(basename $MODEL_NAME_OR_PATH)
 
@@ -31,16 +31,17 @@ accelerate launch \
     --preprocessing_num_workers 64 \
     --per_device_train_batch_size $BATCH_SIZE_PER_GPU \
     --gradient_accumulation_steps $GRADIENT_ACC_STEPS \
+    --gradient_checkpointing \
     --learning_rate 2e-5 \
     --lr_scheduler_type linear \
     --warmup_ratio 0.03 \
     --weight_decay 0. \
     --num_train_epochs 3 \
-    --output_dir output/self-seq-${MODEL_NAME}-alpaca-tulu/ \
+    --output_dir output/self-seq-${MODEL_NAME}-flancot_cmdrplus_15k/ \
     --prompt_template tulu \
     --with_tracking \
     --do_eval \
     --eval_steps 100 \
-    --eval_file self-seq/data/lima_500_no_source.jsonl \
+    --eval_file self-seq/data/lima500_withsys.jsonl \
     --report_to wandb \
     --logging_steps 5
