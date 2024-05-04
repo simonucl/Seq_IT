@@ -257,6 +257,10 @@ def generate_response(agent, prompts, batch_size=1, generation_kwargs={}):
             instruction = p["extracted_instruction"]
         else:
             instruction = p["instruction"]
+        instruction = instruction.strip("\"")
+        if p['input'] != '':
+            instruction = f"{instruction} Input: {p['input']}"
+
         if 'system_prompt' in p:
             instruction_prompts.append([{ 'role': 'system', 'content': p['system_prompt'] }, { 'role': 'user', 'content': instruction }])
         else:
@@ -343,6 +347,7 @@ if __name__ == '__main__':
     args.add_argument('--ignore_cache', action='store_true')
     args.add_argument('--add_system_prompt', action='store_true')
     args.add_argument('--no_refinement', action='store_true')
+    args.add_argument('--regen_response', action='store_true')
 
     args = args.parse_args()
     assert not (args.load_8bit and args.load_4bit)
@@ -594,7 +599,7 @@ if __name__ == '__main__':
 
         # Step 4: Return the final output
         output_file = output_file.replace('.jsonl', '-response.jsonl')
-        if (not args.ignore_cache) and (os.path.exists(output_file)):
+        if (not args.ignore_cache) and (not args.regen_response) and (os.path.exists(output_file)):
             print(f'Using cached generations from {output_file}')
             refined_generations = []
             with open(output_file, 'r', encoding='utf-8') as json_file:
