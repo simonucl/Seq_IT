@@ -1,4 +1,3 @@
-export CUDA_VISIBLE_DEVICES=0
 CHECKPOINT_PATH=$1
 MODEL_NAME=$2
 
@@ -26,17 +25,17 @@ python3 -m eval.gsm.run_eval \
     --n_shot 8 \
     --use_vllm \
     --use_chat_format \
-    --chat_formatting_function mistral
+    --chat_formatting_function tulu
 
-python3 -m eval.gsm.run_eval \
-    --data_dir data/eval/gsm/ \
-    --save_dir results/gsm/${MODEL_NAME}-cot-0shot \
-    --model $CHECKPOINT_PATH \
-    --tokenizer $CHECKPOINT_PATH \
-    --use_vllm \
-    --n_shot 0 \
-    --use_chat_format \
-    --chat_formatting_function mistral
+# python3 -m eval.gsm.run_eval \
+#     --data_dir data/eval/gsm/ \
+#     --save_dir results/gsm/${MODEL_NAME}-cot-0shot \
+#     --model $CHECKPOINT_PATH \
+#     --tokenizer $CHECKPOINT_PATH \
+#     --use_vllm \
+#     --n_shot 0 \
+#     --use_chat_format \
+#     --chat_formatting_function mistral
 
 # python3 -m eval.mgsm.run_eval \
 #     --data_dir data/eval/mgsm/ \
@@ -79,15 +78,15 @@ python3 -m eval.gsm.run_eval \
 #     --use_vllm
 
 # # BBH
-python3 -m eval.bbh.run_eval \
-    --data_dir data/eval/bbh \
-    --save_dir results/bbh/${MODEL_NAME}-cot \
-    --model $CHECKPOINT_PATH \
-    --tokenizer $CHECKPOINT_PATH \
-    --max_num_examples_per_task 40 \
-    --use_vllm \
-    --use_chat_format \
-    --chat_formatting_function mistral
+# python3 -m eval.bbh.run_eval \
+#     --data_dir data/eval/bbh \
+#     --save_dir results/bbh/${MODEL_NAME}-cot \
+#     --model $CHECKPOINT_PATH \
+#     --tokenizer $CHECKPOINT_PATH \
+#     --max_num_examples_per_task 40 \
+#     --use_vllm \
+#     --use_chat_format \
+#     --chat_formatting_function mistral
 
 # MMLU 5 shot
 python3 -m eval.mmlu.run_eval \
@@ -98,7 +97,7 @@ python3 -m eval.mmlu.run_eval \
     --tokenizer_name_or_path $CHECKPOINT_PATH \
     --eval_batch_size 4 \
     --use_chat_format \
-    --chat_formatting_function mistral
+    --chat_formatting_function tulu
 
 # CodeEval
 python3 -m eval.codex_humaneval.run_eval \
@@ -111,14 +110,14 @@ python3 -m eval.codex_humaneval.run_eval \
     --tokenizer $CHECKPOINT_PATH \
     --use_vllm \
     --use_chat_format \
-    --chat_formatting_function mistral
+    --chat_formatting_function tulu
 
 # # AlpacaEval
-python3 -m eval.alpaca_farm.run_eval \
-    --model_name_or_path $CHECKPOINT_PATH \
-    --save_dir results/alpaca_farm/${MODEL_NAME} \
-    --eval_batch_size 20 \
-    --max_new_tokens 1024 \
-    --use_vllm \
-    --use_chat_format \
-    --chat_formatting_function mistral
+# python3 -m eval.alpaca_farm.run_eval \
+#     --model_name_or_path $CHECKPOINT_PATH \
+#     --save_dir results/alpaca_farm/${MODEL_NAME} \
+#     --eval_batch_size 20 \
+#     --max_new_tokens 1024 \
+#     --use_vllm \
+#     --use_chat_format \
+#     --chat_formatting_function mistral
