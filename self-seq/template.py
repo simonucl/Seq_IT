@@ -1,5 +1,6 @@
-import pandas
+# import pandas
 from datasets import load_dataset
+import random
 
 SYSTEM_PROMPT = "You are an assistant to classify the correct choices for the given instruction. Please follow strictly the format of the few shot examples given and provide explanation."
 PROMPT_PREFIX = """Given the original instruction, you should propose a new instruction based on it by doing one of following things:
@@ -83,3 +84,36 @@ The instruction is: "{}". {}
 Let's think step by step."""
 
 INPUT_TEMPLATE = "Input: '{}'"
+
+def get_prompt(p, is_chat=False):
+    few_shot_example = FEW_SHOTS_EXAMPLE if not is_chat else FEW_SHOTS_EXAMPLE_CHAT
+    prompt_prefix = PROMPT_PREFIX if not is_chat else PROMPT_PREFIX_CHAT
+
+    e = few_shot_example.copy()
+    random.shuffle(e) # shuffle the few shot examples to prevent position bias
+    prompt = prompt_prefix + '\n\n' + '\n\n'.join(e)
+
+    if 'conversations' in p: # cases for lima
+        instruction, output = p['conversations'][0], p['conversations'][1]
+        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
+        input = ''
+    elif 'question' in p: # cases for flancot
+        instruction = p['question']
+        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
+        input = ''
+    else: # cases for alpaca like data (with input)
+        instruction = p['instruction']
+        input = ''
+        if p['input'] != '':
+            input = INPUT_TEMPLATE.format(p['input'])
+            prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, input)
+        else:
+            prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
+
+    if 'system_prompt' in p:
+        system_prompt = p['system_prompt'] # this is used for the sequential instruction genereation process, different from SYSTEM_PROMPT
+    else:
+        system_prompt = ''
+
+    messages = [{'role': 'system', 'content': SYSTEM_PROMPT}, {'role': 'user', 'content': prompt}]
+    return {'prompt': prompt, 'instruction': instruction, 'input': input, 'messages': messages, 'system_prompt': system_prompt}

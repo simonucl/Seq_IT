@@ -1,3 +1,5 @@
+import random
+
 PROMPT_PREFIX_A="""Your objective is to decompose the given instruction (#Original Instruction#) into two logical related sequential instructions (#New Instruction#) by either make the original instruction more complex or clear to handle. 
 The response to the new instruction should be the same or similar to the original instruction, including the format.
 Your rewriting cannot omit the non-text parts such as the table and code in #Given Prompt#:, and should only modify the instruction part and keep all the key details such as options, hypothesis and questions.
@@ -64,3 +66,30 @@ PROMPT_TEMPLATE_B = """#Original Instruction#: '{}'
 Now adding a prefix task. Let's think step by step. """
 PROMPT_TEMPLATE_C = """#Original Instruction#: '{}'
 Now adding a suffix task. Let's think step by step. """
+
+def get_gen_instruction_prompt(p):
+    if (p['option'] is None) or (p['option'] == 'D'):
+        return {
+            **p,
+            'new_instruction': p['instruction'],
+        }
+    
+    if p['option'] == 'A':
+        prompt_prefix = PROMPT_PREFIX_A
+        few_shot_examples = FEW_SHOTS_EXAMPLE_A
+        prompt_template = PROMPT_TEMPLATE_A
+    elif p['option'] == 'B':
+        prompt_prefix = PROMPT_PREFIX_B
+        few_shot_examples = FEW_SHOTS_EXAMPLE_B
+        prompt_template = PROMPT_TEMPLATE_B
+    elif p['option'] == 'C':
+        prompt_prefix = PROMPT_PREFIX_C
+        few_shot_examples = FEW_SHOTS_EXAMPLE_C
+        prompt_template = PROMPT_TEMPLATE_C
+
+    e = few_shot_examples.copy()
+    random.shuffle(e)
+    prompt = prompt_prefix + '\n\n' + '\n\n'.join(e)
+    prompt += '\n\n' + prompt_template.format(p['instruction'])
+    messages = [{'role': 'user', 'content': prompt}]
+    return {**p, 'messages': messages}

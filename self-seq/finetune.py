@@ -389,9 +389,11 @@ def encode_with_messages_format(example, tokenizer, max_seq_length, add_bos=Fals
     Here we assume each example has a 'messages' field Each message is a dict with 'role' and 'content' fields.
     We concatenate all messages with the roles as delimiters and tokenize them together.
     '''
-    instruction = example['instruction'] + f"Input: {example['input']}"
+    instruction = example['instruction'] #+ f"Input: {example['input']}"
     output = example['output']
+    sys_prompt = example['system_prompt']
     messages = [
+        {'role': 'system', 'content':sys_prompt},
         {'role': 'user', 'content': instruction},
         {'role': 'assistant', 'content': output}
     ]
@@ -528,6 +530,8 @@ def main():
             data_files["train"] = args.train_file
         if args.eval_file is not None:
             data_files["eval"] = args.eval_file
+        print('files',data_files)
+        print('args', dataset_args)
         raw_datasets = load_dataset(
             "json",
             data_files=data_files,
