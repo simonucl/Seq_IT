@@ -112,7 +112,7 @@ python3 -m eval.mmlu.run_eval \
     --save_dir results/mmlu/${MODEL_NAME}-5shot \
     --model_name_or_path $CHECKPOINT_PATH \
     --tokenizer_name_or_path $CHECKPOINT_PATH \
-    --eval_batch_size 4 \
+    --eval_batch_size 8 \
     --use_chat_format \
     --chat_formatting_function tulu
     
