@@ -55,13 +55,19 @@ def main(args):
             GSM_EXAMPLARS = random.sample(GSM_EXAMPLARS, args.n_shot)
         demonstrations = []
         for example in GSM_EXAMPLARS:
-            demonstrations.append(
-                prompt_template.format(
-                    instruction=example["question"],
-                    response=example["short_answer"] if args.no_cot else example["cot_answer"]
+            if args.use_chat_format:
+                demonstrations.append(
+                    "Question: " + example["question"] + "\n" + "Answer: " + example["cot_answer"] if not args.no_cot else example["short_answer"]
                 )
-            )
-        prompt_prefix = "\n\n".join(demonstrations) + "\n\n"
+            else:
+                demonstrations.append(
+                    prompt_template.format(
+                        instruction=example["question"],
+                        response=example["short_answer"] if args.no_cot else example["cot_answer"]
+                    )
+                )
+        prompt_prefix = "Answer the following questions.\n\n" + "\n\n".join(demonstrations) + "\n\n"
+        # prompt_prefix = "\n\n".join(demonstrations) + "\n\n"
         # for example in GSM_EXAMPLARS:
         #     if args.no_cot:
         #         demonstrations.append(
@@ -79,14 +85,15 @@ def main(args):
         prompts = []
         if args.chat_formatting_function == "mistral":
             tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
-            chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
+            chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False, add_generation_prompt=True)
         elif args.chat_formatting_function == "tulu":
             tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
             tokenizer.chat_template = "{% for message in messages %}\n{% if message['role'] == 'user' %}\n{{ '<|user|>\n' + message['content'] }}\n{% elif message['role'] == 'assistant' %}\n{{ '<|assistant|>\n'  + message['content'] + eos_token }}\n{% endif %}\n{% if loop.last and add_generation_prompt %}\n{{ '<|assistant|>' }}\n{% endif %}\n{% endfor %}"
-            chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
+            chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False, add_generation_prompt=True)
         else:
             chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
             chat_formatting_function = partial(chat_formatting_function, add_bos=False)
+
         for example in test_data:
             messages = [{"role": "user", "content": prompt_prefix + "Question: " + example["question"].strip()}]
             prompt = chat_formatting_function(messages)

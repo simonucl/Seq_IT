@@ -58,24 +58,28 @@ python3 -m eval.gsm.run_eval \
 #     --use_vllm
 
 # # MGSM 8 shot
-# python3 -m eval.mgsm.run_eval \
-#     --data_dir data/eval/mgsm/ \
-#     --save_dir results/mgsm/${MODEL_NAME}-cot-en-8shot \
-#     --model $CHECKPOINT_PATH \
-#     --tokenizer $CHECKPOINT_PATH \
-#     --n_shot 8 \
-#     --mode cot-en \
-#     --use_vllm
+python3 -m eval.mgsm.run_eval \
+    --data_dir data/eval/mgsm/ \
+    --save_dir results/mgsm/${MODEL_NAME}-cot-en-8shot \
+    --model $CHECKPOINT_PATH \
+    --tokenizer $CHECKPOINT_PATH \
+    --n_shot 8 \
+    --mode cot-en \
+    --use_vllm \
+    --use_chat_format \
+    --chat_formatting_function tulu
 
 # # MGSM 8 shot
-# python3 -m eval.mgsm.run_eval \
-#     --data_dir data/eval/mgsm/ \
-#     --save_dir results/mgsm/${MODEL_NAME}-trans-cot-8shot \
-#     --model $CHECKPOINT_PATH \
-#     --tokenizer $CHECKPOINT_PATH \
-#     --n_shot 8 \
-#     --mode trans-cot \
-#     --use_vllm
+python3 -m eval.mgsm.run_eval \
+    --data_dir data/eval/mgsm/ \
+    --save_dir results/mgsm/${MODEL_NAME}-trans-cot-8shot \
+    --model $CHECKPOINT_PATH \
+    --tokenizer $CHECKPOINT_PATH \
+    --n_shot 8 \
+    --mode trans-cot \
+    --use_vllm \
+    --use_chat_format \
+    --chat_formatting_function tulu
 
 # # BBH
 # python3 -m eval.bbh.run_eval \
@@ -87,17 +91,6 @@ python3 -m eval.gsm.run_eval \
 #     --use_vllm \
 #     --use_chat_format \
 #     --chat_formatting_function mistral
-
-# MMLU 5 shot
-python3 -m eval.mmlu.run_eval \
-    --ntrain 5 \
-    --data_dir data/eval/mmlu \
-    --save_dir results/mmlu/${MODEL_NAME}-5shot \
-    --model_name_or_path $CHECKPOINT_PATH \
-    --tokenizer_name_or_path $CHECKPOINT_PATH \
-    --eval_batch_size 4 \
-    --use_chat_format \
-    --chat_formatting_function tulu
 
 # CodeEval
 python3 -m eval.codex_humaneval.run_eval \
@@ -112,6 +105,17 @@ python3 -m eval.codex_humaneval.run_eval \
     --use_chat_format \
     --chat_formatting_function tulu
 
+# MMLU 5 shot
+python3 -m eval.mmlu.run_eval \
+    --ntrain 5 \
+    --data_dir data/eval/mmlu \
+    --save_dir results/mmlu/${MODEL_NAME}-5shot \
+    --model_name_or_path $CHECKPOINT_PATH \
+    --tokenizer_name_or_path $CHECKPOINT_PATH \
+    --eval_batch_size 4 \
+    --use_chat_format \
+    --chat_formatting_function tulu
+    
 # # AlpacaEval
 # python3 -m eval.alpaca_farm.run_eval \
 #     --model_name_or_path $CHECKPOINT_PATH \
