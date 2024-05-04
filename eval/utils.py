@@ -98,13 +98,9 @@ def get_next_word_predictions(model, tokenizer, prompts, candidate_token_ids=Non
 
     for i in range(0, len(prompts), batch_size):
         batch_prompts = prompts[i: i+batch_size]
-        tokenized_prompts = tokenizer(batch_prompts, padding="longest", return_tensors="pt", add_special_tokens=add_special_tokens)
+        tokenized_prompts = tokenizer(batch_prompts, padding="longest", return_tensors="pt", add_special_tokens=add_special_tokens).to(model.device)
         batch_input_ids = tokenized_prompts.input_ids
         attention_mask = tokenized_prompts.attention_mask
-
-        if model.device.type == "cuda":
-            batch_input_ids = batch_input_ids.cuda()
-            attention_mask = attention_mask.cuda()
 
         batch_logits = model(input_ids=batch_input_ids, attention_mask=attention_mask).logits[:, -1, :]
         batch_probs = torch.softmax(batch_logits, dim=-1)

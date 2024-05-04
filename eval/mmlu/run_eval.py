@@ -59,11 +59,11 @@ def eval_hf_model(args, subject, model, tokenizer, dev_df, test_df, batch_size=1
             messages = [{"role": "user", "content": prompt}]
             if args.chat_formatting_function == "mistral":
                 tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
-                chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
+                chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False, add_bos=False)
             elif args.chat_formatting_function == "tulu":
                 tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
                 tokenizer.chat_template = "{% for message in messages %}\n{% if message['role'] == 'user' %}\n{{ '<|user|>\n' + message['content'] }}\n{% elif message['role'] == 'assistant' %}\n{{ '<|assistant|>\n'  + message['content'] + eos_token }}\n{% endif %}\n{% if loop.last and add_generation_prompt %}\n{{ '<|assistant|>' }}\n{% endif %}\n{% endfor %}"
-                chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False)
+                chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False, add_bos=False)
             else:
                 chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
                 chat_formatting_function = partial(chat_formatting_function, add_bos=False)
@@ -163,7 +163,7 @@ def main(args):
             model_name_or_path=args.model_name_or_path, 
             tokenizer_name_or_path=args.tokenizer_name_or_path,
             load_in_8bit=args.load_in_8bit, 
-            device_map="balanced_low_0" if torch.cuda.device_count() > 1 else "auto",
+            device_map="auto",
             gptq_model=args.gptq,
             use_fast_tokenizer=not args.use_slow_tokenizer,
         )

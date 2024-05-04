@@ -12,6 +12,8 @@ from eval.utils import (
     query_openai_chat_model,
     dynamic_import_function,
 )
+from transformers import AutoTokenizer
+from functools import partial
 # from eval.gsm.examplars import EXAMPLARS as GSM_EXAMPLARS
 # LANGS = ['en', 'es', 'fr', 'de', 'ru', 'zh', 'ja', 'th', 'sw', 'bn', 'te']
 LANGS=['en', 'fr', 'zh', 'ja']
@@ -81,29 +83,34 @@ def main(args):
                 GSM_EXAMPLARS = random.sample(GSM_EXAMPLARS, args.n_shot)
             for i, example in enumerate(GSM_EXAMPLARS):
                 if args.mode in ["no-cot"]:
-                    instruction = INSTRUCTION_PREFIX[args.mode] + example["question"]
-                    response = example["answer_number"]
+                    instruction = INSTRUCTION_PREFIX[args.mode] + "Question: " + example["question"]
+                    response = str(example["answer_number"])
                 elif args.mode in ["en-only"]:
-                    instruction = INSTRUCTION_PREFIX[args.mode] + en_examples[i]["question"]
-                    response = en_examples[i]["answer"]
+                    instruction = INSTRUCTION_PREFIX[args.mode] + "Question: " + example["question"]
+                    response = str(example["answer_number"])
                 elif args.mode in ["cot"]:
-                    instruction = INSTRUCTION_PREFIX[args.mode] + example["question"]
+                    instruction = INSTRUCTION_PREFIX[args.mode] + "Question: " + example["question"]
                     response = example["answer"]
                 elif args.mode in ["cot-en"]:
-                    instruction = INSTRUCTION_PREFIX[args.mode] + example["question"]
+                    instruction = INSTRUCTION_PREFIX[args.mode] + "Question: " + example["question"]
                     # split in The Answer is: <answer>
                     response = en_examples[i]["answer"].rsplit("The answer is", 1)[0].strip() + "\n" + "The Answer is: " + str(example["answer_number"])
                     # response = en_examples[i]["answer"]
                 elif args.mode in ["trans-cot"]:
-                    instruction = INSTRUCTION_PREFIX[args.mode] + example["question"]
+                    instruction = INSTRUCTION_PREFIX[args.mode] + "Question: " + example["question"]
                     response = "Translation the question into English:\n" + en_examples[i]["question"] + "\n" + en_examples[i]["answer"].rsplit("The answer is", 1)[0].strip() + "\n" + "The Answer is: " + str(example["answer_number"])
                     
-                demonstrations.append(
-                    prompt_template.format(
-                        instruction=instruction,
-                        response=response
+                if args.use_chat_format:
+                    demonstrations.append(
+                        instruction + "\nAnswer: " + response
                     )
-                )
+                else:
+                    demonstrations.append(
+                        prompt_template.format(
+                            instruction=instruction,
+                            response=response
+                        )
+                    )
             prompt_prefix[lang] = "\n\n".join(demonstrations) + "\n\n"
     else:
         prompt_prefix = {lang: "" for lang in LANGS}
@@ -119,7 +126,7 @@ def main(args):
             )
             sampling_params = vllm.SamplingParams(
                 temperature=0,
-                max_tokens=512,
+                max_tokens=1024,
                 stop=["\n\n"] if not args.use_chat_format else None, # we only use stop token for non-chat format (usually applied to vanilla pretrained language models). For chat format, we will rely on the model knows when to stop.
             )
         else:
@@ -127,7 +134,7 @@ def main(args):
                 model_name_or_path=args.model_name_or_path, 
                 tokenizer_name_or_path=args.tokenizer_name_or_path, 
                 load_in_8bit=args.load_in_8bit, 
-                device_map="balanced_low_0" if torch.cuda.device_count() > 1 else "auto",
+                device_map="auto",
                 gptq_model=args.gptq,
                 use_fast_tokenizer=not args.use_slow_tokenizer,
             )
@@ -137,11 +144,21 @@ def main(args):
         examples = test_data[lang]
         if args.use_chat_format:
             prompts = []
-            chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
+            if args.chat_formatting_function == "mistral":
+                tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
+                chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False, add_generation_prompt=True)
+            elif args.chat_formatting_function == "tulu":
+                tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
+                tokenizer.chat_template = "{% for message in messages %}\n{% if message['role'] == 'user' %}\n{{ '<|user|>\n' + message['content'] }}\n{% elif message['role'] == 'assistant' %}\n{{ '<|assistant|>\n'  + message['content'] + eos_token }}\n{% endif %}\n{% if loop.last and add_generation_prompt %}\n{{ '<|assistant|>' }}\n{% endif %}\n{% endfor %}"
+                chat_formatting_function = partial(tokenizer.apply_chat_template, tokenize=False, add_generation_prompt=True)
+            else:
+                chat_formatting_function = dynamic_import_function(args.chat_formatting_function)
+                chat_formatting_function = partial(chat_formatting_function, add_bos=False)
             for example in examples:
-                messages = [{"role": "user", "content": prompt_prefix + "Question: " + example["question"].strip()}]
-                prompt = chat_formatting_function(messages, add_bos=False)
-                prompt += "Answer:" if prompt[-1] in ["\n", " "] else " Answer:"
+                messages = [{"role": "user", "content": prompt_prefix[lang] + INSTRUCTION_PREFIX[args.mode] + "Question: " + example["question"]}]
+                prompt = chat_formatting_function(messages)
+                prompt += " Answer:" if prompt[-1] in ["\n", " "] else " Answer:"
+                # prompt += "Answer:" if prompt[-1] in ["\n", " "] else " Answer:"
                 prompts.append(prompt)
         else:
             # prompts = [prompt_prefix + "Question: " + example["question"].strip() + "\nAnswer:" for example in test_data]
