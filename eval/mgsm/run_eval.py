@@ -15,8 +15,8 @@ from eval.utils import (
 from transformers import AutoTokenizer
 from functools import partial
 # from eval.gsm.examplars import EXAMPLARS as GSM_EXAMPLARS
-# LANGS = ['en', 'es', 'fr', 'de', 'ru', 'zh', 'ja', 'th', 'sw', 'bn', 'te']
-LANGS=['en', 'fr', 'zh', 'ja']
+LANGS = ['en', 'es', 'fr', 'de', 'ru', 'zh', 'ja', 'th', 'sw', 'bn', 'te']
+# LANGS=['en', 'fr', 'zh', 'ja']
 
 
 exact_match = evaluate.load("exact_match")
