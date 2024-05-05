@@ -553,6 +553,11 @@ if __name__ == '__main__':
                     batch_size=args.batch_size,
                     generation_kwargs=generation_kwargs,
                 )
+                # pop the messages and prompt
+                for p in refined_generations:
+                    p.pop('messages')
+                    p.pop('prompt')
+                    
                 with open(output_file, 'w', encoding='utf-8') as json_file:
                     for g in refined_generations:
                         json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
