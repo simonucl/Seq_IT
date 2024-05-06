@@ -10,7 +10,7 @@ if [ ! -f "$TRAIN_FILE" ]; then
     wget https://huggingface.co/simonycl/temp_file/resolve/main/sit/alpaca_r_plus.jsonl -O $TRAIN_FILE
 fi
 
-MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/meta-llama/Llama-2-7b-hf
+MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B
 MODEL_NAME=$(basename $MODEL_NAME_OR_PATH)
 
 GRADIENT_ACC_STEPS=$(($TOTAL_BATCH_SIZE/$NUM_GPUS/$BATCH_SIZE_PER_GPU))
@@ -41,6 +41,7 @@ accelerate launch \
     --warmup_ratio 0.03 \
     --weight_decay 0. \
     --num_train_epochs 3 \
+    --gradient_checkpointing \
     --output_dir output/self-seq-${MODEL_NAME}-sit-alpaca_rplus/ \
     --prompt_template tulu \
     --with_tracking \
