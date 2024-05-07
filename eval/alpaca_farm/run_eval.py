@@ -7,7 +7,8 @@ import torch
 import datasets
 import vllm
 # from alpaca_eval import evaluate as alpaca_farm_evaluate
-from eval.utils import query_openai_chat_model, query_openai_model, generate_completions, dynamic_import_function, load_hf_lm, load_hf_tokenizer
+from eval.utils import generate_completions, dynamic_import_function, load_hf_lm, load_hf_tokenizer
+
 from eval.alpaca_farm.prompter import Prompter
 from transformers import AutoTokenizer
 from functools import partial
