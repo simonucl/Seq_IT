@@ -183,7 +183,9 @@ def classification(agent, generation_kwargs, prompts, batch_size=1):
                 'system_prompt': prompts[i + idx]['system_prompt'] if 'system_prompt' in prompts[i + idx] else None,
                 "instruction": prompts[i + idx]['instruction'],
                 'completions': output,
-                'option': extract_classification(output)
+                'option': extract_classification(output),
+                'final_instruction': prompts[i + idx]['final_instruction'],
+                'final_instruction_response':prompts[i + idx]['final_instruction_response']
             })
     return generations
 
@@ -353,7 +355,7 @@ if __name__ == '__main__':
     args.add_argument('--no_refinement', action='store_true')
     args.add_argument('--regen_response', action='store_true')
     args.add_argument('--direct_response', action='store_true')
-
+    args.add_argument('--iteration', action='store_true')
     args = args.parse_args()
     assert not (args.load_8bit and args.load_4bit)
     input_file = args.input_file
@@ -381,6 +383,11 @@ if __name__ == '__main__':
         input_data = random.sample(input_data, args.sample)
 
     prompts = [get_prompt(p, is_chat=args.use_instruct) for p in input_data]
+    if args.iteration:
+       for i in range(len(prompts)):
+           prompts[i]['final_instruction_response'] = input_data[i]['output']
+           prompts[i]['final_instruction'] = input_data[i]['instruction']
+
     if (args.add_system_prompt) and ('system_prompt' in prompts[0]):
         system_prompt_map = {i : p['system_prompt'] for i, p in enumerate(prompts)}
     else:
@@ -578,8 +585,19 @@ if __name__ == '__main__':
                 prompts=prompts,
                 batch_size=args.batch_size,
             )
-            with open(output_file, 'w', encoding='utf-8') as json_file:
-                for g in generations:
+            if args.iteration:
+                generation1 = [g for g in generations if g['option']=='D']
+                generation2 = [g for g in generations if g['option']!='D']
+                for g in generation2:
+                    g.pop('final_instruction', None)
+                    g.pop('final_instruction_response', None)
+                print(generation2[1])
+                with open(output_file, 'w', encoding='utf-8') as json_file:
+                  for g in generation2:
+                    json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
+            else:
+               with open(output_file, 'w', encoding='utf-8') as json_file:
+                  for g in generations:
                     json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
 
         # Step 2: Add sequential instruction generation
@@ -591,12 +609,20 @@ if __name__ == '__main__':
                 for line in json_file:
                     new_generations.append(json.loads(line))
         else:
-            new_generations = generation(
-                agent=agent,
-                generation_kwargs=generation_kwargs,
-                prompts=generations,
-                batch_size=args.batch_size,
-            )
+            if args.iteration:
+                new_generations = generation(
+                  agent=agent,
+                  generation_kwargs=generation_kwargs,
+                  prompts=generation2,
+                  batch_size=args.batch_size,
+               )
+            else:
+                new_generations = generation(
+                  agent=agent,
+                  generation_kwargs=generation_kwargs,
+                  prompts=generations,
+                  batch_size=args.batch_size,
+               )
             with open(output_file, 'w', encoding='utf-8') as json_file:
                 for g in new_generations:
                     json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
@@ -658,6 +684,11 @@ if __name__ == '__main__':
             )
         else:
             remaining_generations = refined_generations
+        print(remaining_generations[1].keys())
+        print(len(remaining_generations))
+        print(generation1[1].keys())
+        if args.iteration:
+            remaining_generations = remaining_generations + generation1
         with open(output_file, 'w', encoding='utf-8') as json_file:
             for g in remaining_generations:
                 json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
