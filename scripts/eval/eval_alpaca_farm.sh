@@ -34,6 +34,7 @@ do
         --eval_batch_size 20 \
         --max_new_tokens 2048 \
         --use_vllm \
+        --prompt_path sequential_instruction_tuning/SeqAlpacaEval/alpaca_eval_gpt4_baseline.seq.json \
         --use_chat_format \
         --chat_formatting_function tulu
 done
