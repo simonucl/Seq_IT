@@ -17,22 +17,27 @@ def main(args):
     os.makedirs(args.save_dir, exist_ok=True)
 
     logging.info("loading data and model...")
-    alpaca_eval_data = datasets.load_dataset("tatsu-lab/alpaca_eval", "alpaca_eval")["eval"]
+    alpaca_eval_data = datasets.load_dataset("json", data_files=args.reference_path)["train"]
+    # rename the 'seq_instruction' as 'instruction' to be consistent with the prompter
+    alpaca_eval_data = alpaca_eval_data.map(lambda x: {"instruction": x["seq_instruction"]}, remove_columns=["seq_instruction"])
+
     prompts = []
     # chat_formatting_function = dynamic_import_function(args.chat_formatting_function) if args.use_chat_format else None
     # prompter = Prompter("alpaca")
-    for example in alpaca_eval_data:
-        prompt = example["instruction"]
-        # prompt = prompter.generate_prompt(prompt)
+    # for example in alpaca_eval_data:
+    #     prompt = example["instruction"]
+    #     prompt = prompter.generate_prompt(prompt)
 
-        prompts.append(prompt)
+    #     prompts.append(prompt)
+    for example in alpaca_eval_data:
+        prompts.append(example["instruction"])
 
     model_name = os.path.basename(os.path.normpath(args.model_name_or_path)) if args.model_name_or_path is not None else args.openai_engine
 
-    if os.path.exists(os.path.join(args.save_dir, f"{model_name}-greedy-long-output.json")):
-        print(f"Loading cached results from {args.save_dir}/{model_name}-greedy-long-output.json")
+    if os.path.exists(os.path.join(args.save_dir, f"{model_name}-seq-eval-greedy-long-output.json")):
+        print(f"Loading cached results from {args.save_dir}/{model_name}-seq-eval-greedy-long-output.json")
 
-        with open(os.path.join(args.save_dir, f"{model_name}-greedy-long-output.json"), "r") as fin:
+        with open(os.path.join(args.save_dir, f"{model_name}-seq-eval-greedy-long-output.json"), "r") as fin:
             model_results = [json.loads(line) for line in fin]
             model_results = [{k: v.strip('\n') if isinstance(v, str) else v for k, v in example.items()} for example in model_results]
         if len(model_results) == len(prompts):
@@ -134,10 +139,10 @@ def main(args):
         outputs = [result["output"] for result in results]
 
     model_results = []
-    with open(os.path.join(args.save_dir, f"{model_name}-greedy-long-output.json"), "w") as fout:
+    with open(os.path.join(args.save_dir, f"{model_name}-seq-eval-greedy-long-output.json"), "w") as fout:
         for example, output in zip(alpaca_eval_data, outputs):
             example["output"] = output
-            example["generator"] = f"{model_name}-greedy-long"
+            example["generator"] = f"{model_name}-seq-eval-greedy-long"
             fout.write(json.dumps(example) + "\n")
             model_results.append(example)
         
@@ -153,6 +158,12 @@ if __name__ == "__main__":
              "Here we keep this default setup to make numbers comparable to their leaderboard. "
              "But you can also use the regenerated reference outputs with max_tokens=2048 "
              "hosted at https://huggingface.co/datasets/hamishivi/alpaca-farm-davinci-003-2048-token.",
+    )
+    parser.add_argument(
+        '--prompt_path',
+        type=str,
+        default=None,
+        help="Path to the prompt file. If not specified, we will use the default prompt file from the alpaca_eval dataset."
     )
     parser.add_argument(
         "--save_dir",
