@@ -37,4 +37,7 @@ do
         --prompt_path sequential_instruction_tuning/SeqAlpacaEval/alpaca_eval_gpt4_baseline.seq.json \
         --use_chat_format \
         --chat_formatting_function tulu
+
+    python3 -m eval.alpaca_farm.reward \
+            --input_file results/alpaca_farm/${MODEL_NAME}/${MODEL_NAME}-seq-eval-greedy-long-output.json
 done

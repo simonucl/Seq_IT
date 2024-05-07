@@ -19,7 +19,8 @@ def main(args):
     logging.info("loading data and model...")
     alpaca_eval_data = datasets.load_dataset("json", data_files=args.prompt_path)["train"]
     # rename the 'seq_instruction' as 'instruction' to be consistent with the prompter
-    alpaca_eval_data = alpaca_eval_data.map(lambda x: {"instruction": x["seq_instruction"]}, remove_columns=["seq_instruction"])
+    # only keep instruction and ori_instruction columns
+    alpaca_eval_data = alpaca_eval_data.map(lambda x: {"instruction": x["seq_instruction"]}, remove_columns=[t for t in alpaca_eval_data.columns if t not in ['ori_instruction', 'instruction']])
 
     prompts = []
     # chat_formatting_function = dynamic_import_function(args.chat_formatting_function) if args.use_chat_format else None
