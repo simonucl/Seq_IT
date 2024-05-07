@@ -17,7 +17,7 @@ def main(args):
     os.makedirs(args.save_dir, exist_ok=True)
 
     logging.info("loading data and model...")
-    alpaca_eval_data = datasets.load_dataset("json", data_files=args.reference_path)["train"]
+    alpaca_eval_data = datasets.load_dataset("json", data_files=args.prompt_path)["train"]
     # rename the 'seq_instruction' as 'instruction' to be consistent with the prompter
     alpaca_eval_data = alpaca_eval_data.map(lambda x: {"instruction": x["seq_instruction"]}, remove_columns=["seq_instruction"])
 
