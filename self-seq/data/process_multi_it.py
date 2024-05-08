@@ -17,13 +17,14 @@ def process_jsonl_file(file_path):
             results.append(new_data)
     return results
 
-file_path = 'alpaca/alpaca_llmam_70b-Meta-Llama-3-70B-Instruct-generate_instruct-refine-response-final.jsonl'
+file_path = 'flancot/flancot_llama70b_iteration2-Meta-Llama-3-70B-Instruct-generate_instruct-refine-response-final.jsonl'
 new_data_list = process_jsonl_file(file_path)
+output_file_path = 'flancot/flancot_llama70b_iteration3.jsonl'
+>>>>>>> 23f8bc6d7708febc1300dcf93ded204fa1ccf06a
 idx = 0
 for item in new_data_list:
     item['idx'] = idx
     idx+=1
-output_file_path = 'alpaca/alpaca_llama70b_iteration2.jsonl'
 with open(output_file_path, 'w', encoding='utf-8') as file:
         for item in new_data_list:
             json_line = json.dumps(item, ensure_ascii=False)
