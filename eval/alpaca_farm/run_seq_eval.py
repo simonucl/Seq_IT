@@ -35,15 +35,18 @@ def main(args):
 
     model_name = os.path.basename(os.path.normpath(args.model_name_or_path)) if args.model_name_or_path is not None else args.openai_engine
 
-    if os.path.exists(os.path.join(args.save_dir, f"{model_name}-seq-eval-greedy-long-output.json")):
-        print(f"Loading cached results from {args.save_dir}/{model_name}-seq-eval-greedy-long-output.json")
+    if args.ignore_cache:
+        model_results = []
+    else:
+        if os.path.exists(os.path.join(args.save_dir, f"{model_name}-seq-eval-greedy-long-output.json")):
+            print(f"Loading cached results from {args.save_dir}/{model_name}-seq-eval-greedy-long-output.json")
 
-        with open(os.path.join(args.save_dir, f"{model_name}-seq-eval-greedy-long-output.json"), "r") as fin:
-            model_results = [json.loads(line) for line in fin]
-            model_results = [{k: v.strip('\n') if isinstance(v, str) else v for k, v in example.items()} for example in model_results]
-        if len(model_results) == len(prompts):
-            print("Loaded cached results.")
-            return
+            with open(os.path.join(args.save_dir, f"{model_name}-seq-eval-greedy-long-output.json"), "r") as fin:
+                model_results = [json.loads(line) for line in fin]
+                model_results = [{k: v.strip('\n') if isinstance(v, str) else v for k, v in example.items()} for example in model_results]
+            if len(model_results) == len(prompts):
+                print("Loaded cached results.")
+                return
         
     prompts = prompts[:args.sample] if args.sample > 0 else prompts
 
@@ -241,6 +244,11 @@ if __name__ == "__main__":
         type=str,
         default=None,
         help="The stop id sequences for the model.",
+    )
+    parser.add_argument(
+        "--ignore_cache",
+        action="store_true",
+        help="If given, we will ignore the cache and regenerate the outputs.",
     )
     args = parser.parse_args()
 
