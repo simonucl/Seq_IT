@@ -62,6 +62,8 @@ def extract_input(agent, generation_kwargs, prompts, batch_size=1):
                 "ori_instruction": prompts[i + idx]['instruction'],
                 'instruction': instruction,
                 'input': input,
+                'system_prompt': prompts[i + idx]['system_prompt'],
+                'output': prompts[i + idx]['output'],
             })
     return generations
     
@@ -161,4 +163,6 @@ if __name__ == '__main__':
 
         generations = extract_input(agent, generation_kwargs, prompts=prompts, batch_size=args.batch_size)
         output_file = output_file.replace('.jsonl', '-extracted-input.jsonl')
-        
+        with open(output_file, 'w', encoding='utf-8') as file:
+            for g in generations:
+                file.write(json.dumps(g) + '\n')
