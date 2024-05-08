@@ -33,6 +33,7 @@ def get_prompt(p, is_chat=False):
         input = ''
     else: # cases for alpaca like data (with input)
         instruction = p['instruction']
+        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction)
         input = ''
 
     messages = [{'role': 'system', 'content': SYSTEM_PROMPT}, {'role': 'user', 'content': prompt}]

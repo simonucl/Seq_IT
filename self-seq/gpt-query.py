@@ -183,10 +183,12 @@ def classification(agent, generation_kwargs, prompts, batch_size=1):
                 'system_prompt': prompts[i + idx]['system_prompt'] if 'system_prompt' in prompts[i + idx] else None,
                 "instruction": prompts[i + idx]['instruction'],
                 'completions': output,
-                'option': extract_classification(output),
-                'final_instruction': prompts[i + idx]['final_instruction'],
-                'final_instruction_response':prompts[i + idx]['final_instruction_response']
+                'option': extract_classification(output)
             })
+            if 'final_instruction' in prompts[i + idx]:
+                generations[-1]['final_instruction'] = prompts[i + idx]['final_instruction']
+            if 'final_instruction_response' in prompts[i + idx]:
+                generations[-1]['final_instruction_response'] = prompts[i + idx]['final_instruction_response']
     return generations
 
 def generation(agent, generation_kwargs, prompts, batch_size=1):
@@ -579,6 +581,7 @@ if __name__ == '__main__':
                 for line in json_file:
                     generations.append(json.loads(line))
         else:
+            # TODO if args.iteration: remove original already option D data
             generations = classification(
                 agent=agent,
                 generation_kwargs=generation_kwargs,
