@@ -178,7 +178,7 @@ def classification(agent, generation_kwargs, prompts, batch_size=1):
 
         for idx, (prompt, output) in enumerate(zip(batch_prompts, outputs)):
             generations.append({
-                'idx': i + idx,
+                'idx': i + idx if 'idx' not in prompts[i + idx] else prompts[i + idx]['idx'],
                 "input": prompts[i + idx]['input'],
                 'system_prompt': prompts[i + idx]['system_prompt'] if 'system_prompt' in prompts[i + idx] else None,
                 "instruction": prompts[i + idx]['instruction'],
@@ -390,6 +390,7 @@ if __name__ == '__main__':
            prompts[i]['final_instruction_response'] = input_data[i]['output']
            prompts[i]['final_instruction'] = input_data[i]['instruction']
            prompts[i]['option'] = input_data[i]['option']
+           prompts[i]['idx'] = i
 
     if (args.add_system_prompt) and ('system_prompt' in prompts[0]):
         system_prompt_map = {i : p['system_prompt'] for i, p in enumerate(prompts)}
@@ -687,6 +688,12 @@ if __name__ == '__main__':
         print(len(remaining_generations))
         if args.iteration:
             print(generations_no_change[1].keys())
+            # pop 'prompt' and 'messages' from the final instruction
+            for g in generations_no_change:
+                g.pop('prompt', None)
+                g.pop('messages', None)
+            for g in remaining_generations:
+                g.pop('completions', None)
             remaining_generations = remaining_generations + generations_no_change
         with open(output_file, 'w', encoding='utf-8') as json_file:
             for g in remaining_generations:
