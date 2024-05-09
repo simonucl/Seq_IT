@@ -19,7 +19,7 @@ def process_jsonl_file(file_path):
             'instruction': final_instruction,
             'output': data['final_instruction_response'],
             'system_prompt':data['system_prompt'],
-            'input': data['input'],
+            'input': input,
             'option': data['option'],
         }
         results.append(new_data)
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     parser.add_argument('--output_file', type=str, default='flancot/flancot_llama70b_iteration3.jsonl')
     args = parser.parse_args()
 
-    new_data = process_jsonl_file(args.file_path, args.iteration)
+    new_data = process_jsonl_file(args.file_path)
     with open(args.output_file.replace('.jsonl', '-iter.jsonl'), 'w', encoding='utf-8') as file:
         for item in new_data:
             json_line = json.dumps(item, ensure_ascii=False)
