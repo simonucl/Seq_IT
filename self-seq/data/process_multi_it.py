@@ -6,7 +6,7 @@ def process_jsonl_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         lines = file.readlines()
     
-    for line in lines:
+    for i, line in enumerate(lines):
         data = json.loads(line)
         if 'extracted_instruction' in data:
             final_instruction = data['extracted_instruction']
@@ -15,7 +15,7 @@ def process_jsonl_file(file_path):
         input = data['input'].replace('Input: ', '').replace('###', '').strip("\'\"")
         final_instruction = final_instruction.strip("\'\"“”")
         new_data = {
-            'idx': data['idx'],
+            'idx': data['idx'] if 'idx' in data else i,
             'instruction': final_instruction,
             'output': data['final_instruction_response'],
             'system_prompt':data['system_prompt'],
