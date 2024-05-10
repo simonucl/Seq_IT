@@ -14,7 +14,8 @@ def process_jsonl_file(file_path):
             final_instruction = data['instruction']
         if 'Input: ' in final_instruction:
             final_instruction = final_instruction[:final_instruction.index('Input: ')]
-            
+        final_instruction = final_instruction.strip('\'\"“” ')
+
         input = data['input'].replace('Input: ', '').replace('###', '').strip("\'\"")
         final_instruction = final_instruction.strip("\'\"“”")
         new_data = {
