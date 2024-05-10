@@ -20,14 +20,14 @@ def process_jsonl_file(file_path):
             'output': data['final_instruction_response'],
             'system_prompt':data['system_prompt'],
             'input': input,
-            'option': data['option'],
+            'option': data['option'] if 'option' in data else None
         }
         results.append(new_data)
     return results
 
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument('--_', type=str, default='flancot/flancot_llama70b_iteration2-Meta-Llama-3-70B-Instruct-generate_instruct-refine-response-final.jsonl')
+    parser.add_argument('--file_path', type=str, default='flancot/flancot_llama70b_iteration2-Meta-Llama-3-70B-Instruct-generate_instruct-refine-response-final.jsonl')
     parser.add_argument('--output_file', type=str, default='flancot/flancot_llama70b_iteration3.jsonl')
     args = parser.parse_args()
 
