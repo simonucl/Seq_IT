@@ -36,7 +36,7 @@ def get_prompt(p, is_chat=False):
         prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction)
         input = ''
 
-    messages = [{'role': 'system', 'content': SYSTEM_PROMPT}, {'role': 'user', 'content': prompt}]
+    messages = [{'role': 'user', 'content': prompt}]
     return {**p, 'messages': messages}
 
 def extract_input(agent, generation_kwargs, prompts, batch_size=1):
@@ -79,6 +79,8 @@ def extract_instruction_input(prompt, output):
             instruction = instruction[:instruction.lower().index('input:')].strip("# \n")
         elif '###' in instruction:
             instruction = instruction[:instruction.index('###')].strip()
+        if "explanation:" in instruction.lower():
+            instruction = instruction[:instruction.lower().index('explanation:')].strip("\n ")
     if 'input:' in output.lower():
         input = output[output.lower().index('input:') + len('input:'):].strip()
         if '###' in input:

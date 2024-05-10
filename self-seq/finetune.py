@@ -389,7 +389,7 @@ def encode_with_messages_format(example, tokenizer, max_seq_length, add_bos=Fals
     Here we assume each example has a 'messages' field Each message is a dict with 'role' and 'content' fields.
     We concatenate all messages with the roles as delimiters and tokenize them together.
     '''
-    instruction = example['instruction']+ f"Input: {example['input']}"
+    instruction = example['instruction']+ f" {example['input']}"
     output = example['output']
     sys_prompt = example['system_prompt']
     messages = [
