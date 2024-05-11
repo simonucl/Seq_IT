@@ -4,7 +4,7 @@ MODEL_SIZE=7B
 NUM_GPUS=2
 BATCH_SIZE_PER_GPU=1
 TOTAL_BATCH_SIZE=128
-TRAIN_FILE=self-seq/data/flancot/flancot_15k_origin_llama_70b.jsonl
+TRAIN_FILE=self-seq/data/flancot_extract_refine/flancot_llama70b_direct_response.jsonl
 MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B
 MODEL_NAME=$(basename $MODEL_NAME_OR_PATH)
 
@@ -45,7 +45,9 @@ accelerate launch \
     --eval_file self-seq/data/lima500_withsys.jsonl \
     --report_to wandb \
     --logging_steps 5
+    
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:False
+bash scripts/evaluation.sh output/self-seq-${MODEL_NAME}-flancot_llama_70b
+# bash scripts/prepare_eval_data.sh
 
-bash scripts/prepare_eval_data.sh
-
-bash scripts/eval/eval_auto_mistral.sh output/self-seq-${MODEL_NAME}-flancot_llama_70b self-seq-${MODEL_NAME}-flancot_llama_70b > eval_results/self-seq-${MODEL_NAME}-flancot_llama_70b.log
+# bash scripts/eval/eval_auto_mistral.sh output/self-seq-${MODEL_NAME}-flancot_llama_70b self-seq-${MODEL_NAME}-flancot_llama_70b > eval_results/self-seq-${MODEL_NAME}-flancot_llama_70b.log
