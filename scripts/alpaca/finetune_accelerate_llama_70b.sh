@@ -36,7 +36,6 @@ accelerate launch \
     --warmup_ratio 0.03 \
     --weight_decay 0. \
     --num_train_epochs 3 \
-    --gradient_checkpointing \
     --output_dir output/self-seq-${MODEL_NAME}-alpaca_rplus/ \
     --prompt_template tulu \
     --with_tracking \
