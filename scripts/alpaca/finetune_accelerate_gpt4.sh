@@ -1,7 +1,7 @@
-export CUDA_VISIBLE_DEVICES=0,1
+export CUDA_VISIBLE_DEVICES=0,1,2,3
 
 MODEL_SIZE=7B
-NUM_GPUS=2
+NUM_GPUS=4
 BATCH_SIZE_PER_GPU=1
 TOTAL_BATCH_SIZE=128
 TRAIN_FILE=self-seq/data/alpaca/alpaca_gpt_4.jsonl
@@ -41,7 +41,6 @@ accelerate launch \
     --warmup_ratio 0.03 \
     --weight_decay 0. \
     --num_train_epochs 3 \
-    --gradient_checkpointing \
     --output_dir output/self-seq-${MODEL_NAME}-gpt4 \
     --prompt_template tulu \
     --with_tracking \

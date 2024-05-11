@@ -1,16 +1,17 @@
-export CUDA_VISIBLE_DEVICES=0,1
+export CUDA_VISIBLE_DEVICES=0,1,2,3
 
 MODEL_SIZE=7B
-NUM_GPUS=2
+NUM_GPUS=4
 BATCH_SIZE_PER_GPU=1
 TOTAL_BATCH_SIZE=128
-TRAIN_FILE=self-seq/data/alpaca/alpaca_llama70b_iteration2.jsonl
+# TRAIN_FILE=self-seq/data/alpaca/alpaca_llama70b_iteration2.jsonl
+TRAIN_FILE=self-seq/data/alpaca/alpaca_llama70b_iteration_3.jsonl
 # check if TRAIN_FILE exists
 if [ ! -f "$TRAIN_FILE" ]; then
     wget https://huggingface.co/simonycl/temp_file/resolve/main/sit/alpaca_llmam_70b.jsonl -O $TRAIN_FILE
 fi
 
-MODEL_NAME_OR_PATH=meta-llama/Meta-Llama-3-8B
+MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B
 MODEL_NAME=$(basename $MODEL_NAME_OR_PATH)
 
 GRADIENT_ACC_STEPS=$(($TOTAL_BATCH_SIZE/$NUM_GPUS/$BATCH_SIZE_PER_GPU))
@@ -42,7 +43,7 @@ accelerate launch \
     --weight_decay 0. \
     --num_train_epochs 3 \
     --gradient_checkpointing \
-    --output_dir output/self-seq-${MODEL_NAME}-alpaca_llmam_70b/ \
+    --output_dir output/self-seq-${MODEL_NAME}-alpaca_sit_llama_70b-iter3/ \
     --prompt_template tulu \
     --with_tracking \
     --do_eval \
@@ -51,6 +52,5 @@ accelerate launch \
     --report_to wandb \
     --logging_steps 5
 
-bash scripts/prepare_eval_data.sh
-
-bash scripts/eval/eval_auto_mistral.sh output/self-seq-${MODEL_NAME}-alpaca_llmam_70b self-seq-${MODEL_NAME}-alpac_llmam_70b > eval_results/self-seq-${MODEL_NAME}-alpaca_llmam_70b.log
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:False
+bash scripts/evaluation.sh output/self-seq-${MODEL_NAME}-alpaca_sit_llama_70b-iter3 > logs/results.log
