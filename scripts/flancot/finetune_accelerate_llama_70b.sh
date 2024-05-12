@@ -1,10 +1,10 @@
-export CUDA_VISIBLE_DEVICES=0,1
+export CUDA_VISIBLE_DEVICES=0,1,2,3
 
 MODEL_SIZE=7B
-NUM_GPUS=2
+NUM_GPUS=4
 BATCH_SIZE_PER_GPU=1
 TOTAL_BATCH_SIZE=128
-TRAIN_FILE=self-seq/data/flancot/flancot_15k_origin_llama_70b.jsonl
+TRAIN_FILE=self-seq/data/flancot_extract_refine/flancot_llama70b_direct_response.jsonl
 MODEL_NAME_OR_PATH=/mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B
 MODEL_NAME=$(basename $MODEL_NAME_OR_PATH)
 
@@ -36,16 +36,23 @@ accelerate launch \
     --warmup_ratio 0.03 \
     --weight_decay 0. \
     --num_train_epochs 3 \
-    --output_dir output/self-seq-${MODEL_NAME}-flancot_llama_70b/ \
+    --output_dir output/self-seq-${MODEL_NAME}-flancot_llama_70b-it/ \
     --prompt_template tulu \
-    --gradient_checkpointing \
     --with_tracking \
     --do_eval \
     --eval_steps 100 \
     --eval_file self-seq/data/lima500_withsys.jsonl \
     --report_to wandb \
     --logging_steps 5
+    
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:False
+bash scripts/evaluation.sh output/self-seq-${MODEL_NAME}-flancot_llama_70b
+# bash scripts/prepare_eval_data.sh
 
-bash scripts/prepare_eval_data.sh
+<<<<<<< HEAD
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:False
 
-bash scripts/eval/eval_auto_mistral.sh output/self-seq-${MODEL_NAME}-flancot_llama_70b self-seq-${MODEL_NAME}-flancot_llama_70b > eval_results/self-seq-${MODEL_NAME}-flancot_llama_70b.log
+bash scripts/evaluation.sh output/self-seq-${MODEL_NAME}-flancot_llama_70b-it > logs/eval_flancot.log
+=======
+# bash scripts/eval/eval_auto_mistral.sh output/self-seq-${MODEL_NAME}-flancot_llama_70b self-seq-${MODEL_NAME}-flancot_llama_70b > eval_results/self-seq-${MODEL_NAME}-flancot_llama_70b.log
+>>>>>>> 8fb5ad6c9e2b81af99635989d87c57d9a9afceab

@@ -1,6 +1,8 @@
 import json
 from argparse import ArgumentParser
+from rouge import Rouge
 
+rouge = Rouge()
 def process_jsonl_file(file_path):
     results = []
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -12,6 +14,13 @@ def process_jsonl_file(file_path):
             final_instruction = data['extracted_instruction']
         else:
             final_instruction = data['instruction']
+        if 'explanation:' in final_instruction.lower():
+            final_instruction = final_instruction[:final_instruction.lower().index('explanation:')]
+        # if 'Input: ' in final_instruction:
+        #     final_instruction = final_instruction[:final_instruction.index('Input: ')]
+        
+        final_instruction = final_instruction.strip('\'\"“” \n')
+
         input = data['input'].replace('Input: ', '').replace('###', '').strip("\'\"")
         final_instruction = final_instruction.strip("\'\"“”")
         new_data = {
@@ -20,10 +29,27 @@ def process_jsonl_file(file_path):
             'output': data['final_instruction_response'],
             'system_prompt':data['system_prompt'],
             'input': input,
-            'option': data['option'],
+            'option': data['option'] if 'option' in data else None
         }
         results.append(new_data)
     return results
+
+def filter_input(instructions):
+    filtered_instructions = []
+    count = 0
+    for instruction in instructions:
+        if instruction['input'] == '':
+            filtered_instructions.append(instruction)
+        else:
+            if instruction['input'] in instruction['instruction']:
+                instruction['input'] = ''
+                conut += 1
+            elif rouge.get_scores(instruction['input'], instruction['instruction'])[0]['rouge-1']['f'] > 0.3:
+                instruction['input'] = ''
+                count += 1
+            filtered_instructions.append(instruction)
+    print(f'Filtered {count} instructions')
+    return filtered_instructions
 
 if __name__ == '__main__':
     parser = ArgumentParser()
@@ -36,6 +62,9 @@ if __name__ == '__main__':
         for item in new_data:
             json_line = json.dumps(item, ensure_ascii=False)
             file.write(json_line + '\n')
+    if 'flancot' in args.file_path:
+        new_data = filter_input(new_data)
+
     with open(args.output_file, 'w', encoding='utf-8') as file:
         for item in new_data:
             item.pop('option')
