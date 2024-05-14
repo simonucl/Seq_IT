@@ -44,7 +44,7 @@ accelerate launch \
     --weight_decay 0. \
     --num_train_epochs 3 \
     --gradient_checkpointing \
-    --output_dir output/self-seq-${MODEL_NAME}-alpaca_sit_llama_70b-iter3/ \
+    --output_dir output/self-seq-${MODEL_NAME}-alpaca_llmam_70b-iter2/ \
     --prompt_template tulu \
     --with_tracking \
     --do_eval \
@@ -54,4 +54,4 @@ accelerate launch \
     --logging_steps 5
 
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:False
-bash scripts/evaluation.sh output/self-seq-${MODEL_NAME}-alpaca_sit_llama_70b-iter3 > logs/results.log
+bash scripts/evaluation.sh output/self-seq-${MODEL_NAME}-alpaca_llmam_70b-iter2 > logs/eval.log
