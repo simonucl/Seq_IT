@@ -27,7 +27,7 @@ def process_jsonl_file(file_path):
         new_data = {
             'idx': data['idx'] if 'idx' in data else i,
             'instruction': final_instruction,
-            'output': data['final_instruction_response'],
+            'output': data['final_instruction_response'] if 'final_instruction_response' in data else data['output'],
             'system_prompt':data['system_prompt'],
             'input': input,
             'option': data['option'] if 'option' in data else None
