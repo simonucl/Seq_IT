@@ -12,6 +12,7 @@ rouge = Rouge()
 
 def check_position(entry):
     if ('position' in entry) or (entry['input'] == ''):
+        entry['position'] = "random"
         return entry
     
     ori = entry['ori_instruction']
@@ -32,6 +33,7 @@ def check_position(entry):
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
     args.add_argument('--input_file', type=str, default='data/alpaca.jsonl')
+    args.add_argument('--output_file', type=str, default='data/alpaca.jsonl')
 
     args = args.parse_args()
     input_file = args.input_file
@@ -43,6 +45,6 @@ if __name__ == '__main__':
 
     new_input_data = [check_position(data) for data in tqdm(input_data, desc='Checking position')]
     
-    with open(input_file, 'w', encoding='utf-8') as file:
+    with open(args.output_file, 'w', encoding='utf-8') as file:
         for data in new_input_data:
             file.write(json.dumps(data) + '\n')
