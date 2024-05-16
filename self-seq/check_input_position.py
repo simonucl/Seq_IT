@@ -20,9 +20,20 @@ def check_position(entry):
     instruction = entry['instruction']
 
     if (input not in ori) and (rouge.get_scores(input, ori)[0]['rouge-1']['f'] <= 0.3):
-        entry['instruction'] = ori
-        entry['input'] = ""
-        entry['position'] = "random"
+        if ori.lower().find(instruction.lower().strip('.:,/')) > -1:
+            # remove the instruction from the original instruction
+            index = ori.lower().find(instruction.lower().strip('.:,/'))
+            input = ori[:index] + ori[index + len(instruction):]
+            entry['instruction'] = instruction
+            entry['input'] = input
+            if "following" in instruction:
+                entry['position'] = "right"
+            else:
+                entry['position'] = "left"
+        else:
+            entry['instruction'] = ori
+            entry['input'] = ""
+            entry['position'] = "random"
     else:
         if "following" in instruction:
             entry['position'] = "right"
