@@ -22,23 +22,30 @@ def get_prompt(p, is_chat=False):
     e = few_shot_example.copy()
     random.shuffle(e) # shuffle the few shot examples to prevent position bias
     # prompt = '\n\n'.join([prompt_prefix + '\n' + example for example in e])
-    prompt = prompt_prefix + '\n\n' + '\n\n'.join(e)
+    messages = []
+    # content = prompt_prefix
+    for i, few_shot in enumerate(e):
+        if i == 0:
+            messages += [{'role': 'user', 'content': prompt_prefix + '\n\n' + PROMPT_TEMPLATE.format(few_shot[0])}, {'role': 'assistant', 'content': few_shot[1]}]
+        else:
+            messages += [{'role': 'user', 'content': PROMPT_TEMPLATE.format(few_shot[0])}, {'role': 'assistant', 'content': few_shot[1]}]
+    # prompt = prompt_prefix + '\n\n' + '\n\n'.join(e)
 
     if 'conversations' in p: # cases for lima
         instruction, output = p['conversations'][0], p['conversations'][1]
         # prompt += '\n\n' + prompt_prefix + '\n' + PROMPT_TEMPLATE.format(instruction)
-        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction)
+        prompt = '\n\n' + PROMPT_TEMPLATE.format(instruction)
         input = ''
     elif 'question' in p: # cases for flancot
         instruction = p['question']
-        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction)
+        prompt = '\n\n' + PROMPT_TEMPLATE.format(instruction)
         input = ''
     else: # cases for alpaca like data (with input)
         instruction = p['instruction']
-        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction)
+        prompt = '\n\n' + PROMPT_TEMPLATE.format(instruction)
         input = ''
 
-    messages = [{'role': 'user', 'content': prompt}]
+    messages += [{'role': 'user', 'content': prompt}]
     return {**p, 'messages': messages}
 
 def extract_input(agent, generation_kwargs, prompts, batch_size=1):
