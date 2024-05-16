@@ -37,7 +37,7 @@ accelerate launch \
     --warmup_ratio 0.03 \
     --weight_decay 0. \
     --num_train_epochs 3 \
-    --output_dir output/self-seq-${MODEL_NAME}-flancot_sit_llama_70b/ \
+    --output_dir output/self-seq-${MODEL_NAME}-flancot_extract_input_sit_llama_70b-1/ \
     --prompt_template tulu \
     --with_tracking \
     --do_eval \

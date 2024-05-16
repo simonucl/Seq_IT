@@ -359,6 +359,11 @@ if __name__ == '__main__':
     args.add_argument('--regen_response', action='store_true')
     args.add_argument('--direct_response', action='store_true')
     args.add_argument('--iteration', action='store_true')
+    args.add_argument('--temperature', type=float, default=1.0)
+    args.add_argument('--top_p', type=float, default=0.9)
+    args.add_argument('--top_k', type=int, default=50)
+    args.add_argument('--max_new_tokens', type=int, default=2048)
+
     args = args.parse_args()
     assert not (args.load_8bit and args.load_4bit)
     input_file = args.input_file
@@ -523,10 +528,10 @@ if __name__ == '__main__':
             stop_id_sequences = [tokenizer.encode(s, add_special_tokens=False) for s in stop]
 
         generation_kwargs = {
-            "temperature": 1,
-            "top_p": 0.9,
-            "top_k": 50,
-            "max_new_tokens": 2048,
+            "temperature": args.temperature,
+            "top_p": args.top_p,
+            "top_k": args.top_k,
+            "max_new_tokens": args.max_new_tokens,
         }
         if args.use_vllm:
             vllm_kwargs = {

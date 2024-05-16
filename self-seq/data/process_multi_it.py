@@ -1,6 +1,7 @@
 import json
 from argparse import ArgumentParser
 from rouge import Rouge
+import random
 
 rouge = Rouge()
 def process_jsonl_file(file_path):
@@ -41,12 +42,22 @@ def filter_input(instructions):
         if instruction['input'] == '':
             filtered_instructions.append(instruction)
         else:
-            if instruction['input'] in instruction['instruction']:
-                instruction['input'] = ''
+            if (instruction['input'] in instruction['instruction']) or (rouge.get_scores(instruction['input'], instruction['instruction'])[0]['rouge-1']['f'] > 0.3):
                 count += 1
-            elif rouge.get_scores(instruction['input'], instruction['instruction'])[0]['rouge-1']['f'] > 0.3:
-                instruction['input'] = ''
-                count += 1
+            else:
+                delimiter = random.choice([' ', '\n', '\n\n'])
+                if 'position' in instruction:
+                    if instruction['position'] == "left":
+                        instruction['instruction'] = f"{instruction['input']}{delimiter}{instruction['instruction']}"
+                    elif instruction['position'] == "right":
+                        instruction['instruction'] = f"{instruction['instruction']}{delimiter}{instruction['input']}"
+                    else:
+                        if random.choice([True, False]):
+                            instruction['instruction'] = f"{instruction['input']}{delimiter}{instruction['instruction']}"
+                        else:
+                            instruction['instruction'] = f"{instruction['instruction']}{delimiter}{instruction['input']}"
+            instruction['input'] = ""
+
             filtered_instructions.append(instruction)
     print(f'Filtered {count} instructions')
     return filtered_instructions
@@ -62,7 +73,7 @@ if __name__ == '__main__':
         for item in new_data:
             json_line = json.dumps(item, ensure_ascii=False)
             file.write(json_line + '\n')
-    if 'flancot' in args.file_path:
+    if ('flancot' in args.file_path) or ('slimorca' in args.file_path):
         new_data = filter_input(new_data)
 
     with open(args.output_file, 'w', encoding='utf-8') as file:
