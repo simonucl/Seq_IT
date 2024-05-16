@@ -37,11 +37,13 @@ def get_prompt(p, is_chat=False):
         instruction = p['instruction']
         input = ''
         if p['input'] != '':
-            input = INPUT_TEMPLATE.format(p['input'])
-            # input = p['input']
-            prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, input)
-        else:
-            prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
+            # input = INPUT_TEMPLATE.format(p['input'])
+            input = p['input']
+            if ('position' in p) and (p['position'] == 'right'):
+                instruction = f"{instruction} {input}"
+            else:
+                instruction = f"{input} {instruction}"
+        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
 
     if 'system_prompt' in p:
         system_prompt = p['system_prompt']

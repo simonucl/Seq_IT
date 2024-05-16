@@ -26,7 +26,7 @@ def check_position(entry):
             input = ori[:index] + ori[index + len(instruction):]
             entry['instruction'] = instruction
             entry['input'] = input
-            if "following" in instruction:
+            if ("following" in instruction):
                 entry['position'] = "right"
             else:
                 entry['position'] = "left"
@@ -35,7 +35,7 @@ def check_position(entry):
             entry['input'] = ""
             entry['position'] = "random"
     else:
-        if "following" in instruction:
+        if ("following" in instruction):
             entry['position'] = "right"
         else:
             entry['position'] = "left"
