@@ -19,7 +19,7 @@ def check_position(entry):
     input = entry['input']
     instruction = entry['instruction']
 
-    if (input not in instruction) and (rouge.get_scores(input, instruction)[0]['rouge-1']['f'] <= 0.3):
+    if (input not in ori) and (rouge.get_scores(input, ori)[0]['rouge-1']['f'] <= 0.3):
         entry['instruction'] = ori
         entry['input'] = ""
         entry['position'] = "random"
