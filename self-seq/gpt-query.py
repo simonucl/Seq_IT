@@ -38,6 +38,7 @@ def get_prompt(p, is_chat=False):
         input = ''
         if p['input'] != '':
             input = INPUT_TEMPLATE.format(p['input'])
+            # input = p['input']
             prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, input)
         else:
             prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
@@ -358,10 +359,10 @@ if __name__ == '__main__':
     args.add_argument('--regen_response', action='store_true')
     args.add_argument('--direct_response', action='store_true')
     args.add_argument('--iteration', action='store_true')
-    args.add_argument('--temperature', type=float, default=0.0)
+    args.add_argument('--temperature', type=float, default=1.0)
     args.add_argument('--top_p', type=float, default=0.9)
     args.add_argument('--top_k', type=int, default=50)
-    args.add_argument('--max_new_tokens', type=int, default=1024)
+    args.add_argument('--max_new_tokens', type=int, default=2048)
 
     args = args.parse_args()
     assert not (args.load_8bit and args.load_4bit)

@@ -11,7 +11,7 @@ def process_jsonl_file(file_path):
     
     for i, line in enumerate(lines):
         data = json.loads(line)
-        if 'extracted_instruction' in data:
+        if ('extracted_instruction' in data) and (data['extracted_instruction'] is not None):
             final_instruction = data['extracted_instruction']
         else:
             final_instruction = data['instruction']
