@@ -77,9 +77,12 @@ def get_gen_instruction_prompt(p):
     random.shuffle(e)
     prompt = prompt_prefix + '\n\n' + '\n\n'.join(e)
     if p['input'] != '':
-        prompt += '\n\n' + prompt_template.format(p['instruction'], p['input'])
-    else:
-        prompt += '\n\n' + prompt_template.format(p['instruction'], '')
+        if ('position' in p) and (p['position'] == 'right'):
+            instruction = f"{p['input']} {p['instruction']}"
+        else:
+            instruction = f"{p['instruction']} {p['input']}"
+
+    prompt += '\n\n' + prompt_template.format(instruction, '')
     # prompt += '\n\n' + prompt_template.format(p['instruction'])
     messages = [{'role': 'user', 'content': prompt}]
     return {**p, 'messages': messages}
