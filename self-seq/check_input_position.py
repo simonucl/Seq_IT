@@ -6,7 +6,9 @@ from tqdm import tqdm, trange
 import argparse
 import os
 from extract_input_template import *
-import rouge
+from rouge import Rouge
+
+rouge = Rouge()
 
 def check_position(entry):
     if ('position' in entry) or (entry['input'] == ''):
