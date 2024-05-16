@@ -1,4 +1,4 @@
-mkdir -p self/data/flancot_full/
+mkdir -p self-data/data/flancot_full/
 
 wget https://huggingface.co/simonycl/temp_file/resolve/main/sit/flancot/flancot_100k.jsonl -O self-seq/data/flancot_full/flancot_100k.jsonl
 INPUT_FILE=self-seq/data/flancot_full/flancot_100k
