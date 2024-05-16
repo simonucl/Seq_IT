@@ -21,19 +21,21 @@ def get_prompt(p, is_chat=False):
 
     e = few_shot_example.copy()
     random.shuffle(e) # shuffle the few shot examples to prevent position bias
-    prompt = '\n\n'.join([prompt_prefix + '\n' + example for example in e])
+    # prompt = '\n\n'.join([prompt_prefix + '\n' + example for example in e])
+    prompt = prompt_prefix + '\n\n' + '\n\n'.join(e)
 
     if 'conversations' in p: # cases for lima
         instruction, output = p['conversations'][0], p['conversations'][1]
-        prompt += '\n\n' + prompt_prefix + '\n' + PROMPT_TEMPLATE.format(instruction)
+        # prompt += '\n\n' + prompt_prefix + '\n' + PROMPT_TEMPLATE.format(instruction)
+        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction)
         input = ''
     elif 'question' in p: # cases for flancot
         instruction = p['question']
-        prompt += '\n\n' + prompt_prefix + '\n' + PROMPT_TEMPLATE.format(instruction)
+        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction)
         input = ''
     else: # cases for alpaca like data (with input)
         instruction = p['instruction']
-        prompt += '\n\n' + prompt_prefix + '\n' + PROMPT_TEMPLATE.format(instruction)
+        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction)
         input = ''
 
     messages = [{'role': 'user', 'content': prompt}]
