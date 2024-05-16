@@ -30,7 +30,8 @@ def process_jsonl_file(file_path):
             'output': data['final_instruction_response'] if 'final_instruction_response' in data else data['output'],
             'system_prompt':data['system_prompt'],
             'input': input,
-            'option': data['option'] if 'option' in data else None
+            'option': data['option'] if 'option' in data else None,
+            'position': data['position'] if 'position' in data else "random"
         }
         results.append(new_data)
     return results
@@ -81,5 +82,6 @@ if __name__ == '__main__':
     with open(args.output_file, 'w', encoding='utf-8') as file:
         for item in new_data:
             item.pop('option')
+            item.pop('position')
             json_line = json.dumps(item, ensure_ascii=False)
             file.write(json_line + '\n')
