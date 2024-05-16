@@ -10,7 +10,7 @@ def process_jsonl_file(file_path):
     
     for i, line in enumerate(lines):
         data = json.loads(line)
-        if 'extracted_instruction' in data:
+        if ('extracted_instruction' in data) and (data['extracted_instruction'] is not None):
             final_instruction = data['extracted_instruction']
         else:
             final_instruction = data['instruction']
@@ -43,7 +43,7 @@ def filter_input(instructions):
         else:
             if instruction['input'] in instruction['instruction']:
                 instruction['input'] = ''
-                conut += 1
+                count += 1
             elif rouge.get_scores(instruction['input'], instruction['instruction'])[0]['rouge-1']['f'] > 0.3:
                 instruction['input'] = ''
                 count += 1

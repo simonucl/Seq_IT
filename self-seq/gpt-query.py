@@ -38,6 +38,7 @@ def get_prompt(p, is_chat=False):
         input = ''
         if p['input'] != '':
             input = INPUT_TEMPLATE.format(p['input'])
+            # input = p['input']
             prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, input)
         else:
             prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
@@ -522,10 +523,10 @@ if __name__ == '__main__':
             stop_id_sequences = [tokenizer.encode(s, add_special_tokens=False) for s in stop]
 
         generation_kwargs = {
-            "temperature": 0,
-            "top_p": 1,
+            "temperature": 1,
+            "top_p": 0.9,
             "top_k": 50,
-            "max_new_tokens": 1024,
+            "max_new_tokens": 2048,
         }
         if args.use_vllm:
             vllm_kwargs = {
