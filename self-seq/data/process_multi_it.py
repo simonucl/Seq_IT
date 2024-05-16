@@ -56,6 +56,8 @@ def filter_input(instructions):
                             instruction['instruction'] = f"{instruction['input']}{delimiter}{instruction['instruction']}"
                         else:
                             instruction['instruction'] = f"{instruction['instruction']}{delimiter}{instruction['input']}"
+                else:
+                    instruction['instruction'] = f"{instruction['input']}{delimiter}{instruction['instruction']}"
             instruction['input'] = ""
 
             filtered_instructions.append(instruction)
