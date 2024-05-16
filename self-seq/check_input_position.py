@@ -12,7 +12,7 @@ rouge = Rouge()
 
 def check_position(entry):
     if ('position' in entry) or (entry['input'] == ''):
-        entry['position'] = "random"
+        entry['position'] = "random-1"
         return entry
     
     ori = entry['ori_instruction']
@@ -44,7 +44,9 @@ if __name__ == '__main__':
             input_data.append(json.loads(line))
 
     new_input_data = [check_position(data) for data in tqdm(input_data, desc='Checking position')]
+    count = sum([1 for data in new_input_data if data['position'] == 'random'])
     
+    print(f'There\' {count} random')
     with open(args.output_file, 'w', encoding='utf-8') as file:
         for data in new_input_data:
             file.write(json.dumps(data) + '\n')
