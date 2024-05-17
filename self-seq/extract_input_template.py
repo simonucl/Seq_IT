@@ -13,27 +13,22 @@ PROMPT_PREFIX = """Please extract the instruction and input from the given promp
 # """
 
 FEW_SHOTS_EXAMPLE = [
-    """Prompt: "Objective: To stamp your patter on the butter cookie dough\n\nWhich of the following solutions is more sound in terms of naive physics reasoning?"
+    ("""Prompt: "Objective: To stamp your patter on the butter cookie dough\n\nWhich of the following solutions is more sound in terms of naive physics reasoning?" """,
+"""Instruction: "Which of the following solutions is more sound in terms of naive physics reasoning?"###
+Input: "Objective: To stamp your patter on the butter cookie dough"###"""),
 
-Instruction: "Which of the following solutions is more sound in terms of naive physics reasoning?"###
-Input: "Objective: To stamp your patter on the butter cookie dough"###""",
+("""Prompt: "Leo: Given the sentence \"This person is about to put paper into a copy machine.\" is it true that \"The copy machine is too full to add more paper at this time.\"?\nMei: OK, So, let's think first...\nMe:" """,
+"""Instruction: "Given the sentence "This person is about to put paper into a copy machine." is it true that "The copy machine is too full to add more paper at this time."?"###
+Input: ###"""),
 
-    """Prompt: "Leo: Given the sentence \"This person is about to put paper into a copy machine.\" is it true that \"The copy machine is too full to add more paper at this time.\"?\nMei: OK, So, let's think first...\nMe:"
+("""Prompt: "Write a sentence that about [15 WINNING_TEAM Tasman Motorsports;   1995 IndyCar season;  RND 15; 15 POLE_POSITION André Ribeiro; 15 RACE_NAME New England 200; 15 FASTEST_LAP Teo Fabi]." """,
 
-Instruction: "Given the sentence "This person is about to put paper into a copy machine." is it true that "The copy machine is too full to add more paper at this time."?"###
-Input: ###""",
+"""Instruction: "Write a sentence that about the input."###
+Input: The input is 15 WINNING_TEAM Tasman Motorsports; 1995 IndyCar season; RND 15; 15 POLE_POSITION André Ribeiro; 15 RACE_NAME New England 200; 15 FASTEST_LAP Teo Fabi ###"""),
 
-"""Prompt: "Write a sentence that about [15 WINNING_TEAM Tasman Motorsports;   1995 IndyCar season;  RND 15; 15 POLE_POSITION André Ribeiro; 15 RACE_NAME New England 200; 15 FASTEST_LAP Teo Fabi]."
-
-Instruction: "Write a sentence that about the input."###
-
-Input: "[15 WINNING_TEAM Tasman Motorsports;   1995 IndyCar season;  RND 15; 15 POLE_POSITION André Ribeiro; 15 RACE_NAME New England 200; 15 FASTEST_LAP Teo Fabi]"###""",
-
-"""Prompt: “Otto Stern (17 February 1888 \u2013 17 August 1969) was a German physicist and Nobel laureate in physics. He was the second most nominated person for a Nobel Prize with 82 nominations in the years 1925\u20131945 (most times nominated is Arnold Sommerfeld with 84 nominations), ultimately winning in 1943.\nDoes this next sentence follow, given the preceding text?\nOtto Stern was the most nominate person for a Nobel prize.\n\npick from the following. [-] Yes. [-] It's impossible to say. [-] No.”
-
-Instruction: Does the following sentence follow logically from the preceding text?###
-
-Input: Sentence: Otto Stern was the most nominate person for a Nobel prize. Text: Otto Stern (17 February 1888 \u2013 17 August 1969) was a German physicist and Nobel laureate in physics. He was the second most nominated person for a Nobel Prize with 82 nominations in the years 1925\u20131945 (most times nominated is Arnold Sommerfeld with 84 nominations), ultimately winning in 1943.###""",
+("""Prompt: “Otto Stern (17 February 1888 \u2013 17 August 1969) was a German physicist and Nobel laureate in physics. He was the second most nominated person for a Nobel Prize with 82 nominations in the years 1925\u20131945 (most times nominated is Arnold Sommerfeld with 84 nominations), ultimately winning in 1943.\nDoes this next sentence follow, given the preceding text?\nOtto Stern was the most nominate person for a Nobel prize.\n\npick from the following. [-] Yes. [-] It's impossible to say. [-] No.” """,
+"""Instruction: Does the following sentence follow logically from the preceding text?\n\npick from the following. [-] Yes. [-] It's impossible to say. [-] No.###
+Input: Otto Stern was the most nominate person for a Nobel prize. Text: Otto Stern (17 February 1888 \u2013 17 August 1969) was a German physicist and Nobel laureate in physics. He was the second most nominated person for a Nobel Prize with 82 nominations in the years 1925\u20131945 (most times nominated is Arnold Sommerfeld with 84 nominations), ultimately winning in 1943.###"""),
 ]
 
 PROMPT_TEMPLATE = """Prompt: {}"""

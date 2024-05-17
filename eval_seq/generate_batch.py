@@ -154,10 +154,10 @@ def main(
         prompts = []
         for i in range(len(instruction)):
             generate_prompt_func = prompter.generate_chat_prompt if is_chat else prompter.generate_prompt
-            if label is not None:
-                prompt = generate_prompt_func(instruction[i], input[i], label[i])
-            else:
+            if input:
                 prompt = generate_prompt_func(instruction[i], input[i])
+            else:
+                prompt = generate_prompt_func(instruction[i], '')
             if is_chat:
                 prompt = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
 
@@ -222,6 +222,7 @@ def main(
                              label=labels,
                              max_new_tokens=length)
         for i in range(len(data)):
+            data[i]['target'] = data[i]['output']
             data[i]["output"] = responses[i]['output']
             data[i]["prompt"] = responses[i]['prompt']
 

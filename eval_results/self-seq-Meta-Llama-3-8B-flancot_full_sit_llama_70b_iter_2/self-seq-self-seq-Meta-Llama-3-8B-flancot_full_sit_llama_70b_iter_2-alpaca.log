@@ -1,0 +1,44 @@
+Loading data...
+Loading model and tokenizer...
+INFO 05-17 13:05:03 llm_engine.py:103] Initializing an LLM engine (v0.4.2) with config: model='output/self-seq-Meta-Llama-3-8B-flancot_full_sit_llama_70b_iter_2', speculative_config=None, tokenizer='output/self-seq-Meta-Llama-3-8B-flancot_full_sit_llama_70b_iter_2', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0, served_model_name=output/self-seq-Meta-Llama-3-8B-flancot_full_sit_llama_70b_iter_2)
+INFO 05-17 13:05:07 selector.py:37] Using FlashAttention-2 backend.
+[36m(RayWorkerWrapper pid=1646348)[0m INFO 05-17 13:05:08 selector.py:37] Using FlashAttention-2 backend.
+INFO 05-17 13:05:09 utils.py:638] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+INFO 05-17 13:05:09 pynccl.py:65] vLLM is using nccl==2.18.1
+[36m(RayWorkerWrapper pid=1646348)[0m INFO 05-17 13:05:09 utils.py:638] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+[36m(RayWorkerWrapper pid=1646348)[0m INFO 05-17 13:05:09 pynccl.py:65] vLLM is using nccl==2.18.1
+INFO 05-17 13:05:10 utils.py:132] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[36m(RayWorkerWrapper pid=1646348)[0m INFO 05-17 13:05:10 utils.py:132] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 05-17 13:05:27 model_runner.py:175] Loading model weights took 7.4829 GB
+[36m(RayWorkerWrapper pid=1646348)[0m INFO 05-17 13:05:28 model_runner.py:175] Loading model weights took 7.4829 GB
+INFO 05-17 13:05:29 distributed_gpu_executor.py:45] # GPU blocks: 61163, # CPU blocks: 4096
+INFO 05-17 13:05:31 model_runner.py:926] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 05-17 13:05:31 model_runner.py:930] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(RayWorkerWrapper pid=1646348)[0m INFO 05-17 13:05:31 model_runner.py:926] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[36m(RayWorkerWrapper pid=1646348)[0m INFO 05-17 13:05:31 model_runner.py:930] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 05-17 13:05:37 custom_all_reduce.py:259] Registering 2275 cuda graph addresses
+INFO 05-17 13:05:37 model_runner.py:999] Graph capturing finished in 6 secs.
+[36m(RayWorkerWrapper pid=1646348)[0m INFO 05-17 13:05:37 custom_all_reduce.py:259] Registering 2275 cuda graph addresses
+[36m(RayWorkerWrapper pid=1646348)[0m INFO 05-17 13:05:37 model_runner.py:999] Graph capturing finished in 6 secs.
+Calculating accuracy...
+Exact match for en: 0.34
+Calculating accuracy...
+Exact match for es: 0.3
+Calculating accuracy...
+Exact match for fr: 0.408
+Calculating accuracy...
+Exact match for de: 0.336
+Calculating accuracy...
+Exact match for ru: 0.3
+Calculating accuracy...
+Exact match for zh: 0.336
+Calculating accuracy...
+Exact match for ja: 0.24
+Calculating accuracy...
+Exact match for th: 0.28
+Calculating accuracy...
+Exact match for sw: 0.172
+Calculating accuracy...
+Exact match for bn: 0.24
+Calculating accuracy...
+Exact match for te: 0.204
