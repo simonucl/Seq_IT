@@ -7,7 +7,7 @@ mkdir -p ../data/alpaca
 # mkdir ../../data/test
 # python make_data_all.py --dataset commonsense_qa --typename base
 # python make_data_all.py --dataset commonsense_qa --typename repeat
-python3 make_data_all.py --dataset xquad --target en --typename base
+# python3 make_data_all.py --dataset xquad --target en --typename base
 
 for LANG in es de zh ru
 do
@@ -21,4 +21,4 @@ done
 
 # python make_data_alpaca_paraphrase1.py
 
-# python make_data_alpaca_merge_multilingual.py
+# python3 make_data_alpaca_merge_multilingual.py

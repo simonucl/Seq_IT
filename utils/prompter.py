@@ -54,7 +54,7 @@ class Prompter(object):
         label: Union[None, str] = None,
     ) -> List[Dict[str, str]]:
         if input:
-            res = f'{instruction}\n\n### Input:\n{input}'
+            res = f'{instruction}\n\nInput:\n{input}'
         else:
             res = f'{instruction}'
         res = [{'role': 'user', 'content': res}]

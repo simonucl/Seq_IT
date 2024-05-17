@@ -155,9 +155,9 @@ def main(
         for i in range(len(instruction)):
             generate_prompt_func = prompter.generate_chat_prompt if is_chat else prompter.generate_prompt
             if label is not None:
-                prompt = generate_prompt_func(instruction[i], input[i], label[i])
-            else:
                 prompt = generate_prompt_func(instruction[i], input[i])
+            else:
+                prompt = generate_prompt_func(instruction[i], '')
             if is_chat:
                 prompt = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
 
