@@ -154,7 +154,7 @@ def main(
         prompts = []
         for i in range(len(instruction)):
             generate_prompt_func = prompter.generate_chat_prompt if is_chat else prompter.generate_prompt
-            if label is not None:
+            if input:
                 prompt = generate_prompt_func(instruction[i], input[i])
             else:
                 prompt = generate_prompt_func(instruction[i], '')
