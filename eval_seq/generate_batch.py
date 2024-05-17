@@ -222,6 +222,7 @@ def main(
                              label=labels,
                              max_new_tokens=length)
         for i in range(len(data)):
+            data[i]['target'] = data[i]['output']
             data[i]["output"] = responses[i]['output']
             data[i]["prompt"] = responses[i]['prompt']
 
