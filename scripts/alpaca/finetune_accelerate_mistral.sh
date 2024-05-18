@@ -31,13 +31,13 @@ accelerate launch \
     --preprocessing_num_workers 64 \
     --per_device_train_batch_size $BATCH_SIZE_PER_GPU \
     --gradient_accumulation_steps $GRADIENT_ACC_STEPS \
-    --learning_rate 2e-5 \
+    --learning_rate 1e-5 \
     --lr_scheduler_type linear \
     --warmup_ratio 0.03 \
     --weight_decay 0. \
     --num_train_epochs 3 \
     --output_dir output/self-seq-${MODEL_NAME}-alpaca_it/ \
-    --prompt_template tulu \
+    --prompt_template alpaca \
     --with_tracking \
     --do_eval \
     --eval_steps 100 \
