@@ -1,0 +1,266 @@
+Loading data...
+Loading model and tokenizer...
+INFO 05-18 07:06:00 llm_engine.py:100] Initializing an LLM engine (v0.4.1) with config: model='output/self-seq-Mistral-7B-v0.1-alpaca_sit', speculative_config=None, tokenizer='output/self-seq-Mistral-7B-v0.1-alpaca_sit', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0)
+INFO 05-18 07:06:03 utils.py:623] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+[36m(RayWorkerWrapper pid=537605)[0m INFO 05-18 07:06:03 utils.py:623] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+INFO 05-18 07:06:04 selector.py:26] Using FlashAttention-2 backend.
+[36m(RayWorkerWrapper pid=537605)[0m INFO 05-18 07:06:04 selector.py:26] Using FlashAttention-2 backend.
+INFO 05-18 07:06:05 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+[36m(RayWorkerWrapper pid=537605)[0m INFO 05-18 07:06:05 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+INFO 05-18 07:06:07 utils.py:132] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[36m(RayWorkerWrapper pid=537605)[0m INFO 05-18 07:06:07 utils.py:132] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 05-18 07:06:26 model_runner.py:172] Loading model weights took 6.7544 GB
+[36m(RayWorkerWrapper pid=537605)[0m INFO 05-18 07:06:26 model_runner.py:172] Loading model weights took 6.7544 GB
+INFO 05-18 07:06:28 distributed_gpu_executor.py:45] # GPU blocks: 60255, # CPU blocks: 4096
+INFO 05-18 07:06:29 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 05-18 07:06:29 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(RayWorkerWrapper pid=537605)[0m INFO 05-18 07:06:29 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[36m(RayWorkerWrapper pid=537605)[0m INFO 05-18 07:06:29 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 05-18 07:06:38 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+[36m(RayWorkerWrapper pid=537605)[0m INFO 05-18 07:06:38 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+INFO 05-18 07:06:38 model_runner.py:953] Graph capturing finished in 9 secs.
+[36m(RayWorkerWrapper pid=537605)[0m INFO 05-18 07:06:38 model_runner.py:953] Graph capturing finished in 9 secs.
+Calculating accuracy...
+Exact match : 0.016679302501895376
+Loading data...
+Loading model and tokenizer...
+INFO 05-18 07:09:35 llm_engine.py:100] Initializing an LLM engine (v0.4.1) with config: model='output/self-seq-Mistral-7B-v0.1-alpaca_sit', speculative_config=None, tokenizer='output/self-seq-Mistral-7B-v0.1-alpaca_sit', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0)
+INFO 05-18 07:09:38 utils.py:623] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+[36m(RayWorkerWrapper pid=539715)[0m INFO 05-18 07:09:38 utils.py:623] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+INFO 05-18 07:09:40 selector.py:26] Using FlashAttention-2 backend.
+[36m(RayWorkerWrapper pid=539715)[0m INFO 05-18 07:09:40 selector.py:26] Using FlashAttention-2 backend.
+INFO 05-18 07:09:41 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+[36m(RayWorkerWrapper pid=539715)[0m INFO 05-18 07:09:41 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+INFO 05-18 07:09:42 utils.py:132] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[36m(RayWorkerWrapper pid=539715)[0m INFO 05-18 07:09:42 utils.py:132] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 05-18 07:10:01 model_runner.py:172] Loading model weights took 6.7544 GB
+[36m(RayWorkerWrapper pid=539715)[0m INFO 05-18 07:10:01 model_runner.py:172] Loading model weights took 6.7544 GB
+INFO 05-18 07:10:03 distributed_gpu_executor.py:45] # GPU blocks: 60255, # CPU blocks: 4096
+INFO 05-18 07:10:05 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 05-18 07:10:05 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(RayWorkerWrapper pid=539715)[0m INFO 05-18 07:10:05 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[36m(RayWorkerWrapper pid=539715)[0m INFO 05-18 07:10:05 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 05-18 07:10:13 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+INFO 05-18 07:10:13 model_runner.py:953] Graph capturing finished in 8 secs.
+[36m(RayWorkerWrapper pid=539715)[0m INFO 05-18 07:10:13 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+[36m(RayWorkerWrapper pid=539715)[0m INFO 05-18 07:10:13 model_runner.py:953] Graph capturing finished in 8 secs.
+Calculating accuracy...
+Exact match for en: 0.008
+Calculating accuracy...
+Exact match for es: 0.024
+Calculating accuracy...
+Exact match for fr: 0.012
+Calculating accuracy...
+Exact match for de: 0.024
+Calculating accuracy...
+Exact match for ru: 0.02
+Calculating accuracy...
+Exact match for zh: 0.016
+Calculating accuracy...
+Exact match for ja: 0.024
+Calculating accuracy...
+Exact match for th: 0.02
+Calculating accuracy...
+Exact match for sw: 0.012
+Calculating accuracy...
+Exact match for bn: 0.052
+Calculating accuracy...
+Exact match for te: 0.012
+Loading data...
+Loading model and tokenizer...
+INFO 05-18 07:27:08 llm_engine.py:100] Initializing an LLM engine (v0.4.1) with config: model='output/self-seq-Mistral-7B-v0.1-alpaca_sit', speculative_config=None, tokenizer='output/self-seq-Mistral-7B-v0.1-alpaca_sit', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0)
+INFO 05-18 07:27:11 utils.py:623] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+[36m(RayWorkerWrapper pid=541863)[0m INFO 05-18 07:27:11 utils.py:623] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+INFO 05-18 07:27:12 selector.py:26] Using FlashAttention-2 backend.
+[36m(RayWorkerWrapper pid=541863)[0m INFO 05-18 07:27:12 selector.py:26] Using FlashAttention-2 backend.
+INFO 05-18 07:27:13 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+[36m(RayWorkerWrapper pid=541863)[0m INFO 05-18 07:27:13 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+INFO 05-18 07:27:15 utils.py:132] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[36m(RayWorkerWrapper pid=541863)[0m INFO 05-18 07:27:15 utils.py:132] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 05-18 07:27:33 model_runner.py:172] Loading model weights took 6.7544 GB
+[36m(RayWorkerWrapper pid=541863)[0m INFO 05-18 07:27:33 model_runner.py:172] Loading model weights took 6.7544 GB
+INFO 05-18 07:27:35 distributed_gpu_executor.py:45] # GPU blocks: 60255, # CPU blocks: 4096
+INFO 05-18 07:27:36 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 05-18 07:27:36 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(RayWorkerWrapper pid=541863)[0m INFO 05-18 07:27:36 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[36m(RayWorkerWrapper pid=541863)[0m INFO 05-18 07:27:36 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 05-18 07:27:45 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+[36m(RayWorkerWrapper pid=541863)[0m INFO 05-18 07:27:45 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+INFO 05-18 07:27:45 model_runner.py:953] Graph capturing finished in 9 secs.
+[36m(RayWorkerWrapper pid=541863)[0m INFO 05-18 07:27:45 model_runner.py:953] Graph capturing finished in 9 secs.
+Calculating accuracy...
+Exact match for en: 0.004
+Calculating accuracy...
+Exact match for es: 0.02
+Calculating accuracy...
+Exact match for fr: 0.016
+Calculating accuracy...
+Exact match for de: 0.012
+Calculating accuracy...
+Exact match for ru: 0.016
+Calculating accuracy...
+Exact match for zh: 0.008
+Calculating accuracy...
+Exact match for ja: 0.028
+Calculating accuracy...
+Exact match for th: 0.012
+Calculating accuracy...
+Exact match for sw: 0.008
+Calculating accuracy...
+Exact match for bn: 0.036
+Calculating accuracy...
+Exact match for te: 0.012
+Number of examples: 164
+INFO 05-18 07:47:00 llm_engine.py:100] Initializing an LLM engine (v0.4.1) with config: model='output/self-seq-Mistral-7B-v0.1-alpaca_sit', speculative_config=None, tokenizer='output/self-seq-Mistral-7B-v0.1-alpaca_sit', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0)
+INFO 05-18 07:47:04 utils.py:623] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+[36m(RayWorkerWrapper pid=543842)[0m INFO 05-18 07:47:04 utils.py:623] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+INFO 05-18 07:47:05 selector.py:26] Using FlashAttention-2 backend.
+[36m(RayWorkerWrapper pid=543842)[0m INFO 05-18 07:47:05 selector.py:26] Using FlashAttention-2 backend.
+INFO 05-18 07:47:06 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+[36m(RayWorkerWrapper pid=543842)[0m INFO 05-18 07:47:06 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+INFO 05-18 07:47:07 utils.py:132] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[36m(RayWorkerWrapper pid=543842)[0m INFO 05-18 07:47:07 utils.py:132] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 05-18 07:47:26 model_runner.py:172] Loading model weights took 6.7544 GB
+[36m(RayWorkerWrapper pid=543842)[0m INFO 05-18 07:47:27 model_runner.py:172] Loading model weights took 6.7544 GB
+INFO 05-18 07:47:29 distributed_gpu_executor.py:45] # GPU blocks: 60255, # CPU blocks: 4096
+INFO 05-18 07:47:30 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 05-18 07:47:30 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(RayWorkerWrapper pid=543842)[0m INFO 05-18 07:47:30 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[36m(RayWorkerWrapper pid=543842)[0m INFO 05-18 07:47:30 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 05-18 07:47:34 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+INFO 05-18 07:47:34 model_runner.py:953] Graph capturing finished in 4 secs.
+[36m(RayWorkerWrapper pid=543842)[0m INFO 05-18 07:47:34 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+[36m(RayWorkerWrapper pid=543842)[0m INFO 05-18 07:47:34 model_runner.py:953] Graph capturing finished in 4 secs.
+Reading samples...
+Running test suites...
+Writing results to results/codex_humaneval/{self-seq-self-seq-Mistral-7B-v0.1-alpaca_sit}_temp_0_8/codex_eval_predictions.jsonl_results.jsonl...
+{'pass@10': 0.346340743942307}
+Loading model and tokenizer...
+Average accuracy 0.280 - abstract_algebra
+Average accuracy 0.393 - anatomy
+Average accuracy 0.368 - astronomy
+Average accuracy 0.390 - business_ethics
+Average accuracy 0.392 - clinical_knowledge
+Average accuracy 0.292 - college_biology
+Average accuracy 0.230 - college_chemistry
+Average accuracy 0.180 - college_computer_science
+Average accuracy 0.270 - college_mathematics
+Average accuracy 0.358 - college_medicine
+Average accuracy 0.206 - college_physics
+Average accuracy 0.450 - computer_security
+Average accuracy 0.391 - conceptual_physics
+Average accuracy 0.298 - econometrics
+Average accuracy 0.338 - electrical_engineering
+Average accuracy 0.267 - elementary_mathematics
+Average accuracy 0.198 - formal_logic
+Average accuracy 0.320 - global_facts
+Average accuracy 0.381 - high_school_biology
+Average accuracy 0.300 - high_school_chemistry
+Average accuracy 0.370 - high_school_computer_science
+Average accuracy 0.370 - high_school_european_history
+Average accuracy 0.379 - high_school_geography
+Average accuracy 0.409 - high_school_government_and_politics
+Average accuracy 0.313 - high_school_macroeconomics
+Average accuracy 0.256 - high_school_mathematics
+Average accuracy 0.353 - high_school_microeconomics
+Average accuracy 0.212 - high_school_physics
+Average accuracy 0.433 - high_school_psychology
+Average accuracy 0.213 - high_school_statistics
+Average accuracy 0.426 - high_school_us_history
+Average accuracy 0.443 - high_school_world_history
+Average accuracy 0.498 - human_aging
+Average accuracy 0.328 - human_sexuality
+Average accuracy 0.446 - international_law
+Average accuracy 0.426 - jurisprudence
+Average accuracy 0.503 - logical_fallacies
+Average accuracy 0.295 - machine_learning
+Average accuracy 0.456 - management
+Average accuracy 0.598 - marketing
+Average accuracy 0.360 - medical_genetics
+Average accuracy 0.501 - miscellaneous
+Average accuracy 0.358 - moral_disputes
+Average accuracy 0.244 - moral_scenarios
+Average accuracy 0.382 - nutrition
+Average accuracy 0.424 - philosophy
+Average accuracy 0.383 - prehistory
+Average accuracy 0.277 - professional_accounting
+Average accuracy 0.276 - professional_law
+Average accuracy 0.290 - professional_medicine
+Average accuracy 0.350 - professional_psychology
+Average accuracy 0.464 - public_relations
+Average accuracy 0.335 - security_studies
+Average accuracy 0.388 - sociology
+Average accuracy 0.460 - us_foreign_policy
+Average accuracy 0.392 - virology
+Average accuracy 0.509 - world_religions
+Average accuracy 0.255 - math
+Average accuracy 0.382 - health
+Average accuracy 0.314 - physics
+Average accuracy 0.517 - business
+Average accuracy 0.352 - biology
+Average accuracy 0.277 - chemistry
+Average accuracy 0.323 - computer science
+Average accuracy 0.323 - economics
+Average accuracy 0.338 - engineering
+Average accuracy 0.332 - philosophy
+Average accuracy 0.431 - other
+Average accuracy 0.405 - history
+Average accuracy 0.379 - geography
+Average accuracy 0.398 - politics
+Average accuracy 0.389 - psychology
+Average accuracy 0.364 - culture
+Average accuracy 0.297 - law
+Average accuracy 0.298 - STEM
+Average accuracy 0.333 - humanities
+Average accuracy 0.372 - social sciences
+Average accuracy 0.418 - other (business, health, misc.)
+Average accuracy: 0.354
+Loading model and tokenizer...
+Average accuracy 0.260 - abstract_algebra
+Average accuracy 0.356 - anatomy
+Average accuracy 0.309 - astronomy
+Average accuracy 0.340 - business_ethics
+Average accuracy 0.385 - clinical_knowledge
+Average accuracy 0.306 - college_biology
+Average accuracy 0.210 - college_chemistry
+Average accuracy 0.150 - college_computer_science
+Average accuracy 0.260 - college_mathematics
+Average accuracy 0.283 - college_medicine
+Average accuracy 0.235 - college_physics
+Average accuracy 0.310 - computer_security
+Average accuracy 0.404 - conceptual_physics
+Average accuracy 0.289 - econometrics
+Average accuracy 0.345 - electrical_engineering
+Average accuracy 0.280 - elementary_mathematics
+Average accuracy 0.206 - formal_logic
+Average accuracy 0.340 - global_facts
+Average accuracy 0.316 - high_school_biology
+Average accuracy 0.291 - high_school_chemistry
+Average accuracy 0.330 - high_school_computer_science
+Average accuracy 0.333 - high_school_european_history
+Average accuracy 0.298 - high_school_geography
+Average accuracy 0.306 - high_school_government_and_politics
+Average accuracy 0.274 - high_school_macroeconomics
+Average accuracy 0.270 - high_school_mathematics
+Average accuracy 0.324 - high_school_microeconomics
+Average accuracy 0.199 - high_school_physics
+Average accuracy 0.361 - high_school_psychology
+Average accuracy 0.167 - high_school_statistics
+Average accuracy 0.373 - high_school_us_history
+Average accuracy 0.367 - high_school_world_history
+Average accuracy 0.457 - human_aging
+Average accuracy 0.344 - human_sexuality
+Average accuracy 0.421 - international_law
+Average accuracy 0.352 - jurisprudence
+Average accuracy 0.362 - logical_fallacies
+Average accuracy 0.295 - machine_learning
+Average accuracy 0.379 - management
+Average accuracy 0.509 - marketing
+Average accuracy 0.330 - medical_genetics
+Average accuracy 0.480 - miscellaneous
+Average accuracy 0.355 - moral_disputes
+Average accuracy 0.260 - moral_scenarios
+Average accuracy 0.350 - nutrition
+Average accuracy 0.399 - philosophy
+Average accuracy 0.349 - prehistory
+Average accuracy 0.287 - professional_accounting

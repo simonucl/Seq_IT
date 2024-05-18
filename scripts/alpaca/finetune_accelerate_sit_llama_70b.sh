@@ -1,10 +1,10 @@
-export CUDA_VISIBLE_DEVICES=0,1,2,3
+export CUDA_VISIBLE_DEVICES=0,1
 
 MODEL_SIZE=7B
-NUM_GPUS=4
+NUM_GPUS=2
 BATCH_SIZE_PER_GPU=1
 TOTAL_BATCH_SIZE=128
-TRAIN_FILE=self-seq/data/alpaca/alpaca_llama70b_iteration2.jsonl
+TRAIN_FILE=self-seq/data/alpaca_final/alpaca_15k_llama70b_iteration_4.jsonl
 # TRAIN_FILE=self-seq/data/alpaca/alpaca_llama_70b_iter_2.jsonl
 # TRAIN_FILE=self-seq/data/alpaca/alpaca_llama70b_iteration_1.jsonl
 # check if TRAIN_FILE exists
