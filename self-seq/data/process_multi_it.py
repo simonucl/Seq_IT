@@ -43,22 +43,26 @@ def filter_input(instructions):
         if instruction['input'] == '':
             filtered_instructions.append(instruction)
         else:
-            if (instruction['input'] in instruction['instruction']) or (rouge.get_scores(instruction['input'], instruction['instruction'])[0]['rouge-1']['f'] > 0.3):
+            if (instruction['input'] in instruction['instruction'])
                 count += 1
             else:
-                delimiter = random.choice([' ', '\n', '\n\n'])
-                if 'position' in instruction:
-                    if instruction['position'] == "left":
-                        instruction['instruction'] = f"{instruction['input']}{delimiter}{instruction['instruction']}"
-                    elif instruction['position'] == "right":
-                        instruction['instruction'] = f"{instruction['instruction']}{delimiter}{instruction['input']}"
-                    else:
-                        if random.choice([True, False]):
-                            instruction['instruction'] = f"{instruction['input']}{delimiter}{instruction['instruction']}"
-                        else:
-                            instruction['instruction'] = f"{instruction['instruction']}{delimiter}{instruction['input']}"
+                rouge_scores = rouge.get_scores(instruction['input'], instruction['instruction'], ignore_empty=True)
+                if (len(rouge_scores) == 0) or (rouge_scores[0]['rouge-1']['f'] > 0.3):
+                    count += 1
                 else:
-                    instruction['instruction'] = f"{instruction['input']}{delimiter}{instruction['instruction']}"
+                    delimiter = random.choice([' ', '\n', '\n\n'])
+                    if 'position' in instruction:
+                        if instruction['position'] == "left":
+                            instruction['instruction'] = f"{instruction['input']}{delimiter}{instruction['instruction']}"
+                        elif instruction['position'] == "right":
+                            instruction['instruction'] = f"{instruction['instruction']}{delimiter}{instruction['input']}"
+                        else:
+                            if random.choice([True, False]):
+                                instruction['instruction'] = f"{instruction['input']}{delimiter}{instruction['instruction']}"
+                            else:
+                                instruction['instruction'] = f"{instruction['instruction']}{delimiter}{instruction['input']}"
+                    else:
+                        instruction['instruction'] = f"{instruction['input']}{delimiter}{instruction['instruction']}"
             instruction['input'] = ""
 
             filtered_instructions.append(instruction)
