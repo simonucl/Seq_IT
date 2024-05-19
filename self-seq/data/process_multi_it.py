@@ -43,10 +43,13 @@ def filter_input(instructions):
         if instruction['input'] == '':
             filtered_instructions.append(instruction)
         else:
-            if (instruction['input'] in instruction['instruction'])
+            if (instruction['input'] in instruction['instruction']):
                 count += 1
             else:
-                rouge_scores = rouge.get_scores(instruction['input'], instruction['instruction'], ignore_empty=True)
+                if (len(instruction['input']) > 0) and (len(instruction['instruction']) > 0):
+                    rouge_scores = rouge.get_scores(instruction['input'], instruction['instruction'], ignore_empty=True)
+                else:
+                    rouge_scores = []
                 if (len(rouge_scores) == 0) or (rouge_scores[0]['rouge-1']['f'] > 0.3):
                     count += 1
                 else:
