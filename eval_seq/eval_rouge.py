@@ -11,12 +11,6 @@ from argparse import ArgumentParser
 from tqdm import trange
 
 def main(args):
-    references = []
-    #load the jsonl file
-    with open(args.ref_file, 'r') as file:
-        for line in file:
-            obj = json.loads(line)
-            references.append(obj['output'])
     #load json file
     preds = []
     with open(args.test_file, 'r') as file:
@@ -24,6 +18,18 @@ def main(args):
             obj = json.loads(line)
             preds.append(obj['output'])
     #extract 'output' from each item of json
+    references = []
+    #load the jsonl file
+    if args.ref_file is None:
+        with open(args.test_file, 'r') as file:
+            for line in file:
+                obj = json.loads(line)
+                references.append(obj['input'])
+    else:
+        with open(args.ref_file, 'r') as file:
+            for line in file:
+                obj = json.loads(line)
+                references.append(obj['output'])
     if len(preds) != len(references):
         references = references[:len(preds)]
     #labels = []
