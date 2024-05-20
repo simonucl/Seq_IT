@@ -1,0 +1,35 @@
+{
+  "en": {
+    "exact_match": 0.084
+  },
+  "es": {
+    "exact_match": 0.036
+  },
+  "fr": {
+    "exact_match": 0.064
+  },
+  "de": {
+    "exact_match": 0.04
+  },
+  "ru": {
+    "exact_match": 0.056
+  },
+  "zh": {
+    "exact_match": 0.048
+  },
+  "ja": {
+    "exact_match": 0.032
+  },
+  "th": {
+    "exact_match": 0.024
+  },
+  "sw": {
+    "exact_match": 0.036
+  },
+  "bn": {
+    "exact_match": 0.036
+  },
+  "te": {
+    "exact_match": 0.024
+  }
+}
