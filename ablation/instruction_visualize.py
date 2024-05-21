@@ -81,12 +81,16 @@ def main(args):
         print(len(instructions))
 
         raw_phrases = []
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            futures = {executor.submit(process_instruction, instruction): instruction for instruction in instructions}
-            for future in tqdm.tqdm(concurrent.futures.as_completed(futures), total=len(futures)):
-                result = future.result()
-                if result:
-                    raw_phrases.extend(result)
+        if args.use_gpu:
+            for instruction in tqdm.tqdm(instructions):
+                raw_phrases.extend(process_instruction(instruction))
+        else:
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                futures = {executor.submit(process_instruction, instruction): instruction for instruction in instructions}
+                for future in tqdm.tqdm(concurrent.futures.as_completed(futures), total=len(futures)):
+                    result = future.result()
+                    if result:
+                        raw_phrases.extend(result)
         
         raw_phrases = pd.DataFrame(raw_phrases)
         phrases = pd.DataFrame(raw_phrases).dropna()
@@ -130,7 +134,8 @@ if __name__ == "__main__":
     args.add_argument("--input_path", type=str, default="self-seq/data/alpaca_final/alpaca_final.jsonl")
     args.add_argument("--sample_size", type=int, default=None)
     args.add_argument("--filter", type=int, default=100)
-    args.add_argument("--cache_path", type=str, default="ablation/flancot_100k-iteration_1-iter_phrases.csv")
+    args.add_argument("--use_gpu", type=bool, default=False)
+    args.add_argument("--cache_path", type=str, default=None)
     args = args.parse_args()
 
     main(args)
