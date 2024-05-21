@@ -179,16 +179,25 @@ def main(
 
         else:
             # new_line_token = tokenizer.encode("\n", add_special_tokens=False)[-1]
-            generation_config = GenerationConfig(
-                temperature=temperature,
-                top_p=top_p,
-                top_k=top_k,
-                num_beams=num_beams,
-                max_new_tokens=max_new_tokens,
-                no_repeat_ngram_size=no_repeat_ngram_size,
-                # stop_id_sequences=[[new_line_token]]
+            # generation_config = GenerationConfig(
+            #     temperature=temperature,
+            #     top_p=top_p,
+            #     top_k=top_k,
+            #     num_beams=num_beams,
+            #     max_new_tokens=max_new_tokens,
+            #     no_repeat_ngram_size=no_repeat_ngram_size,
+            #     # stop_id_sequences=[[new_line_token]]
+            #     **kwargs,
+            # )
+            generation_config = {
+                "temperature": temperature,
+                "top_p": top_p,
+                "top_k": top_k,
+                "num_beams": num_beams,
+                "max_new_tokens": max_new_tokens,
+                "no_repeat_ngram_size": no_repeat_ngram_size,
                 **kwargs,
-            )
+            }
             
             outputs = generate_completions(
                 model=model,
