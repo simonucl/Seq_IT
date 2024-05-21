@@ -12,41 +12,51 @@ do
 
     python3 -m eval.alpaca_farm.run_seq_eval \
         --model_name_or_path $CHECKPOINT_PATH \
-        --save_dir results/alpaca_farm/seq-1/${MODEL_NAME} \
+        --save_dir results/alpaca_farm/seqEval/${MODEL_NAME} \
         --eval_batch_size 20 \
         --max_new_tokens 2048 \
         --use_vllm \
-        --prompt_path sequential_instruction_tuning/SeqAlpacaEval/alpaca_eval_gpt4_baseline.seq.json \
+        --prompt_path sequential_instruction_tuning/SeqAlpacaEval/seqEval.json \
         --use_chat_format \
         --chat_formatting_function tulu
 
-    python3 -m eval.alpaca_farm.run_seq_eval \
-        --model_name_or_path $CHECKPOINT_PATH \
-        --save_dir results/alpaca_farm/seq-2/${MODEL_NAME} \
-        --eval_batch_size 20 \
-        --max_new_tokens 2048 \
-        --use_vllm \
-        --prompt_path sequential_instruction_tuning/SeqAlpacaEval/alpaca_eval_gpt4_baseline.seq.seq.json \
-        --use_chat_format \
-        --chat_formatting_function tulu
+    # python3 -m eval.alpaca_farm.run_seq_eval \
+    #     --model_name_or_path $CHECKPOINT_PATH \
+    #     --save_dir results/alpaca_farm/seq-1/${MODEL_NAME} \
+    #     --eval_batch_size 20 \
+    #     --max_new_tokens 2048 \
+    #     --use_vllm \
+    #     --prompt_path sequential_instruction_tuning/SeqAlpacaEval/alpaca_eval_gpt4_baseline.seq.json \
+    #     --use_chat_format \
+    #     --chat_formatting_function tulu
 
-    python3 -m eval.alpaca_farm.run_seq_eval \
-        --model_name_or_path $CHECKPOINT_PATH \
-        --save_dir results/alpaca_farm/seq-3/${MODEL_NAME} \
-        --eval_batch_size 20 \
-        --max_new_tokens 2048 \
-        --use_vllm \
-        --prompt_path sequential_instruction_tuning/SeqAlpacaEval/alpaca_eval_gpt4_baseline.seq.seq.seq.json \
-        --use_chat_format \
-        --chat_formatting_function tulu
+    # python3 -m eval.alpaca_farm.run_seq_eval \
+    #     --model_name_or_path $CHECKPOINT_PATH \
+    #     --save_dir results/alpaca_farm/seq-2/${MODEL_NAME} \
+    #     --eval_batch_size 20 \
+    #     --max_new_tokens 2048 \
+    #     --use_vllm \
+    #     --prompt_path sequential_instruction_tuning/SeqAlpacaEval/alpaca_eval_gpt4_baseline.seq.seq.json \
+    #     --use_chat_format \
+    #     --chat_formatting_function tulu
 
-    python3 -m eval.alpaca_farm.run_seq_eval \
-        --model_name_or_path $CHECKPOINT_PATH \
-        --save_dir results/alpaca_farm/seq-4/${MODEL_NAME} \
-        --eval_batch_size 20 \
-        --max_new_tokens 2048 \
-        --use_vllm \
-        --prompt_path sequential_instruction_tuning/SeqAlpacaEval/alpaca_eval_gpt4_baseline.seq.seq.seq.seq.json \
-        --use_chat_format \
-        --chat_formatting_function tulu
+    # python3 -m eval.alpaca_farm.run_seq_eval \
+    #     --model_name_or_path $CHECKPOINT_PATH \
+    #     --save_dir results/alpaca_farm/seq-3/${MODEL_NAME} \
+    #     --eval_batch_size 20 \
+    #     --max_new_tokens 2048 \
+    #     --use_vllm \
+    #     --prompt_path sequential_instruction_tuning/SeqAlpacaEval/alpaca_eval_gpt4_baseline.seq.seq.seq.json \
+    #     --use_chat_format \
+    #     --chat_formatting_function tulu
+
+    # python3 -m eval.alpaca_farm.run_seq_eval \
+    #     --model_name_or_path $CHECKPOINT_PATH \
+    #     --save_dir results/alpaca_farm/seq-4/${MODEL_NAME} \
+    #     --eval_batch_size 20 \
+    #     --max_new_tokens 2048 \
+    #     --use_vllm \
+    #     --prompt_path sequential_instruction_tuning/SeqAlpacaEval/alpaca_eval_gpt4_baseline.seq.seq.seq.seq.json \
+    #     --use_chat_format \
+    #     --chat_formatting_function tulu
 done

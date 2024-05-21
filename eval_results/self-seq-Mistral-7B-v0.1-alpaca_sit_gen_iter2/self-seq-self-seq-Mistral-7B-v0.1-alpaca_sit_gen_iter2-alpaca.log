@@ -1,0 +1,27 @@
+Number of examples: 164
+INFO 05-21 12:51:39 llm_engine.py:100] Initializing an LLM engine (v0.4.1) with config: model='simonycl/self-seq-Mistral-7B-v0.1-alpaca_sit_gen_iter2', speculative_config=None, tokenizer='simonycl/self-seq-Mistral-7B-v0.1-alpaca_sit_gen_iter2', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0)
+INFO 05-21 12:51:43 utils.py:623] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+[36m(RayWorkerWrapper pid=558164)[0m INFO 05-21 12:51:43 utils.py:623] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+INFO 05-21 12:51:43 selector.py:26] Using FlashAttention-2 backend.
+[36m(RayWorkerWrapper pid=558164)[0m INFO 05-21 12:51:43 selector.py:26] Using FlashAttention-2 backend.
+INFO 05-21 12:51:44 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+[36m(RayWorkerWrapper pid=558164)[0m INFO 05-21 12:51:44 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+INFO 05-21 12:51:45 utils.py:132] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[36m(RayWorkerWrapper pid=558164)[0m INFO 05-21 12:51:45 utils.py:132] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 05-21 12:51:47 weight_utils.py:199] Using model weights format ['*.bin']
+[36m(RayWorkerWrapper pid=558164)[0m INFO 05-21 12:51:47 weight_utils.py:199] Using model weights format ['*.bin']
+[36m(RayWorkerWrapper pid=558164)[0m INFO 05-21 12:52:06 model_runner.py:172] Loading model weights took 6.7544 GB
+INFO 05-21 12:52:06 model_runner.py:172] Loading model weights took 6.7544 GB
+INFO 05-21 12:52:07 distributed_gpu_executor.py:45] # GPU blocks: 60255, # CPU blocks: 4096
+INFO 05-21 12:52:09 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 05-21 12:52:09 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(RayWorkerWrapper pid=558164)[0m INFO 05-21 12:52:09 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[36m(RayWorkerWrapper pid=558164)[0m INFO 05-21 12:52:09 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 05-21 12:52:12 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+INFO 05-21 12:52:12 model_runner.py:953] Graph capturing finished in 3 secs.
+[36m(RayWorkerWrapper pid=558164)[0m INFO 05-21 12:52:12 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+[36m(RayWorkerWrapper pid=558164)[0m INFO 05-21 12:52:12 model_runner.py:953] Graph capturing finished in 3 secs.
+Reading samples...
+Running test suites...
+Writing results to results/codex_humaneval/{self-seq-Mistral-7B-v0.1-alpaca_sit_gen_iter2}_temp_0_8/codex_eval_predictions.jsonl_results.jsonl...
+{'pass@10': 0.11547573754494392}
