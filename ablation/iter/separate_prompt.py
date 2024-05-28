@@ -91,7 +91,7 @@ def main(args):
         "temperature": 0.7,
         "top_p": 0.9,
         "top_k": 0,
-        "max_new_tokens": 2048,
+        "max_tokens": 2048,
     }
     vllm_kwargs = {
         "tokenizer_mode": "auto",
@@ -105,7 +105,7 @@ def main(args):
     # else:
     client = VllmAgent(args.model, vllm_kwargs, generation_kwargs)
 
-    prompts = df['prompt'].tolist()
+    prompts = df['prompt'].tolist()[:100]
     responses = client.generate(prompts)
     df['response'] = responses
     # save the responses
@@ -116,7 +116,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=str, default='alpaca_llama70b_iteration_2-iter-filtered.jsonl')
-    parser.add_argument('--model', type=str, default="/mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-70B-Instruct")
+    parser.add_argument('--model', type=str, default="/mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B-Instruct")
 
     args = parser.parse_args()
     main(args)
