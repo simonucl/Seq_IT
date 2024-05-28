@@ -9,7 +9,7 @@ from transformers import AutoTokenizer
 import vllm
 import torch
 
-PROMPT_TEMPLATE = """Given the instruction, can you split the instruction into two or more? (usually they are connected with words "and then", "Then, ", "then" etc.) and pair the split instruction given the response. Give your answer in the format "Instruction N: [INSTRUCTION]\\nResponse N: [RESPONSE]"
+PROMPT_TEMPLATE = """Given the instruction, can you split the instruction into two or more? (usually they are connected with words "and then", "Then, ", "then" etc.) and pair the split instruction given the response. Give your answer in the format "Instruction N: [INSTRUCTION]\\nResponse N: [RESPONSE]" Report the whole split instruction and its corresponding response, don't return something like "the rest of response".
 Instruction: "{instruction}"
 Response: "{response}"
 """
@@ -90,7 +90,7 @@ def main(args):
     generation_kwargs = {
         "temperature": 0.7,
         "top_p": 0.9,
-        "top_k": 0,
+        "top_k": 50,
         "max_tokens": 2048,
     }
     vllm_kwargs = {
@@ -116,7 +116,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=str, default='alpaca_llama70b_iteration_2-iter-filtered.jsonl')
-    parser.add_argument('--model', type=str, default="/mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-8B-Instruct")
+    parser.add_argument('--model', type=str, default="/mnt/nfs/public/hf/models/meta-llama/Meta-Llama-3-70B-Instruct")
 
     args = parser.parse_args()
     main(args)
