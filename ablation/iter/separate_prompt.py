@@ -70,16 +70,39 @@ def parse_response(response):
     for i in range(1, 10):
         # search for the instruction i
         instruction = response.find(f"Instruction {i}:")
+        if instruction == -1:
+            instruction = response.find(f"Split instruction {i}:")
         output = response.find(f"Response {i}:")
         if instruction == -1 or output == -1:
             break
-        instruction = response[instruction:output].strip()
+        instruction = response[instruction+len(f"Instruction {i}:"):output].strip()
         next_instruction = response.find(f"Instruction {i+1}:")
         if next_instruction == -1:
-            output = response[output:].strip()
+            output = response[output+len(f"Response {i}:"):].strip()
         else:
-            output = response[output:next_instruction].strip()
+            output = response[output+len(f"Response {i}:"):next_instruction].strip()
         parsed.append((instruction, output))
+    if parsed:
+        return parsed
+    # search for Instruction N and Response N
+    instruction_idx = response.find("Instruction N:")
+    output_idx = response.find("Response N:")
+    loop = 0
+    while (instruction_idx != -1) and (output_idx != -1):
+        # if loop > 10:
+        #     break
+        loop += 1
+        instruction = response[instruction_idx+len("Instruction N:"):output_idx].strip()
+        next_instruction = response.find("Instruction N:", output_idx)
+        if next_instruction == -1:
+            output = response[output_idx+len("Response N:"):].strip()
+        else:
+            output = response[output_idx+len("Response N:"):next_instruction].strip()
+        parsed.append((instruction, output))
+        response = response[output_idx+len("Response N:"):]
+        instruction_idx = response.find("Instruction N:")
+        output_idx = response.find("Response N:")
+    
     return parsed
 
 def main(args):
@@ -105,7 +128,7 @@ def main(args):
     # else:
     client = VllmAgent(args.model, vllm_kwargs, generation_kwargs)
 
-    prompts = df['prompt'].tolist()[:100]
+    prompts = df['prompt'].tolist()
     responses = client.generate(prompts)
     df['response'] = responses
     # save the responses
