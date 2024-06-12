@@ -26,7 +26,7 @@ do
     --length 128 \
     --test_file ${TESTFILE} \
     --batch_size 64 \
-    --samples 50 \
+    --samples 100 \
     --save_file eval_results/csqa_repeat/${MODEL_NAME}.json \
     --load_8bit False \
     --use_vllm True

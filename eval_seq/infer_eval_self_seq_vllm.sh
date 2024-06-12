@@ -1,6 +1,5 @@
 #!/bin/bash
 
-export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:32
 export MODEL_PATH=$1
 
 mkdir -p data/testset

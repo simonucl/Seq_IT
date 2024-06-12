@@ -14,19 +14,7 @@ FILES=(self-seq-Meta-Llama-3-8B-alpaca_it self-seq-Meta-Llama-3-8B-alpaca_lang5 
 FILES=(self-seq-Meta-Llama-3-8B-wizardlm)
 FILES=(self-seq-Mistral-7B-v0.1-alpaca_sit_gen)
 FILES=(self-seq-Meta-Llama-3-8B-sit-alpaca_rplus self-seq-Meta-Llama-3-8B-alpaca_rplus_it)
-# for TYPE in ${TYPES[@]}
-# do
-#     for FILE in ${FILES[@]}
-#     do
-#         for LANG in en es ar el hi th de ru zh tr vi
-#         do
-#             echo "Evaluating ${FILE}_${TYPE} on XQuAD ${LANG}"
-#             python3 eval_seq/eval_xquad.py \
-#                 --test_file eval_results/${FILE}_${TYPE}/${FILE}_${TYPE}_base_xquad_${LANG}.jsonl \
-#                 --ref_file data/xquad/${TYPE}/xquad_en.jsonl
-#         done
-#     done
-# done
+FILES=(self-seq-Mistral-7B-v0.1-alpaca_it_gen self-seq-Mistral-7B-v0.1-alpaca_sit_gen)
 
 for FILE in ${FILES[@]}
 do
@@ -35,15 +23,15 @@ do
         echo "Evaluating ${FILE} on XQuAD ${LANG}"
         python3 eval_seq/eval_xquad.py \
             --test_file eval_results/${FILE}/${FILE}_base_xquad_${LANG}.jsonl \
-            --ref_file data/xquad/fewshot/xquad_en.jsonl \
-            --is_mistral
+            --ref_file data/xquad/fewshot/xquad_en.jsonl
+            
     done
     for LANG in ar hi th tr vi el
     do
         echo "Evaluating ${FILE} on XQuAD ${LANG}"
         python3 eval_seq/eval_xquad.py \
             --test_file eval_results/${FILE}/${FILE}_trans_xquad_${LANG}.jsonl \
-            --ref_file data/xquad/fewshot_multi/xquad_en.jsonl \
-            --is_mistral
+            --ref_file data/xquad/fewshot_multi/xquad_en.jsonl
+            
     done
 done
