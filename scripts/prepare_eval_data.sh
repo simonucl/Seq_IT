@@ -1,24 +1,24 @@
 mkdir -p data/downloads
 mkdir -p data/eval
 
-# MMLU dataset
-wget -O data/downloads/mmlu_data.tar https://people.eecs.berkeley.edu/~hendrycks/data.tar
-mkdir -p data/downloads/mmlu_data
-tar -xvf data/downloads/mmlu_data.tar -C data/downloads/mmlu_data
-mv data/downloads/mmlu_data/data data/eval/mmlu && rm -r data/downloads/mmlu_data data/downloads/mmlu_data.tar
+# # MMLU dataset
+# wget -O data/downloads/mmlu_data.tar https://people.eecs.berkeley.edu/~hendrycks/data.tar
+# mkdir -p data/downloads/mmlu_data
+# tar -xvf data/downloads/mmlu_data.tar -C data/downloads/mmlu_data
+# mv data/downloads/mmlu_data/data data/eval/mmlu && rm -r data/downloads/mmlu_data data/downloads/mmlu_data.tar
 
 # MATH dataset
-wget -O data/downloads/math_data.tar https://people.eecs.berkeley.edu/~hendrycks/MATH.tar
-mkdir -p data/downloads/math_data
-tar -xvf data/downloads/math_data.tar -C data/downloads/math_data
-mv data/downloads/math_data/MATH data/eval/math && rm -r data/downloads/math_data data/downloads/math_data.tar
-python3 eval/math/generate_few_shot.py
+# wget -O data/downloads/math_data.tar https://people.eecs.berkeley.edu/~hendrycks/MATH.tar
+# mkdir -p data/downloads/math_data
+# tar -xvf data/downloads/math_data.tar -C data/downloads/math_data
+# mv data/downloads/math_data/MATH data/eval/math && rm -r data/downloads/math_data data/downloads/math_data.tar
+# python3 eval/math/generate_few_shot.py
 
-# # Big-Bench-Hard dataset
-wget -O data/downloads/bbh_data.zip https://github.com/suzgunmirac/BIG-Bench-Hard/archive/refs/heads/main.zip
-mkdir -p data/downloads/bbh
-unzip data/downloads/bbh_data.zip -d data/downloads/bbh
-mv data/downloads/bbh/BIG-Bench-Hard-main/ data/eval/bbh && rm -r data/downloads/bbh data/downloads/bbh_data.zip
+# # # Big-Bench-Hard dataset
+# wget -O data/downloads/bbh_data.zip https://github.com/suzgunmirac/BIG-Bench-Hard/archive/refs/heads/main.zip
+# mkdir -p data/downloads/bbh
+# unzip data/downloads/bbh_data.zip -d data/downloads/bbh
+# mv data/downloads/bbh/BIG-Bench-Hard-main/ data/eval/bbh && rm -r data/downloads/bbh data/downloads/bbh_data.zip
 
 
 # TyDiQA-GoldP dataset

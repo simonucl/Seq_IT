@@ -14,6 +14,11 @@ export PYTHONPATH="$PWD:$PYTHONPATH"
 MODEL_NAME=$(basename "$MODEL")
 
 mkdir -p eval_results/$MODEL_NAME
+# check if exist data/eval/gsm or data/eval/codex_humaneval or data/eval/alpaca_farm
+# if not, download the data
+if [ ! -d "data/eval/gsm" ] || [ ! -d "data/eval/codex_humaneval" ] || [ ! -d "data/eval/alpaca_farm" ]; then
+    bash scripts/prepare_eval_data.sh
+fi
 
 # Run evaluation on ARC, GSM8K, HellaSwag, TruthfulQA, and MATH
 # bash lm-evaluation-harness/eval_model.sh $MODEL self-seq-$MODEL_NAME > eval_results/$MODEL_NAME/self-seq-$MODEL_NAME.log

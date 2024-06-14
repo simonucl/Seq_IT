@@ -10,6 +10,12 @@ CHECKPOINT_PATHS=(
     simonycl/self-seq-Meta-Llama-3-8B-sharegpt-llama70b_full_it1
 )
 
+echo "Cloning lm-evaluation-harness"
+git submodule update --init
+cd lm-evaluation-harness
+pip install -e .
+cd ..
+
 for CHECKPOINT_PATH in ${CHECKPOINT_PATHS[@]}
 do
     echo "Running evaluation for $CHECKPOINT_PATH"
