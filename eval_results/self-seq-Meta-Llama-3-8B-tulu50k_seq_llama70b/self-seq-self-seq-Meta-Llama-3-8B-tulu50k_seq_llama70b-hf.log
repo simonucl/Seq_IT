@@ -1,0 +1,116 @@
+[2024-06-13 14:46:21,349] [INFO] [real_accelerator.py:203:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[93m [WARNING] [0m async_io requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m async_io: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
+[2024-06-13 14:46:21,683] [INFO] [real_accelerator.py:203:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.1
+[93m [WARNING] [0m using untested triton version (2.1.0), only 1.0.0 is known to be compatible
+[93m [WARNING] [0m async_io requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m async_io: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
+[93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.1
+[93m [WARNING] [0m using untested triton version (2.1.0), only 1.0.0 is known to be compatible
+Passed argument batch_size = auto:1. Detecting largest batch size
+Passed argument batch_size = auto:1. Detecting largest batch size
+Determined largest batch size: 8
+Determined largest batch size: 8
+hf (pretrained=simonycl/self-seq-Meta-Llama-3-8B-tulu50k_seq_llama70b,dtype=bfloat16,attn_implementation=flash_attention_2), gen_kwargs: (temperature=0,top_k=0,top_p=0), limit: None, num_fewshot: 5, batch_size: auto (8)
+|                 Tasks                 |Version|Filter|n-shot|Metric|   |Value |   |Stderr|
+|---------------------------------------|-------|------|-----:|------|---|-----:|---|-----:|
+|mmlu                                   |N/A    |none  |     0|acc   |↑  |0.5255|±  |0.0040|
+|  - abstract_algebra                   |      0|none  |     5|acc   |↑  |0.2800|±  |0.0451|
+|  - anatomy                            |      0|none  |     5|acc   |↑  |0.4815|±  |0.0432|
+|  - astronomy                          |      0|none  |     5|acc   |↑  |0.5197|±  |0.0407|
+|  - business_ethics                    |      0|none  |     5|acc   |↑  |0.6000|±  |0.0492|
+|  - clinical_knowledge                 |      0|none  |     5|acc   |↑  |0.6000|±  |0.0302|
+|  - college_biology                    |      0|none  |     5|acc   |↑  |0.6181|±  |0.0406|
+|  - college_chemistry                  |      0|none  |     5|acc   |↑  |0.3600|±  |0.0482|
+|  - college_computer_science           |      0|none  |     5|acc   |↑  |0.4000|±  |0.0492|
+|  - college_mathematics                |      0|none  |     5|acc   |↑  |0.3500|±  |0.0479|
+|  - college_medicine                   |      0|none  |     5|acc   |↑  |0.5260|±  |0.0381|
+|  - college_physics                    |      0|none  |     5|acc   |↑  |0.2255|±  |0.0416|
+|  - computer_security                  |      0|none  |     5|acc   |↑  |0.6600|±  |0.0476|
+|  - conceptual_physics                 |      0|none  |     5|acc   |↑  |0.4468|±  |0.0325|
+|  - econometrics                       |      0|none  |     5|acc   |↑  |0.3684|±  |0.0454|
+|  - electrical_engineering             |      0|none  |     5|acc   |↑  |0.4414|±  |0.0414|
+|  - elementary_mathematics             |      0|none  |     5|acc   |↑  |0.3254|±  |0.0241|
+|  - formal_logic                       |      0|none  |     5|acc   |↑  |0.3730|±  |0.0433|
+|  - global_facts                       |      0|none  |     5|acc   |↑  |0.2900|±  |0.0456|
+|  - high_school_biology                |      0|none  |     5|acc   |↑  |0.6516|±  |0.0271|
+|  - high_school_chemistry              |      0|none  |     5|acc   |↑  |0.3448|±  |0.0334|
+|  - high_school_computer_science       |      0|none  |     5|acc   |↑  |0.6500|±  |0.0479|
+|  - high_school_european_history       |      0|none  |     5|acc   |↑  |0.7212|±  |0.0350|
+|  - high_school_geography              |      0|none  |     5|acc   |↑  |0.6970|±  |0.0327|
+|  - high_school_government_and_politics|      0|none  |     5|acc   |↑  |0.7461|±  |0.0314|
+|  - high_school_macroeconomics         |      0|none  |     5|acc   |↑  |0.5256|±  |0.0253|
+|  - high_school_mathematics            |      0|none  |     5|acc   |↑  |0.2667|±  |0.0270|
+|  - high_school_microeconomics         |      0|none  |     5|acc   |↑  |0.5756|±  |0.0321|
+|  - high_school_physics                |      0|none  |     5|acc   |↑  |0.3444|±  |0.0388|
+|  - high_school_psychology             |      0|none  |     5|acc   |↑  |0.7817|±  |0.0177|
+|  - high_school_statistics             |      0|none  |     5|acc   |↑  |0.4028|±  |0.0334|
+|  - high_school_us_history             |      0|none  |     5|acc   |↑  |0.7402|±  |0.0308|
+|  - high_school_world_history          |      0|none  |     5|acc   |↑  |0.7215|±  |0.0292|
+|  - human_aging                        |      0|none  |     5|acc   |↑  |0.6009|±  |0.0329|
+|  - human_sexuality                    |      0|none  |     5|acc   |↑  |0.5420|±  |0.0437|
+| - humanities                          |N/A    |none  |     5|acc   |↑  |0.4884|±  |0.0069|
+|  - international_law                  |      0|none  |     5|acc   |↑  |0.7190|±  |0.0410|
+|  - jurisprudence                      |      0|none  |     5|acc   |↑  |0.6759|±  |0.0452|
+|  - logical_fallacies                  |      0|none  |     5|acc   |↑  |0.6748|±  |0.0368|
+|  - machine_learning                   |      0|none  |     5|acc   |↑  |0.3750|±  |0.0460|
+|  - management                         |      0|none  |     5|acc   |↑  |0.7087|±  |0.0450|
+|  - marketing                          |      0|none  |     5|acc   |↑  |0.7906|±  |0.0267|
+|  - medical_genetics                   |      0|none  |     5|acc   |↑  |0.6300|±  |0.0485|
+|  - miscellaneous                      |      0|none  |     5|acc   |↑  |0.7216|±  |0.0160|
+|  - moral_disputes                     |      0|none  |     5|acc   |↑  |0.5434|±  |0.0268|
+|  - moral_scenarios                    |      0|none  |     5|acc   |↑  |0.2793|±  |0.0150|
+|  - nutrition                          |      0|none  |     5|acc   |↑  |0.4967|±  |0.0286|
+| - other                               |N/A    |none  |     5|acc   |↑  |0.5929|±  |0.0085|
+|  - philosophy                         |      0|none  |     5|acc   |↑  |0.5756|±  |0.0281|
+|  - prehistory                         |      0|none  |     5|acc   |↑  |0.6265|±  |0.0269|
+|  - professional_accounting            |      0|none  |     5|acc   |↑  |0.4220|±  |0.0295|
+|  - professional_law                   |      0|none  |     5|acc   |↑  |0.3898|±  |0.0125|
+|  - professional_medicine              |      0|none  |     5|acc   |↑  |0.5331|±  |0.0303|
+|  - professional_psychology            |      0|none  |     5|acc   |↑  |0.5784|±  |0.0200|
+|  - public_relations                   |      0|none  |     5|acc   |↑  |0.6000|±  |0.0469|
+|  - security_studies                   |      0|none  |     5|acc   |↑  |0.4531|±  |0.0319|
+| - social_sciences                     |N/A    |none  |     5|acc   |↑  |0.6162|±  |0.0085|
+|  - sociology                          |      0|none  |     5|acc   |↑  |0.6418|±  |0.0339|
+| - stem                                |N/A    |none  |     5|acc   |↑  |0.4259|±  |0.0085|
+|  - us_foreign_policy                  |      0|none  |     5|acc   |↑  |0.7300|±  |0.0446|
+|  - virology                           |      0|none  |     5|acc   |↑  |0.4036|±  |0.0382|
+|  - world_religions                    |      0|none  |     5|acc   |↑  |0.7135|±  |0.0347|
+
+|      Groups      |Version|Filter|n-shot|Metric|   |Value |   |Stderr|
+|------------------|-------|------|-----:|------|---|-----:|---|-----:|
+|mmlu              |N/A    |none  |     0|acc   |↑  |0.5255|±  |0.0040|
+| - humanities     |N/A    |none  |     5|acc   |↑  |0.4884|±  |0.0069|
+| - other          |N/A    |none  |     5|acc   |↑  |0.5929|±  |0.0085|
+| - social_sciences|N/A    |none  |     5|acc   |↑  |0.6162|±  |0.0085|
+| - stem           |N/A    |none  |     5|acc   |↑  |0.4259|±  |0.0085|
+
+[2024-06-13 14:59:03,908] [INFO] [real_accelerator.py:203:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-06-13 14:59:03,945] [INFO] [real_accelerator.py:203:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[93m [WARNING] [0m async_io requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m async_io requires the dev libaio .so object and headers but these were not found.
+[93m [WARNING] [0m async_io: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
+[93m [WARNING] [0m async_io: please install the libaio-dev package with apt
+[93m [WARNING] [0m If libaio is already installed (perhaps from source), try setting the CFLAGS and LDFLAGS environment variables to where it can be found.
+[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
+[93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.1
+[93m [WARNING] [0m using untested triton version (2.1.0), only 1.0.0 is known to be compatible
+[93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.1
+[93m [WARNING] [0m using untested triton version (2.1.0), only 1.0.0 is known to be compatible
+Passed argument batch_size = auto:1. Detecting largest batch size
+Passed argument batch_size = auto:1. Detecting largest batch size
+Determined largest batch size: 16
+Determined largest batch size: 16
+hf (pretrained=simonycl/self-seq-Meta-Llama-3-8B-tulu50k_seq_llama70b,dtype=bfloat16,attn_implementation=flash_attention_2), gen_kwargs: (temperature=0,top_k=0,top_p=0), limit: None, num_fewshot: 25, batch_size: auto (16)
+|    Tasks    |Version|Filter|n-shot| Metric |   |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|---|-----:|---|-----:|
+|arc_challenge|      1|none  |    25|acc     |↑  |0.4701|±  |0.0146|
+|             |       |none  |    25|acc_norm|↑  |0.5179|±  |0.0146|
+
