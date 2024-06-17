@@ -1,0 +1,2 @@
+,win_rate,standard_error,mode,avg_length,n_wins,n_wins_base,n_draws,n_total,discrete_win_rate
+self-seq-Llama-2-7b-hf-self-seq-greedy-long,41.40526976160602,1.745824383796042,community,4269,330,467,0,797,41.40526976160602

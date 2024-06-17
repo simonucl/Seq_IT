@@ -154,10 +154,10 @@ def main(
         prompts = []
         for i in range(len(instruction)):
             generate_prompt_func = prompter.generate_chat_prompt if is_chat else prompter.generate_prompt
-            if label is not None:
-                prompt = generate_prompt_func(instruction[i], input[i], label[i])
-            else:
+            if input:
                 prompt = generate_prompt_func(instruction[i], input[i])
+            else:
+                prompt = generate_prompt_func(instruction[i], '')
             if is_chat:
                 prompt = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
 
@@ -179,16 +179,25 @@ def main(
 
         else:
             # new_line_token = tokenizer.encode("\n", add_special_tokens=False)[-1]
-            generation_config = GenerationConfig(
-                temperature=temperature,
-                top_p=top_p,
-                top_k=top_k,
-                num_beams=num_beams,
-                max_new_tokens=max_new_tokens,
-                no_repeat_ngram_size=no_repeat_ngram_size,
-                # stop_id_sequences=[[new_line_token]]
+            # generation_config = GenerationConfig(
+            #     temperature=temperature,
+            #     top_p=top_p,
+            #     top_k=top_k,
+            #     num_beams=num_beams,
+            #     max_new_tokens=max_new_tokens,
+            #     no_repeat_ngram_size=no_repeat_ngram_size,
+            #     # stop_id_sequences=[[new_line_token]]
+            #     **kwargs,
+            # )
+            generation_config = {
+                "temperature": temperature,
+                "top_p": top_p,
+                "top_k": top_k,
+                "num_beams": num_beams,
+                "max_new_tokens": max_new_tokens,
+                "no_repeat_ngram_size": no_repeat_ngram_size,
                 **kwargs,
-            )
+            }
             
             outputs = generate_completions(
                 model=model,
@@ -222,6 +231,7 @@ def main(
                              label=labels,
                              max_new_tokens=length)
         for i in range(len(data)):
+            data[i]['target'] = data[i]['output']
             data[i]["output"] = responses[i]['output']
             data[i]["prompt"] = responses[i]['prompt']
 

@@ -37,10 +37,13 @@ def get_prompt(p, is_chat=False):
         instruction = p['instruction']
         input = ''
         if p['input'] != '':
-            input = INPUT_TEMPLATE.format(p['input'])
-            prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, input)
-        else:
-            prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
+            # input = INPUT_TEMPLATE.format(p['input'])
+            input = p['input']
+            if ('position' in p) and (p['position'] == 'right'):
+                instruction = f"{instruction} {input}"
+            else:
+                instruction = f"{input} {instruction}"
+        prompt += '\n\n' + PROMPT_TEMPLATE.format(instruction, '')
 
     if 'system_prompt' in p:
         system_prompt = p['system_prompt']
@@ -74,9 +77,12 @@ def get_gen_instruction_prompt(p):
     random.shuffle(e)
     prompt = prompt_prefix + '\n\n' + '\n\n'.join(e)
     if p['input'] != '':
-        prompt += '\n\n' + prompt_template.format(p['instruction'], p['input'])
-    else:
-        prompt += '\n\n' + prompt_template.format(p['instruction'], '')
+        if ('position' in p) and (p['position'] == 'right'):
+            instruction = f"{p['input']} {p['instruction']}"
+        else:
+            instruction = f"{p['instruction']} {p['input']}"
+
+    prompt += '\n\n' + prompt_template.format(instruction, '')
     # prompt += '\n\n' + prompt_template.format(p['instruction'])
     messages = [{'role': 'user', 'content': prompt}]
     return {**p, 'messages': messages}
@@ -178,13 +184,17 @@ def classification(agent, generation_kwargs, prompts, batch_size=1):
 
         for idx, (prompt, output) in enumerate(zip(batch_prompts, outputs)):
             generations.append({
-                'idx': i + idx,
+                'idx': i + idx if 'idx' not in prompts[i + idx] else prompts[i + idx]['idx'],
                 "input": prompts[i + idx]['input'],
                 'system_prompt': prompts[i + idx]['system_prompt'] if 'system_prompt' in prompts[i + idx] else None,
                 "instruction": prompts[i + idx]['instruction'],
                 'completions': output,
                 'option': extract_classification(output)
             })
+            if 'final_instruction' in prompts[i + idx]:
+                generations[-1]['final_instruction'] = prompts[i + idx]['final_instruction']
+            if 'final_instruction_response' in prompts[i + idx]:
+                generations[-1]['final_instruction_response'] = prompts[i + idx]['final_instruction_response']
     return generations
 
 def generation(agent, generation_kwargs, prompts, batch_size=1):
@@ -353,6 +363,11 @@ if __name__ == '__main__':
     args.add_argument('--no_refinement', action='store_true')
     args.add_argument('--regen_response', action='store_true')
     args.add_argument('--direct_response', action='store_true')
+    args.add_argument('--iteration', action='store_true')
+    args.add_argument('--temperature', type=float, default=1.0)
+    args.add_argument('--top_p', type=float, default=0.9)
+    args.add_argument('--top_k', type=int, default=50)
+    args.add_argument('--max_new_tokens', type=int, default=2048)
 
     args = args.parse_args()
     assert not (args.load_8bit and args.load_4bit)
@@ -381,6 +396,13 @@ if __name__ == '__main__':
         input_data = random.sample(input_data, args.sample)
 
     prompts = [get_prompt(p, is_chat=args.use_instruct) for p in input_data]
+    if args.iteration:
+       for i in range(len(prompts)):
+           prompts[i]['final_instruction_response'] = input_data[i]['output']
+           prompts[i]['final_instruction'] = input_data[i]['instruction']
+           prompts[i]['option'] = input_data[i]['option']
+           prompts[i]['idx'] = i
+
     if (args.add_system_prompt) and ('system_prompt' in prompts[0]):
         system_prompt_map = {i : p['system_prompt'] for i, p in enumerate(prompts)}
     else:
@@ -511,10 +533,10 @@ if __name__ == '__main__':
             stop_id_sequences = [tokenizer.encode(s, add_special_tokens=False) for s in stop]
 
         generation_kwargs = {
-            "temperature": 0,
-            "top_p": 1,
-            "top_k": 50,
-            "max_new_tokens": 1024,
+            "temperature": args.temperature,
+            "top_p": args.top_p,
+            "top_k": args.top_k,
+            "max_new_tokens": args.max_new_tokens,
         }
         if args.use_vllm:
             vllm_kwargs = {
@@ -553,6 +575,11 @@ if __name__ == '__main__':
                     batch_size=args.batch_size,
                     generation_kwargs=generation_kwargs,
                 )
+                # pop the messages and prompt
+                for p in refined_generations:
+                    p.pop('messages')
+                    p.pop('prompt')
+                    
                 with open(output_file, 'w', encoding='utf-8') as json_file:
                     for g in refined_generations:
                         json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
@@ -560,6 +587,9 @@ if __name__ == '__main__':
             import sys
             sys.exit(1)
         # Step 1: classification
+        if args.iteration:
+            generations_no_change = [g for g in prompts if g['option']=='D']
+            prompts = [g for g in prompts if g['option']!='D']
         if (not args.ignore_cache) and (os.path.exists(output_file)):
             print(f'Using cached generations from {output_file}')
             generations = []
@@ -573,6 +603,10 @@ if __name__ == '__main__':
                 prompts=prompts,
                 batch_size=args.batch_size,
             )
+            if args.iteration:
+                for g in generations:
+                    g.pop('final_instruction', None)
+                    g.pop('final_instruction_response', None)
             with open(output_file, 'w', encoding='utf-8') as json_file:
                 for g in generations:
                     json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
@@ -586,12 +620,20 @@ if __name__ == '__main__':
                 for line in json_file:
                     new_generations.append(json.loads(line))
         else:
-            new_generations = generation(
-                agent=agent,
-                generation_kwargs=generation_kwargs,
-                prompts=generations,
-                batch_size=args.batch_size,
-            )
+            if args.iteration:
+                new_generations = generation(
+                  agent=agent,
+                  generation_kwargs=generation_kwargs,
+                  prompts=generations,
+                  batch_size=args.batch_size,
+               )
+            else:
+                new_generations = generation(
+                  agent=agent,
+                  generation_kwargs=generation_kwargs,
+                  prompts=generations,
+                  batch_size=args.batch_size,
+               )
             with open(output_file, 'w', encoding='utf-8') as json_file:
                 for g in new_generations:
                     json_file.write(json.dumps(g, ensure_ascii=False) + '\n')
@@ -653,6 +695,17 @@ if __name__ == '__main__':
             )
         else:
             remaining_generations = refined_generations
+        print(remaining_generations[1].keys())
+        print(len(remaining_generations))
+        if args.iteration:
+            print(generations_no_change[1].keys())
+            # pop 'prompt' and 'messages' from the final instruction
+            for g in generations_no_change:
+                g.pop('prompt', None)
+                g.pop('messages', None)
+            for g in remaining_generations:
+                g.pop('completions', None)
+            remaining_generations = remaining_generations + generations_no_change
         with open(output_file, 'w', encoding='utf-8') as json_file:
             for g in remaining_generations:
                 json_file.write(json.dumps(g, ensure_ascii=False) + '\n')

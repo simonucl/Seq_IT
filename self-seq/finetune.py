@@ -389,7 +389,7 @@ def encode_with_messages_format(example, tokenizer, max_seq_length, add_bos=Fals
     Here we assume each example has a 'messages' field Each message is a dict with 'role' and 'content' fields.
     We concatenate all messages with the roles as delimiters and tokenize them together.
     '''
-    instruction = example['instruction'] #+ f"Input: {example['input']}"
+    instruction = example['instruction']+ f" {example['input']}"
     output = example['output']
     sys_prompt = example['system_prompt']
     messages = [
@@ -493,6 +493,7 @@ def main():
         **accelerator_log_kwargs,
         kwargs_handlers=[timeout_kwargs]
     )
+    accelerator.init_trackers("open_instruct", config={}, init_kwargs={"wandb":{"name": args.train_file.split("/")[-1].split(".")[0]}})
     # Make one log on every process with the configuration for debugging.
     logging.basicConfig(
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",

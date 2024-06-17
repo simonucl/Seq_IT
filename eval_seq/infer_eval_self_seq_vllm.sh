@@ -1,6 +1,5 @@
 #!/bin/bash
 
-export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:32
 export MODEL_PATH=$1
 
 mkdir -p data/testset
@@ -23,7 +22,9 @@ do
     --batch_size 128 \
     --save_file eval_results/${MODEL_NAME}/${MODEL_NAME}_${TRAIN_TYPE}_${TASK}_${TESTLANG}.jsonl \
     --load_8bit False \
-    --use_vllm True
+    --use_vllm True \
+    --is_chat True \
+    --chat_template tulu
 done
 
 TRAIN_TYPE=trans
@@ -37,5 +38,7 @@ do
     --batch_size 128 \
     --save_file eval_results/${MODEL_NAME}/${MODEL_NAME}_${TRAIN_TYPE}_${TASK}_${TESTLANG}.jsonl \
     --load_8bit False \
-    --use_vllm True
+    --use_vllm True \
+    --is_chat True \
+    --chat_template tulu
 done

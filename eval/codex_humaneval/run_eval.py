@@ -7,7 +7,6 @@ import vllm
 from eval.utils import (
     generate_completions, 
     load_hf_lm_and_tokenizer, 
-    query_openai_chat_model,
     dynamic_import_function,
 )
 from eval.codex_humaneval.data import write_jsonl, read_problems

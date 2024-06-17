@@ -8,7 +8,7 @@ import json
 from tqdm import tqdm
 import time
 from eval.mmlu.categories import subcategories, categories
-from eval.utils import get_next_word_predictions, load_hf_lm_and_tokenizer, query_openai_chat_model, dynamic_import_function
+from eval.utils import get_next_word_predictions, load_hf_lm_and_tokenizer, dynamic_import_function
 from functools import partial
 from transformers import AutoTokenizer
 
