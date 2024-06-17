@@ -1,6 +1,7 @@
 CHECKPOINT_PATH=$1
 MODEL_NAME=$2
 
+export OPENAI_API_KEY=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
 export IS_ALPACA_EVAL_2=False
 
 # # # TyDiQA
