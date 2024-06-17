@@ -1,0 +1,270 @@
+1
+data/test/xquad_base_en.json
+cuda
+INFO 06-17 05:28:12 config.py:623] Defaulting to use mp for distributed inference
+INFO 06-17 05:28:12 llm_engine.py:161] Initializing an LLM engine (v0.5.0.post1) with config: model='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', speculative_config=None, tokenizer='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', skip_tokenizer_init=False, tokenizer_mode=slow, revision=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0, served_model_name=simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens)
+[1;36m(VllmWorkerProcess pid=302305)[0;0m INFO 06-17 05:28:18 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+INFO 06-17 05:28:18 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=302305)[0;0m INFO 06-17 05:28:18 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=302305)[0;0m INFO 06-17 05:28:18 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:28:18 pynccl.py:63] vLLM is using nccl==2.20.5
+[1;36m(VllmWorkerProcess pid=302305)[0;0m INFO 06-17 05:28:19 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:28:19 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:28:19 weight_utils.py:218] Using model weights format ['*.bin']
+[1;36m(VllmWorkerProcess pid=302305)[0;0m INFO 06-17 05:28:20 weight_utils.py:218] Using model weights format ['*.bin']
+INFO 06-17 05:28:50 model_runner.py:160] Loading model weights took 7.4829 GB
+[1;36m(VllmWorkerProcess pid=302305)[0;0m INFO 06-17 05:28:53 model_runner.py:160] Loading model weights took 7.4829 GB
+INFO 06-17 05:28:55 distributed_gpu_executor.py:56] # GPU blocks: 67837, # CPU blocks: 4096
+INFO 06-17 05:29:08 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-17 05:29:08 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=302305)[0;0m INFO 06-17 05:29:08 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[1;36m(VllmWorkerProcess pid=302305)[0;0m INFO 06-17 05:29:08 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=302305)[0;0m INFO 06-17 05:29:29 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+INFO 06-17 05:29:29 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+[1;36m(VllmWorkerProcess pid=302305)[0;0m INFO 06-17 05:29:29 model_runner.py:965] Graph capturing finished in 21 secs.
+INFO 06-17 05:29:29 model_runner.py:965] Graph capturing finished in 21 secs.
+Using 2 GPU devices
+INFO 06-17 05:29:50 multiproc_worker_utils.py:123] Killing local vLLM worker processes
+1
+data/test/xquad_base_de.json
+cuda
+INFO 06-17 05:30:00 config.py:623] Defaulting to use mp for distributed inference
+INFO 06-17 05:30:01 llm_engine.py:161] Initializing an LLM engine (v0.5.0.post1) with config: model='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', speculative_config=None, tokenizer='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', skip_tokenizer_init=False, tokenizer_mode=slow, revision=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0, served_model_name=simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens)
+[1;36m(VllmWorkerProcess pid=304403)[0;0m INFO 06-17 05:30:07 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+[1;36m(VllmWorkerProcess pid=304403)[0;0m INFO 06-17 05:30:07 utils.py:645] Found nccl from library libnccl.so.2
+INFO 06-17 05:30:07 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=304403)[0;0m INFO 06-17 05:30:07 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:30:07 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:30:08 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[1;36m(VllmWorkerProcess pid=304403)[0;0m INFO 06-17 05:30:08 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:30:08 weight_utils.py:218] Using model weights format ['*.bin']
+[1;36m(VllmWorkerProcess pid=304403)[0;0m INFO 06-17 05:30:08 weight_utils.py:218] Using model weights format ['*.bin']
+INFO 06-17 05:30:44 model_runner.py:160] Loading model weights took 7.4829 GB
+[1;36m(VllmWorkerProcess pid=304403)[0;0m INFO 06-17 05:30:44 model_runner.py:160] Loading model weights took 7.4829 GB
+INFO 06-17 05:30:45 distributed_gpu_executor.py:56] # GPU blocks: 67837, # CPU blocks: 4096
+INFO 06-17 05:30:59 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-17 05:30:59 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=304403)[0;0m INFO 06-17 05:30:59 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[1;36m(VllmWorkerProcess pid=304403)[0;0m INFO 06-17 05:30:59 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=304403)[0;0m INFO 06-17 05:31:20 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+INFO 06-17 05:31:20 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+[1;36m(VllmWorkerProcess pid=304403)[0;0m INFO 06-17 05:31:20 model_runner.py:965] Graph capturing finished in 21 secs.
+INFO 06-17 05:31:20 model_runner.py:965] Graph capturing finished in 21 secs.
+Using 2 GPU devices
+INFO 06-17 05:32:28 multiproc_worker_utils.py:123] Killing local vLLM worker processes
+1
+data/test/xquad_base_es.json
+cuda
+INFO 06-17 05:32:38 config.py:623] Defaulting to use mp for distributed inference
+INFO 06-17 05:32:38 llm_engine.py:161] Initializing an LLM engine (v0.5.0.post1) with config: model='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', speculative_config=None, tokenizer='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', skip_tokenizer_init=False, tokenizer_mode=slow, revision=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0, served_model_name=simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens)
+[1;36m(VllmWorkerProcess pid=306508)[0;0m INFO 06-17 05:32:45 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+[1;36m(VllmWorkerProcess pid=306508)[0;0m INFO 06-17 05:32:45 utils.py:645] Found nccl from library libnccl.so.2
+INFO 06-17 05:32:45 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=306508)[0;0m INFO 06-17 05:32:45 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:32:45 pynccl.py:63] vLLM is using nccl==2.20.5
+[1;36m(VllmWorkerProcess pid=306508)[0;0m INFO 06-17 05:32:45 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:32:45 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:32:46 weight_utils.py:218] Using model weights format ['*.bin']
+[1;36m(VllmWorkerProcess pid=306508)[0;0m INFO 06-17 05:32:46 weight_utils.py:218] Using model weights format ['*.bin']
+INFO 06-17 05:33:21 model_runner.py:160] Loading model weights took 7.4829 GB
+[1;36m(VllmWorkerProcess pid=306508)[0;0m INFO 06-17 05:33:21 model_runner.py:160] Loading model weights took 7.4829 GB
+INFO 06-17 05:33:23 distributed_gpu_executor.py:56] # GPU blocks: 67837, # CPU blocks: 4096
+[1;36m(VllmWorkerProcess pid=306508)[0;0m INFO 06-17 05:33:36 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[1;36m(VllmWorkerProcess pid=306508)[0;0m INFO 06-17 05:33:36 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 06-17 05:33:36 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-17 05:33:36 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=306508)[0;0m INFO 06-17 05:33:57 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+INFO 06-17 05:33:57 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+[1;36m(VllmWorkerProcess pid=306508)[0;0m INFO 06-17 05:33:57 model_runner.py:965] Graph capturing finished in 21 secs.
+INFO 06-17 05:33:57 model_runner.py:965] Graph capturing finished in 21 secs.
+Using 2 GPU devices
+INFO 06-17 05:35:01 multiproc_worker_utils.py:123] Killing local vLLM worker processes
+1
+data/test/xquad_base_ru.json
+cuda
+INFO 06-17 05:35:12 config.py:623] Defaulting to use mp for distributed inference
+INFO 06-17 05:35:12 llm_engine.py:161] Initializing an LLM engine (v0.5.0.post1) with config: model='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', speculative_config=None, tokenizer='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', skip_tokenizer_init=False, tokenizer_mode=slow, revision=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0, served_model_name=simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens)
+[1;36m(VllmWorkerProcess pid=308610)[0;0m INFO 06-17 05:35:19 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+[1;36m(VllmWorkerProcess pid=308610)[0;0m INFO 06-17 05:35:19 utils.py:645] Found nccl from library libnccl.so.2
+INFO 06-17 05:35:19 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=308610)[0;0m INFO 06-17 05:35:19 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:35:19 pynccl.py:63] vLLM is using nccl==2.20.5
+[1;36m(VllmWorkerProcess pid=308610)[0;0m INFO 06-17 05:35:19 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:35:19 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:35:20 weight_utils.py:218] Using model weights format ['*.bin']
+[1;36m(VllmWorkerProcess pid=308610)[0;0m INFO 06-17 05:35:20 weight_utils.py:218] Using model weights format ['*.bin']
+INFO 06-17 05:35:55 model_runner.py:160] Loading model weights took 7.4829 GB
+[1;36m(VllmWorkerProcess pid=308610)[0;0m INFO 06-17 05:35:55 model_runner.py:160] Loading model weights took 7.4829 GB
+INFO 06-17 05:35:57 distributed_gpu_executor.py:56] # GPU blocks: 67837, # CPU blocks: 4096
+INFO 06-17 05:36:09 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-17 05:36:09 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=308610)[0;0m INFO 06-17 05:36:10 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[1;36m(VllmWorkerProcess pid=308610)[0;0m INFO 06-17 05:36:10 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=308610)[0;0m INFO 06-17 05:36:32 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+INFO 06-17 05:36:32 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+[1;36m(VllmWorkerProcess pid=308610)[0;0m INFO 06-17 05:36:32 model_runner.py:965] Graph capturing finished in 22 secs.
+INFO 06-17 05:36:32 model_runner.py:965] Graph capturing finished in 23 secs.
+Using 2 GPU devices
+INFO 06-17 05:37:46 multiproc_worker_utils.py:123] Killing local vLLM worker processes
+1
+data/test/xquad_base_zh.json
+cuda
+INFO 06-17 05:37:56 config.py:623] Defaulting to use mp for distributed inference
+INFO 06-17 05:37:56 llm_engine.py:161] Initializing an LLM engine (v0.5.0.post1) with config: model='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', speculative_config=None, tokenizer='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', skip_tokenizer_init=False, tokenizer_mode=slow, revision=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0, served_model_name=simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens)
+[1;36m(VllmWorkerProcess pid=310722)[0;0m INFO 06-17 05:38:03 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+INFO 06-17 05:38:03 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=310722)[0;0m INFO 06-17 05:38:03 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=310722)[0;0m INFO 06-17 05:38:03 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:38:03 pynccl.py:63] vLLM is using nccl==2.20.5
+[1;36m(VllmWorkerProcess pid=310722)[0;0m INFO 06-17 05:38:03 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:38:03 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:38:04 weight_utils.py:218] Using model weights format ['*.bin']
+[1;36m(VllmWorkerProcess pid=310722)[0;0m INFO 06-17 05:38:04 weight_utils.py:218] Using model weights format ['*.bin']
+INFO 06-17 05:38:39 model_runner.py:160] Loading model weights took 7.4829 GB
+[1;36m(VllmWorkerProcess pid=310722)[0;0m INFO 06-17 05:38:39 model_runner.py:160] Loading model weights took 7.4829 GB
+INFO 06-17 05:38:40 distributed_gpu_executor.py:56] # GPU blocks: 67837, # CPU blocks: 4096
+[1;36m(VllmWorkerProcess pid=310722)[0;0m INFO 06-17 05:38:53 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[1;36m(VllmWorkerProcess pid=310722)[0;0m INFO 06-17 05:38:53 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 06-17 05:38:53 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-17 05:38:53 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=310722)[0;0m INFO 06-17 05:39:16 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+INFO 06-17 05:39:16 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+[1;36m(VllmWorkerProcess pid=310722)[0;0m INFO 06-17 05:39:16 model_runner.py:965] Graph capturing finished in 23 secs.
+INFO 06-17 05:39:16 model_runner.py:965] Graph capturing finished in 23 secs.
+Using 2 GPU devices
+INFO 06-17 05:40:29 multiproc_worker_utils.py:123] Killing local vLLM worker processes
+1
+data/test/xquad_trans_ar.json
+cuda
+INFO 06-17 05:40:40 config.py:623] Defaulting to use mp for distributed inference
+INFO 06-17 05:40:40 llm_engine.py:161] Initializing an LLM engine (v0.5.0.post1) with config: model='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', speculative_config=None, tokenizer='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', skip_tokenizer_init=False, tokenizer_mode=slow, revision=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0, served_model_name=simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens)
+[1;36m(VllmWorkerProcess pid=312835)[0;0m INFO 06-17 05:40:46 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+[1;36m(VllmWorkerProcess pid=312835)[0;0m INFO 06-17 05:40:46 utils.py:645] Found nccl from library libnccl.so.2
+INFO 06-17 05:40:46 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=312835)[0;0m INFO 06-17 05:40:46 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:40:46 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:40:47 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[1;36m(VllmWorkerProcess pid=312835)[0;0m INFO 06-17 05:40:47 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:40:47 weight_utils.py:218] Using model weights format ['*.bin']
+[1;36m(VllmWorkerProcess pid=312835)[0;0m INFO 06-17 05:40:48 weight_utils.py:218] Using model weights format ['*.bin']
+INFO 06-17 05:41:21 model_runner.py:160] Loading model weights took 7.4829 GB
+[1;36m(VllmWorkerProcess pid=312835)[0;0m INFO 06-17 05:41:22 model_runner.py:160] Loading model weights took 7.4829 GB
+INFO 06-17 05:41:23 distributed_gpu_executor.py:56] # GPU blocks: 67837, # CPU blocks: 4096
+INFO 06-17 05:41:35 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-17 05:41:35 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=312835)[0;0m INFO 06-17 05:41:36 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[1;36m(VllmWorkerProcess pid=312835)[0;0m INFO 06-17 05:41:36 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=312835)[0;0m INFO 06-17 05:41:57 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+INFO 06-17 05:41:57 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+[1;36m(VllmWorkerProcess pid=312835)[0;0m INFO 06-17 05:41:57 model_runner.py:965] Graph capturing finished in 21 secs.
+INFO 06-17 05:41:57 model_runner.py:965] Graph capturing finished in 21 secs.
+Using 2 GPU devices
+INFO 06-17 05:43:12 multiproc_worker_utils.py:123] Killing local vLLM worker processes
+1
+data/test/xquad_trans_vi.json
+cuda
+INFO 06-17 05:43:22 config.py:623] Defaulting to use mp for distributed inference
+INFO 06-17 05:43:22 llm_engine.py:161] Initializing an LLM engine (v0.5.0.post1) with config: model='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', speculative_config=None, tokenizer='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', skip_tokenizer_init=False, tokenizer_mode=slow, revision=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0, served_model_name=simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens)
+[1;36m(VllmWorkerProcess pid=314947)[0;0m INFO 06-17 05:43:28 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+[1;36m(VllmWorkerProcess pid=314947)[0;0m INFO 06-17 05:43:28 utils.py:645] Found nccl from library libnccl.so.2
+INFO 06-17 05:43:28 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=314947)[0;0m INFO 06-17 05:43:28 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:43:28 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:43:29 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[1;36m(VllmWorkerProcess pid=314947)[0;0m INFO 06-17 05:43:29 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:43:30 weight_utils.py:218] Using model weights format ['*.bin']
+[1;36m(VllmWorkerProcess pid=314947)[0;0m INFO 06-17 05:43:30 weight_utils.py:218] Using model weights format ['*.bin']
+[1;36m(VllmWorkerProcess pid=314947)[0;0m INFO 06-17 05:44:05 model_runner.py:160] Loading model weights took 7.4829 GB
+INFO 06-17 05:44:05 model_runner.py:160] Loading model weights took 7.4829 GB
+INFO 06-17 05:44:06 distributed_gpu_executor.py:56] # GPU blocks: 67837, # CPU blocks: 4096
+INFO 06-17 05:44:19 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-17 05:44:19 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=314947)[0;0m INFO 06-17 05:44:20 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[1;36m(VllmWorkerProcess pid=314947)[0;0m INFO 06-17 05:44:20 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=314947)[0;0m INFO 06-17 05:44:42 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+INFO 06-17 05:44:42 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+[1;36m(VllmWorkerProcess pid=314947)[0;0m INFO 06-17 05:44:42 model_runner.py:965] Graph capturing finished in 22 secs.
+INFO 06-17 05:44:42 model_runner.py:965] Graph capturing finished in 23 secs.
+Using 2 GPU devices
+INFO 06-17 05:45:50 multiproc_worker_utils.py:123] Killing local vLLM worker processes
+1
+data/test/xquad_trans_th.json
+cuda
+INFO 06-17 05:46:00 config.py:623] Defaulting to use mp for distributed inference
+INFO 06-17 05:46:00 llm_engine.py:161] Initializing an LLM engine (v0.5.0.post1) with config: model='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', speculative_config=None, tokenizer='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', skip_tokenizer_init=False, tokenizer_mode=slow, revision=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0, served_model_name=simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens)
+[1;36m(VllmWorkerProcess pid=317049)[0;0m INFO 06-17 05:46:06 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+[1;36m(VllmWorkerProcess pid=317049)[0;0m INFO 06-17 05:46:06 utils.py:645] Found nccl from library libnccl.so.2
+INFO 06-17 05:46:06 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=317049)[0;0m INFO 06-17 05:46:06 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:46:06 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:46:07 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[1;36m(VllmWorkerProcess pid=317049)[0;0m INFO 06-17 05:46:07 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:46:07 weight_utils.py:218] Using model weights format ['*.bin']
+[1;36m(VllmWorkerProcess pid=317049)[0;0m INFO 06-17 05:46:08 weight_utils.py:218] Using model weights format ['*.bin']
+INFO 06-17 05:46:42 model_runner.py:160] Loading model weights took 7.4829 GB
+[1;36m(VllmWorkerProcess pid=317049)[0;0m INFO 06-17 05:46:42 model_runner.py:160] Loading model weights took 7.4829 GB
+INFO 06-17 05:46:43 distributed_gpu_executor.py:56] # GPU blocks: 67837, # CPU blocks: 4096
+[1;36m(VllmWorkerProcess pid=317049)[0;0m INFO 06-17 05:46:56 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[1;36m(VllmWorkerProcess pid=317049)[0;0m INFO 06-17 05:46:56 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 06-17 05:46:57 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-17 05:46:57 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=317049)[0;0m INFO 06-17 05:47:17 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+INFO 06-17 05:47:17 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+[1;36m(VllmWorkerProcess pid=317049)[0;0m INFO 06-17 05:47:17 model_runner.py:965] Graph capturing finished in 21 secs.
+INFO 06-17 05:47:17 model_runner.py:965] Graph capturing finished in 21 secs.
+Using 2 GPU devices
+INFO 06-17 05:48:40 multiproc_worker_utils.py:123] Killing local vLLM worker processes
+1
+data/test/xquad_trans_tr.json
+cuda
+INFO 06-17 05:48:50 config.py:623] Defaulting to use mp for distributed inference
+INFO 06-17 05:48:50 llm_engine.py:161] Initializing an LLM engine (v0.5.0.post1) with config: model='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', speculative_config=None, tokenizer='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', skip_tokenizer_init=False, tokenizer_mode=slow, revision=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0, served_model_name=simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens)
+[1;36m(VllmWorkerProcess pid=319154)[0;0m INFO 06-17 05:48:57 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+INFO 06-17 05:48:57 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=319154)[0;0m INFO 06-17 05:48:57 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=319154)[0;0m INFO 06-17 05:48:57 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:48:57 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:48:58 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[1;36m(VllmWorkerProcess pid=319154)[0;0m INFO 06-17 05:48:58 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:48:58 weight_utils.py:218] Using model weights format ['*.bin']
+[1;36m(VllmWorkerProcess pid=319154)[0;0m INFO 06-17 05:48:58 weight_utils.py:218] Using model weights format ['*.bin']
+[1;36m(VllmWorkerProcess pid=319154)[0;0m INFO 06-17 05:49:33 model_runner.py:160] Loading model weights took 7.4829 GB
+INFO 06-17 05:49:34 model_runner.py:160] Loading model weights took 7.4829 GB
+INFO 06-17 05:49:35 distributed_gpu_executor.py:56] # GPU blocks: 67837, # CPU blocks: 4096
+[1;36m(VllmWorkerProcess pid=319154)[0;0m INFO 06-17 05:49:48 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[1;36m(VllmWorkerProcess pid=319154)[0;0m INFO 06-17 05:49:48 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 06-17 05:49:48 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-17 05:49:48 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=319154)[0;0m INFO 06-17 05:50:09 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+INFO 06-17 05:50:09 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+[1;36m(VllmWorkerProcess pid=319154)[0;0m INFO 06-17 05:50:09 model_runner.py:965] Graph capturing finished in 21 secs.
+INFO 06-17 05:50:09 model_runner.py:965] Graph capturing finished in 21 secs.
+Using 2 GPU devices
+INFO 06-17 05:51:28 multiproc_worker_utils.py:123] Killing local vLLM worker processes
+1
+data/test/xquad_trans_hi.json
+cuda
+INFO 06-17 05:51:39 config.py:623] Defaulting to use mp for distributed inference
+INFO 06-17 05:51:39 llm_engine.py:161] Initializing an LLM engine (v0.5.0.post1) with config: model='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', speculative_config=None, tokenizer='simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens', skip_tokenizer_init=False, tokenizer_mode=slow, revision=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0, served_model_name=simonycl/self-seq-Meta-Llama-3-8B-flancot_sit_same_instance_output_tokens)
+[1;36m(VllmWorkerProcess pid=321265)[0;0m INFO 06-17 05:51:46 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+[1;36m(VllmWorkerProcess pid=321265)[0;0m INFO 06-17 05:51:46 utils.py:645] Found nccl from library libnccl.so.2
+INFO 06-17 05:51:46 utils.py:645] Found nccl from library libnccl.so.2
+[1;36m(VllmWorkerProcess pid=321265)[0;0m INFO 06-17 05:51:46 pynccl.py:63] vLLM is using nccl==2.20.5
+INFO 06-17 05:51:46 pynccl.py:63] vLLM is using nccl==2.20.5
+[1;36m(VllmWorkerProcess pid=321265)[0;0m INFO 06-17 05:51:46 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:51:46 custom_all_reduce_utils.py:202] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-17 05:51:47 weight_utils.py:218] Using model weights format ['*.bin']
+[1;36m(VllmWorkerProcess pid=321265)[0;0m INFO 06-17 05:51:47 weight_utils.py:218] Using model weights format ['*.bin']
+INFO 06-17 05:52:17 model_runner.py:160] Loading model weights took 7.4829 GB
+[1;36m(VllmWorkerProcess pid=321265)[0;0m INFO 06-17 05:52:21 model_runner.py:160] Loading model weights took 7.4829 GB
+INFO 06-17 05:52:22 distributed_gpu_executor.py:56] # GPU blocks: 67837, # CPU blocks: 4096
+INFO 06-17 05:52:35 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-17 05:52:35 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=321265)[0;0m INFO 06-17 05:52:35 model_runner.py:889] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[1;36m(VllmWorkerProcess pid=321265)[0;0m INFO 06-17 05:52:35 model_runner.py:893] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[1;36m(VllmWorkerProcess pid=321265)[0;0m INFO 06-17 05:53:00 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+INFO 06-17 05:53:00 custom_all_reduce.py:267] Registering 2275 cuda graph addresses
+[1;36m(VllmWorkerProcess pid=321265)[0;0m INFO 06-17 05:53:00 model_runner.py:965] Graph capturing finished in 24 secs.
+INFO 06-17 05:53:00 model_runner.py:965] Graph capturing finished in 24 secs.
+Using 2 GPU devices
+INFO 06-17 05:54:19 multiproc_worker_utils.py:123] Killing local vLLM worker processes
