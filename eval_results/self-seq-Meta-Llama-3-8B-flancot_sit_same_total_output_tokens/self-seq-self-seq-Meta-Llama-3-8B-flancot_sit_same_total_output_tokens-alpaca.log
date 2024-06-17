@@ -1,0 +1,164 @@
+Loading data...
+Loading model and tokenizer...
+INFO 06-03 18:12:55 llm_engine.py:100] Initializing an LLM engine (v0.4.1) with config: model='output/self-seq-Meta-Llama-3-8B-flancot_sit_same_total_output_tokens', speculative_config=None, tokenizer='output/self-seq-Meta-Llama-3-8B-flancot_sit_same_total_output_tokens', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0)
+INFO 06-03 18:12:59 utils.py:620] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+[36m(RayWorkerWrapper pid=7545)[0m INFO 06-03 18:12:59 utils.py:620] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+INFO 06-03 18:12:59 selector.py:28] Using FlashAttention-2 backend.
+[36m(RayWorkerWrapper pid=7545)[0m INFO 06-03 18:13:00 selector.py:28] Using FlashAttention-2 backend.
+INFO 06-03 18:13:02 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+[36m(RayWorkerWrapper pid=7545)[0m INFO 06-03 18:13:02 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+INFO 06-03 18:13:03 utils.py:115] generating GPU P2P access cache for in /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-03 18:13:03 utils.py:129] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[36m(RayWorkerWrapper pid=7545)[0m INFO 06-03 18:13:03 utils.py:129] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-03 18:13:27 model_runner.py:172] Loading model weights took 7.4829 GB
+[36m(RayWorkerWrapper pid=7545)[0m INFO 06-03 18:13:28 model_runner.py:172] Loading model weights took 7.4829 GB
+INFO 06-03 18:13:29 distributed_gpu_executor.py:45] # GPU blocks: 61163, # CPU blocks: 4096
+INFO 06-03 18:13:31 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-03 18:13:31 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(RayWorkerWrapper pid=7545)[0m INFO 06-03 18:13:31 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[36m(RayWorkerWrapper pid=7545)[0m INFO 06-03 18:13:31 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 06-03 18:13:41 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+INFO 06-03 18:13:41 model_runner.py:953] Graph capturing finished in 10 secs.
+[36m(RayWorkerWrapper pid=7545)[0m INFO 06-03 18:13:41 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+[36m(RayWorkerWrapper pid=7545)[0m INFO 06-03 18:13:41 model_runner.py:953] Graph capturing finished in 10 secs.
+Calculating accuracy...
+Exact match : 0.4579226686884003
+Loading data...
+Loading model and tokenizer...
+INFO 06-03 18:15:39 llm_engine.py:100] Initializing an LLM engine (v0.4.1) with config: model='output/self-seq-Meta-Llama-3-8B-flancot_sit_same_total_output_tokens', speculative_config=None, tokenizer='output/self-seq-Meta-Llama-3-8B-flancot_sit_same_total_output_tokens', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0)
+INFO 06-03 18:15:43 utils.py:620] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+[36m(RayWorkerWrapper pid=9659)[0m INFO 06-03 18:15:43 utils.py:620] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+INFO 06-03 18:15:43 selector.py:28] Using FlashAttention-2 backend.
+[36m(RayWorkerWrapper pid=9659)[0m INFO 06-03 18:15:44 selector.py:28] Using FlashAttention-2 backend.
+INFO 06-03 18:15:46 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+[36m(RayWorkerWrapper pid=9659)[0m INFO 06-03 18:15:46 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+INFO 06-03 18:15:47 utils.py:129] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[36m(RayWorkerWrapper pid=9659)[0m INFO 06-03 18:15:47 utils.py:129] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-03 18:16:10 model_runner.py:172] Loading model weights took 7.4829 GB
+[36m(RayWorkerWrapper pid=9659)[0m INFO 06-03 18:16:11 model_runner.py:172] Loading model weights took 7.4829 GB
+INFO 06-03 18:16:12 distributed_gpu_executor.py:45] # GPU blocks: 61163, # CPU blocks: 4096
+INFO 06-03 18:16:14 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-03 18:16:14 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(RayWorkerWrapper pid=9659)[0m INFO 06-03 18:16:14 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[36m(RayWorkerWrapper pid=9659)[0m INFO 06-03 18:16:14 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 06-03 18:16:25 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+INFO 06-03 18:16:25 model_runner.py:953] Graph capturing finished in 11 secs.
+[36m(RayWorkerWrapper pid=9659)[0m INFO 06-03 18:16:25 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+[36m(RayWorkerWrapper pid=9659)[0m INFO 06-03 18:16:25 model_runner.py:953] Graph capturing finished in 11 secs.
+Calculating accuracy...
+Exact match for en: 0.432
+Calculating accuracy...
+Exact match for es: 0.372
+Calculating accuracy...
+Exact match for fr: 0.36
+Calculating accuracy...
+Exact match for de: 0.368
+Calculating accuracy...
+Exact match for ru: 0.312
+Calculating accuracy...
+Exact match for zh: 0.32
+Calculating accuracy...
+Exact match for ja: 0.228
+Calculating accuracy...
+Exact match for th: 0.256
+Calculating accuracy...
+Exact match for sw: 0.204
+Calculating accuracy...
+Exact match for bn: 0.2
+Calculating accuracy...
+Exact match for te: 0.108
+Loading data...
+Loading model and tokenizer...
+INFO 06-03 18:23:21 llm_engine.py:100] Initializing an LLM engine (v0.4.1) with config: model='output/self-seq-Meta-Llama-3-8B-flancot_sit_same_total_output_tokens', speculative_config=None, tokenizer='output/self-seq-Meta-Llama-3-8B-flancot_sit_same_total_output_tokens', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0)
+INFO 06-03 18:23:26 utils.py:620] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+[36m(RayWorkerWrapper pid=11785)[0m INFO 06-03 18:23:26 utils.py:620] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+INFO 06-03 18:23:26 selector.py:28] Using FlashAttention-2 backend.
+[36m(RayWorkerWrapper pid=11785)[0m INFO 06-03 18:23:27 selector.py:28] Using FlashAttention-2 backend.
+INFO 06-03 18:23:28 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+[36m(RayWorkerWrapper pid=11785)[0m INFO 06-03 18:23:28 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+INFO 06-03 18:23:29 utils.py:129] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[36m(RayWorkerWrapper pid=11785)[0m INFO 06-03 18:23:29 utils.py:129] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-03 18:23:53 model_runner.py:172] Loading model weights took 7.4829 GB
+[36m(RayWorkerWrapper pid=11785)[0m INFO 06-03 18:23:53 model_runner.py:172] Loading model weights took 7.4829 GB
+INFO 06-03 18:23:55 distributed_gpu_executor.py:45] # GPU blocks: 61163, # CPU blocks: 4096
+INFO 06-03 18:23:57 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-03 18:23:57 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(RayWorkerWrapper pid=11785)[0m INFO 06-03 18:23:57 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[36m(RayWorkerWrapper pid=11785)[0m INFO 06-03 18:23:57 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 06-03 18:24:06 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+INFO 06-03 18:24:06 model_runner.py:953] Graph capturing finished in 10 secs.
+[36m(RayWorkerWrapper pid=11785)[0m INFO 06-03 18:24:06 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+[36m(RayWorkerWrapper pid=11785)[0m INFO 06-03 18:24:06 model_runner.py:953] Graph capturing finished in 10 secs.
+Calculating accuracy...
+Exact match for en: 0.484
+Calculating accuracy...
+Exact match for es: 0.372
+Calculating accuracy...
+Exact match for fr: 0.36
+Calculating accuracy...
+Exact match for de: 0.344
+Calculating accuracy...
+Exact match for ru: 0.344
+Calculating accuracy...
+Exact match for zh: 0.372
+Calculating accuracy...
+Exact match for ja: 0.28
+Calculating accuracy...
+Exact match for th: 0.332
+Calculating accuracy...
+Exact match for sw: 0.188
+Calculating accuracy...
+Exact match for bn: 0.248
+Calculating accuracy...
+Exact match for te: 0.192
+Number of examples: 164
+INFO 06-03 18:32:24 llm_engine.py:100] Initializing an LLM engine (v0.4.1) with config: model='output/self-seq-Meta-Llama-3-8B-flancot_sit_same_total_output_tokens', speculative_config=None, tokenizer='output/self-seq-Meta-Llama-3-8B-flancot_sit_same_total_output_tokens', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), seed=0)
+INFO 06-03 18:32:29 utils.py:620] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+[36m(RayWorkerWrapper pid=13756)[0m INFO 06-03 18:32:29 utils.py:620] Found nccl from library /root/.config/vllm/nccl/cu12/libnccl.so.2.18.1
+INFO 06-03 18:32:30 selector.py:28] Using FlashAttention-2 backend.
+[36m(RayWorkerWrapper pid=13756)[0m INFO 06-03 18:32:30 selector.py:28] Using FlashAttention-2 backend.
+INFO 06-03 18:32:30 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+[36m(RayWorkerWrapper pid=13756)[0m INFO 06-03 18:32:30 pynccl_utils.py:43] vLLM is using nccl==2.18.1
+INFO 06-03 18:32:31 utils.py:129] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+[36m(RayWorkerWrapper pid=13756)[0m INFO 06-03 18:32:31 utils.py:129] reading GPU P2P access cache from /root/.config/vllm/gpu_p2p_access_cache_for_0,1.json
+INFO 06-03 18:32:55 model_runner.py:172] Loading model weights took 7.4829 GB
+[36m(RayWorkerWrapper pid=13756)[0m INFO 06-03 18:32:55 model_runner.py:172] Loading model weights took 7.4829 GB
+INFO 06-03 18:32:56 distributed_gpu_executor.py:45] # GPU blocks: 61163, # CPU blocks: 4096
+INFO 06-03 18:32:58 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+INFO 06-03 18:32:58 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(RayWorkerWrapper pid=13756)[0m INFO 06-03 18:32:58 model_runner.py:872] Capturing the model for CUDA graphs. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI.
+[36m(RayWorkerWrapper pid=13756)[0m INFO 06-03 18:32:58 model_runner.py:876] CUDA graphs can take additional 1~3 GiB memory per GPU. If you are running out of memory, consider decreasing `gpu_memory_utilization` or enforcing eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 06-03 18:33:03 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+INFO 06-03 18:33:03 model_runner.py:953] Graph capturing finished in 5 secs.
+[36m(RayWorkerWrapper pid=13756)[0m INFO 06-03 18:33:03 custom_all_reduce.py:246] Registering 2275 cuda graph addresses
+[36m(RayWorkerWrapper pid=13756)[0m INFO 06-03 18:33:03 model_runner.py:953] Graph capturing finished in 5 secs.
+Reading samples...
+Running test suites...
+Writing results to results/codex_humaneval/{self-seq-self-seq-Meta-Llama-3-8B-flancot_sit_same_total_output_tokens}_temp_0_8/codex_eval_predictions.jsonl_results.jsonl...
+{'pass@10': 0.6441504061520297}
+Loading model and tokenizer...
+Average accuracy 0.190 - abstract_algebra
+Average accuracy 0.341 - anatomy
+Average accuracy 0.336 - astronomy
+Average accuracy 0.270 - business_ethics
+Average accuracy 0.457 - clinical_knowledge
+Average accuracy 0.368 - college_biology
+Average accuracy 0.310 - college_chemistry
+Average accuracy 0.310 - college_computer_science
+Average accuracy 0.320 - college_mathematics
+Average accuracy 0.260 - college_medicine
+Average accuracy 0.324 - college_physics
+Average accuracy 0.300 - computer_security
+Average accuracy 0.438 - conceptual_physics
+Average accuracy 0.246 - econometrics
+Average accuracy 0.352 - electrical_engineering
+Average accuracy 0.280 - elementary_mathematics
+Average accuracy 0.365 - formal_logic
+Average accuracy 0.210 - global_facts
+Average accuracy 0.403 - high_school_biology
+Average accuracy 0.256 - high_school_chemistry
+Average accuracy 0.270 - high_school_computer_science
+Average accuracy 0.267 - high_school_european_history
+Average accuracy 0.419 - high_school_geography
+Average accuracy 0.456 - high_school_government_and_politics
+Average accuracy 0.331 - high_school_macroeconomics
