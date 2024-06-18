@@ -7,6 +7,8 @@ TOTAL_BATCH_SIZE=128
 TRAIN_FILE=self-seq/data/alpaca_final/alpaca_15k_llama70b_iteration_4.jsonl
 TRAIN_FILE=self-seq/data/alpaca/data_sit_same_instance_output_tokens.jsonl
 TRAIN_FILE=ablation/iter/alpaca_llama70b_iteration_2-separated.jsonl
+TRAIN_FILE=ablation/iter/flancot_100k-iteration_2-dialogues.jsonl
+
 # TRAIN_FILE=self-seq/data/alpaca/alpaca_llama_70b_iter_2.jsonl
 # TRAIN_FILE=self-seq/data/alpaca/alpaca_llama70b_iteration_1.jsonl
 # check if TRAIN_FILE exists
@@ -46,14 +48,14 @@ accelerate launch \
     --weight_decay 0. \
     --num_train_epochs 3 \
     --gradient_checkpointing \
-    --output_dir output/self-seq-${MODEL_NAME}-alpaca_sit_separated/ \
+    --output_dir output/self-seq-${MODEL_NAME}-alpaca_sit_dialogues/ \
     --prompt_template tulu \
     --with_tracking \
     --do_eval \
     --eval_steps 100 \
-    --eval_file self-seq/data/lima500_withsys.jsonl \
+    --eval_file self-seq/data/lima500-dialogues.jsonl \
     --report_to wandb \
     --logging_steps 5
 
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:False
-bash scripts/evaluation.sh output/self-seq-${MODEL_NAME}-alpaca_sit_separated > logs/eval.log
+bash scripts/evaluation.sh output/self-seq-${MODEL_NAME}-alpaca_sit_dialogues > logs/eval.log
