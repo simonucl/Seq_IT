@@ -1,6 +1,6 @@
 
-for CHECKPOINT_PATH in simonycl/self-seq-Meta-Llama-3-8B-alpaca_it_llmam_70b simonycl/self-seq-Meta-Llama-3-8B-alpaca_llmam_70b_iter simonycl/self-seq-Meta-Llama-3-8B-alpaca_llmam_70b-iter-2 simonycl/self-seq-Meta-Llama-3-8B-wizardlm simonycl/self-seq-Meta-Llama-3-8B-flancot_full_it_llama_70b simonycl/self-seq-Meta-Llama-3-8B-flancot_full_sit_llama_70b simonycl/self-seq-Meta-Llama-3-8B-flancot_full_sit_llama_70b_iter_2 simonycl/self-seq-Meta-Llama-3-8B-alpaca_sit_llama_70b-iter3
-do
+CHECKPOINT_PATH=$1
+
     MODEL_NAME=$(basename $CHECKPOINT_PATH)
 
     # check if sequential_instruction_tuning/SeqAlpacaEval/alpaca_eval_gpt4_baseline.seq.json exists
@@ -59,4 +59,3 @@ do
     #     --prompt_path sequential_instruction_tuning/SeqAlpacaEval/alpaca_eval_gpt4_baseline.seq.seq.seq.seq.json \
     #     --use_chat_format \
     #     --chat_formatting_function tulu
-done
