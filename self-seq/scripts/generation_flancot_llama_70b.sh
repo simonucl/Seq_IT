@@ -3,17 +3,17 @@ mkdir -p self-data/data/flancot_full/
 wget https://huggingface.co/simonycl/temp_file/resolve/main/sit/flancot/flancot_100k.jsonl -O self-seq/data/flancot_full/flancot_100k.jsonl
 INPUT_FILE=self-seq/data/flancot_full/flancot_100k
 
-python3 self-seq/extract_input.py \
-    --input_file $INPUT_FILE.jsonl \
-    --query meta-llama/Meta-Llama-3-70B-Instruct \
-    --output_file $INPUT_FILE-extracted-input.jsonl \
-    --batch_size 1 \
-    --use_vllm \
-    --use_instruct
+# python3 self-seq/extract_input.py \
+#     --input_file $INPUT_FILE.jsonl \
+#     --query meta-llama/Meta-Llama-3-70B-Instruct \
+#     --output_file $INPUT_FILE-extracted-input.jsonl \
+#     --batch_size 1 \
+#     --use_vllm \
+#     --use_instruct
 
-python3 self-seq/check_input_position.py \
-        --input_file $INPUT_FILE-extracted-input-extracted-input.jsonl \
-        --output_file $INPUT_FILE-extracted_input.jsonl
+# python3 self-seq/check_input_position.py \
+#         --input_file $INPUT_FILE-extracted-input-extracted-input.jsonl \
+#         --output_file $INPUT_FILE-extracted_input.jsonl
 
 python3 self-seq/data/process_multi_it.py \
         --file_path $INPUT_FILE-extracted_input.jsonl \
