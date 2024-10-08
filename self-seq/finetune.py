@@ -551,7 +551,9 @@ def main():
         **accelerator_log_kwargs,
         kwargs_handlers=[timeout_kwargs]
     )
-    accelerator.init_trackers("open_instruct", config={}, init_kwargs={"wandb":{"name": args.train_file.split("/")[-1].split(".")[0]}})
+    accelerator.init_trackers("open_instruct", config={}, 
+                            #   init_kwargs={"wandb":{"name": args.train_file.split("/")[-1].split(".")[0]}}
+                              )
     # Make one log on every process with the configuration for debugging.
     logging.basicConfig(
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
